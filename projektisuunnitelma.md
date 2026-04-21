@@ -18,65 +18,77 @@
 
 ## Projektin tiedot
 
-\<Projektin nimi>
+# COOKED APP
 
 Tekijät:
+Eetu Auvinen
+Mikael Makkonen
+Essi Kaukometsä
+Janika Rahikainen
 
 ## Projektin sisältö
 
 ### Kuvaus
 
-_Lyhyt kuvaus projektista. Minkälaista ohjelmistoa ollaan tekemässä?_
+Projektimme on moderni reseptisovellus jossa käyttäjä voi lisätä omia suosikkireseptejään, arpoa päivän aterian ja jakaa reseptejä muille käyttäjille.
 
 ### Projektiryhmä
 
 _Ketä projektiin kuuluu ja mitkä ovat henkilöiden päävastuut._
 
-| Nimi           | Vastuurooli          |
-| -------------- | -------------------- |
-| Teppo Virtanen | Git-päällikkö        |
-| Satu Jokinen   | Dokumentti-päällikkö |
+| Nimi              | Vastuurooli                        |
+| ----------------- | ---------------------------------- |
+| Janika Rahikainen | Git-päällikkö, Developer           |
+| Essi Kaukometsä   | Dokumentti-päällikkö, Scrum master |
+| Eetu Auvinen      | Project owner, Developer           |
+| Mikael Makkonen   | AWS-vastaava, Developer            |
 
 ### Tavoite
 
-_Mikä on ohjelmistoprojektin tavoiteltu lopputulos?_
+Toimiva sovellus johon käyttäjä pystyy kirjautumaan, käyttäjä pystyy lisäämään reseptejä ja sovellus on hostattu aws:n päälle.
 
 ## Aikataulu
 
 _Kirjaa tähän lukuun aikataulu. Millä tavoin projekti viedään läpi. Voitte itse päättää mikä taso on teidän projektillenne paras._
 
-| Tapahtuma        | Päivämäärä | Muut tiedot/osanottajat                  |
-| ---------------- | ---------- | ---------------------------------------- |
-| Projekti alkaa   | 22.04.2025 | Ohjelmistoprojekti 1 alkaa               |
-| Idean valinta    | 24.04.2025 | Valitaan tuotantoon menevä projekti-idea |
-| ............     | pvm        | Kaikki muut tapahtumat listattuna        |
-| Projekti päättyy | 16.05.2025 | Ohjelmistoprojekti 1 päättyy             |
+| Tapahtuma                                            | Päivämäärä | Muut tiedot/osanottajat                                                 |
+| ---------------------------------------------------- | ---------- | ----------------------------------------------------------------------- |
+| Projekti alkaa                                       | 20.04.2026 | Ohjelmistoprojekti 2 alkaa                                              |
+| Testisovelluksen hostaus toimii                      | 24.04.2025 | Saadaan testisovellus hostattua aws:n päälle                            |
+| Tuotannon aloitus                                    | 27.04.2026 | Kaikki muut tapahtumat listattuna                                       |
+| MVP hostattuna                                       | 01.05.2026 | Tavoitteena saada ensimmäinen toimiva versio sovelluksesta hostaukseen  |
+| Ulkoasun ja featureiden viimeistely                  | 04.05.2026 | Viimeistellään sovelluksen ulkoasu ja featuret kuntoon                  |
+| Ensimmäinen lopullinen versio hostattuna             | 08.05.2026 | Koitetaan saada ensimmäinen versio lopullisesta sovelluksesta valmiiksi |
+| Viimeistellään sovellus ja tehdään esitysmateriaalit | 11.05.2026 | Viimeistellään sovellus ja valmistellaan esitysmateriaalit              |
+| Sovellus on valmis                                   | 15.05.2026 | Sovellus on valmis ja hostattu                                          |
+| Projekti päättyy                                     | 20.05.2026 | Ohjelmistoprojekti 1 päättyy                                            |
 
 ## Raportointi, kommunikointi ja dokumentointi
 
 ### Raportointi
 
-_Kuinka projekti raportoi toiminnastaan? Kuka raportoi, kenelle, ja milloin?_
+Teamsin välillä pidetään yhteyttä ja kasvotusten koululla. kokousten sisällöt dokumentoidaan.
+Viikkoraportti laitetaan moodleen perjantaisin.
 
 ### Tuntikirjaukset
 
-_Kuinka projekti tekee tuntikirjausta? Missä se tehdään, ja miten se jaetaan?_
+Tuntikirjaus tehdään päivän päätteeksi valmiiksi jaettuun dokumenttiin ja jokainen vastaa omista tunneistaan. Dokumentti palautetaan moodleen perjantaisin.
 
 ### Palaverikäytänteet
 
-_Projektin viikkopalaveri pidetään xxx paikassa xxx. Kuka kirjoittaa palaveripöytäkirjan, ja missä ne elävät?_
+Sprint planning pidetään viikon alussa josta vastaa product owner, daily scrumit pidetään päivittäin josta vastaa scrum master, sprint retro pidetään perjantaisin päivän päätteeksi. Kaikista näistä kirjoitetaan pöytäkirjat ja ne tallennetaan teamsiin.
 
 ### Kommunikointitavat
 
-_Mitkä ovat projektin kommunikointikanavat? Viralliset, epäviralliset? Sisäiset, ulkoiset?_
+Teamsissa jos tehdään etänä ja muuten kasvotusten.
 
 ### Dokumentointi
 
-_Kirjaa tähän miten projekti on ajatellut työnsä dokumentoida. Mitä dokumentteja projekti tuottaa?_
+Dokumentteja kirjoitetaan tapaamisista jotka tallennetaan teamsiin, tämän lisäksi sovellukseen tehtävät muutokset tallennetaan readme.md tiedostoon.
 
 ### Dokumenttien hallinta
 
-_Kuvaa dokumenttien säilytys; kenellä on oikeudet dokumenttien hallintaan, miten backupit on hoidettu, kuinka dokumentteja versioidaan (esim. 1.0, 1.1, 1.2 jne.) ja nimetään (onko esim. dokumentin nimessä versionumero)._
+.md Tiedostot githubiin niille tarkoitettuun kansioon ja word tiedostot teamsiin. Dokumenttejä ei versioida erikseen, vanhemmat versiot löytyy git commiteista
 
 ## Riskien hallinta
 
@@ -84,6 +96,10 @@ _Kuvaa tässä kuinka projekti aikoo hallinnoida ja seurata projektiriskejä._
 
 Esimerkiksi näin.
 
-| Riskit                                                       | Todennäköisyys |  Impakti | Minimointi                             |
-| ------------------------------------------------------------ | -------------- | -------- | -------------------------------------- |
-| Työntekijät eivät ole motivoituneita ja eivät saavu paikalle | Pieni          |  Suuri   | Pidetään työpaikalla kahvia ja pullaa. |
+| Riskit                                                       | Todennäköisyys | Impakti    | Minimointi                                            |
+| ------------------------------------------------------------ | -------------- | ---------- | ----------------------------------------------------- |
+| Työntekijät eivät ole motivoituneita ja eivät saavu paikalle | Pieni          | Suuri      | Työntekijät sitoutuvat projektiin ja aikatauluun      |
+| Sairastuminen tai muu este työnteolle                        | Keskisuuri     | Keskisuuri | Jos on kipeä olo, ei tule paikalle                    |
+| AWS Kaatuu ja hostaaminen ei toimi                           | Pieni          | Suuri      | Rukoillaan jeff bezozin nimeen                        |
+| Taidot eivät riitä projektin vaatimaan tasoon                | Pieni          | Keskisuuri | Asioiden opettelu, avun pyytäminen ja tekoälyn käyttö |
+| AWS Krediitit loppuvat                                       | Pieni          | Suuri      | Asetetaan budjettihälytykset                          |
