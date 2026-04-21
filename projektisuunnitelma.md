@@ -21,9 +21,9 @@
 # COOKED APP
 
 Tekijät:
-Eetu Auvinen
-Mikael Makkonen
-Essi Kaukometsä
+Eetu Auvinen,
+Mikael Makkonen,
+Essi Kaukometsä,
 Janika Rahikainen
 
 ## Projektin sisältö
@@ -33,8 +33,6 @@ Janika Rahikainen
 Projektimme on moderni reseptisovellus jossa käyttäjä voi lisätä omia suosikkireseptejään, arpoa päivän aterian ja jakaa reseptejä muille käyttäjille.
 
 ### Projektiryhmä
-
-_Ketä projektiin kuuluu ja mitkä ovat henkilöiden päävastuut._
 
 | Nimi              | Vastuurooli                        |
 | ----------------- | ---------------------------------- |
@@ -48,8 +46,6 @@ _Ketä projektiin kuuluu ja mitkä ovat henkilöiden päävastuut._
 Toimiva sovellus johon käyttäjä pystyy kirjautumaan, käyttäjä pystyy lisäämään reseptejä ja sovellus on hostattu aws:n päälle.
 
 ## Aikataulu
-
-_Kirjaa tähän lukuun aikataulu. Millä tavoin projekti viedään läpi. Voitte itse päättää mikä taso on teidän projektillenne paras._
 
 | Tapahtuma                                            | Päivämäärä | Muut tiedot/osanottajat                                                 |
 | ---------------------------------------------------- | ---------- | ----------------------------------------------------------------------- |
@@ -92,14 +88,10 @@ Dokumentteja kirjoitetaan tapaamisista jotka tallennetaan teamsiin, tämän lis�
 
 ## Riskien hallinta
 
-_Kuvaa tässä kuinka projekti aikoo hallinnoida ja seurata projektiriskejä._
-
-Esimerkiksi näin.
-
 | Riskit                                                       | Todennäköisyys | Impakti    | Minimointi                                            |
 | ------------------------------------------------------------ | -------------- | ---------- | ----------------------------------------------------- |
 | Työntekijät eivät ole motivoituneita ja eivät saavu paikalle | Pieni          | Suuri      | Työntekijät sitoutuvat projektiin ja aikatauluun      |
 | Sairastuminen tai muu este työnteolle                        | Keskisuuri     | Keskisuuri | Jos on kipeä olo, ei tule paikalle                    |
-| AWS Kaatuu ja hostaaminen ei toimi                           | Pieni          | Suuri      | Rukoillaan jeff bezozin nimeen                        |
+| AWS Kaatuu ja hostaaminen ei toimi                           | Pieni          | Suuri      | Rukoillaan Jeff Bezozin nimeen                        |
 | Taidot eivät riitä projektin vaatimaan tasoon                | Pieni          | Keskisuuri | Asioiden opettelu, avun pyytäminen ja tekoälyn käyttö |
 | AWS Krediitit loppuvat                                       | Pieni          | Suuri      | Asetetaan budjettihälytykset                          |
