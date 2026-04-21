@@ -1,9 +1,6 @@
---START
-This is a example template, which you can use. Version 1.0.
---END
-# Project Title
+# COOKED-APP
 
-Simple overview of use/purpose.
+A modern recipe app that lets you save your favorites, generate a random meal of the day and share your culinary creations with the community.
 
 ## Description
 
@@ -39,7 +36,10 @@ command to run if program contains helper info
 
 ## Authors
 
-Contributors names
+* Eetu Auvinen
+* Mikael Makkonen
+* Essi Kaukometsä
+* Janika Rahikainen
 
 ## Version History
 
