@@ -18,32 +18,35 @@
 
 ## Projektin tiedot
 
-# COOKED APP
+# COOKED APP :fire:
 
 Tekijät:
-Eetu Auvinen,
-Mikael Makkonen,
-Essi Kaukometsä,
-Janika Rahikainen
+
+- Eetu Auvinen,
+- Mikael Makkonen
+- Essi Kaukometsä
+- Janika Rahikainen
 
 ## Projektin sisältö
 
 ### Kuvaus
 
-Projektimme on moderni reseptisovellus jossa käyttäjä voi lisätä omia suosikkireseptejään, arpoa päivän aterian ja jakaa reseptejä muille käyttäjille.
+Projektimme on moderni reseptisovellus, jossa käyttäjä voi lisätä omia suosikkireseptejään, arpoa päivän aterian ja jakaa reseptejä muille käyttäjille. Käyttäjä voi valita suosikkireseptinsä pyyhkäisy-toimintoa apuna käyttäen.
+
+Käytämme projektissa Scrumia ketterenä kehitysmenetelmänä. Yhden sprintin pituus on yksi viikko. Palavereista pidämme Sprint Planning, Daily Scrum sekä Sprint Retrospektiivi. Sprint Review pidetään tarvittaessa.
 
 ### Projektiryhmä
 
-| Nimi              | Vastuurooli                        |
-| ----------------- | ---------------------------------- |
-| Janika Rahikainen | Git-päällikkö, Developer           |
-| Essi Kaukometsä   | Dokumentti-päällikkö, Scrum master |
-| Eetu Auvinen      | Project owner, Developer           |
-| Mikael Makkonen   | AWS-vastaava, Developer            |
+| Nimi              | Scrum-rooli   | Työnjako        |
+| ----------------- | ------------- | --------------- |
+| Janika Rahikainen |               | Full Stack, Git |
+| Essi Kaukometsä   | Scrum master  | UI/UX           |
+| Eetu Auvinen      | Product owner | Full Stack      |
+| Mikael Makkonen   |               | Full Stack, AWS |
 
 ### Tavoite
 
-Toimiva sovellus johon käyttäjä pystyy kirjautumaan, käyttäjä pystyy lisäämään reseptejä ja sovellus on hostattu aws:n päälle.
+Toimiva sovellus, johon käyttäjä pystyy kirjautumaan sekä lisäämään reseptejä, ja joka on hostattu AWS:n päälle.
 
 ## Aikataulu
 
@@ -63,28 +66,32 @@ Toimiva sovellus johon käyttäjä pystyy kirjautumaan, käyttäjä pystyy lisä
 
 ### Raportointi
 
-Teamsin välillä pidetään yhteyttä ja kasvotusten koululla. kokousten sisällöt dokumentoidaan.
-Viikkoraportti laitetaan moodleen perjantaisin.
+Teamsin välillä pidetään yhteyttä ja kasvotusten koululla. Kokousten sisällöt dokumentoidaan. Viikkoraportti laitetaan Moodleen perjantaisin.
 
 ### Tuntikirjaukset
 
-Tuntikirjaus tehdään päivän päätteeksi valmiiksi jaettuun dokumenttiin ja jokainen vastaa omista tunneistaan. Dokumentti palautetaan moodleen perjantaisin.
+Tuntikirjaus tehdään päivän päätteeksi valmiiksi jaettuun dokumenttiin ja jokainen vastaa omista kirjauksistaan. Dokumentti palautetaan Moodleen perjantaisin.
 
 ### Palaverikäytänteet
 
-Sprint planning pidetään viikon alussa josta vastaa product owner, daily scrumit pidetään päivittäin josta vastaa scrum master, sprint retro pidetään perjantaisin päivän päätteeksi. Kaikista näistä kirjoitetaan pöytäkirjat ja ne tallennetaan teamsiin.
+- Sprint Planning: Pidetään jokaisen viikon/sprintin alussa, Product Owner vastaa
+- Daily Scrum: Pidetään päivittäin, Scrum Master vastaa
+- Sprint Review: Pidetään tarvittaessa sprintin lopulla, mukana sidosryhmät (= opettajat)
+- Sprint Retrospective: Pidetään perjantaisin viikon/sprintin päätteeksi
+
+Kaikista näistä kirjoitetaan pöytäkirjat ja ne tallennetaan Teamsiin.
 
 ### Kommunikointitavat
 
-Teamsissa jos tehdään etänä ja muuten kasvotusten.
+Teamsissa, jos tehdään etänä, ja muuten kasvotusten.
 
 ### Dokumentointi
 
-Dokumentteja kirjoitetaan tapaamisista jotka tallennetaan teamsiin, tämän lisäksi sovellukseen tehtävät muutokset tallennetaan readme.md tiedostoon.
+Dokumentteja kirjoitetaan tapaamisista, jotka tallennetaan Teamsiin, tämän lisäksi sovellukseen tehtävät muutokset tallennetaan README.md-tiedostoon.
 
 ### Dokumenttien hallinta
 
-.md Tiedostot githubiin niille tarkoitettuun kansioon ja word tiedostot teamsiin. Dokumenttejä ei versioida erikseen, vanhemmat versiot löytyy git commiteista
+Markdown-tiedostot Githubiin niille tarkoitettuun kansioon, ja Word-tiedostot teamsiin. Dokumenttejä ei versioida erikseen, vanhemmat versiot löytyy git commiteista.
 
 ## Riskien hallinta
 
