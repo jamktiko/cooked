@@ -1,6 +1,5 @@
 // AWS:n tarjoama kirjasto JWT-tokenien tarkistamiseen
 const { CognitoJwtVerifier } = require('aws-jwt-verify');
-const User = require('../models/users');
 
 // Luodaan verifier-olio, joka keskustelee Cognito User Poolisi kanssa.
 const verifier = CognitoJwtVerifier.create({
@@ -12,40 +11,23 @@ const verifier = CognitoJwtVerifier.create({
 // Middleware-funktio, joka suoritetaan ennen varsinaista reittikäsittelijää
 const checkAuth = async (req, res, next) => {
   try {
-    // Haetaan HTTP-pyynnön otsikoista (headers) "authorization" -kenttä
+    // 1. Haetaan Authorization-otsikko (muodossa "Bearer <token>")
     const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({ message: 'Authorization header puuttuu' });
+    }
 
-    // Jos otsikkoa ei ole, heitetään virhe, joka siirtää meidät catch-lohkoon
-    if (!authHeader) throw new Error('No header');
     const token = authHeader.split(' ')[1];
-
+    if (!token) {
+      return res.status(401).json({ message: 'Token puuttuu' });
+    }
     // Verifier tarkistaa:
     // - Onko token aito (AWS:n allekirjoittama)?
     // - Onko se vanhentunut (expired)?
     // - Onko se tarkoitettu juuri tälle sovellukselle (clientId)?
     const payload = await verifier.verify(token);
-
-    // KÄYTTÄJÄN TALLENNUS/PÄIVITYS
-    // Etsitään käyttäjä 'sub'-kentän perusteella
-    const user = await User.findOneAndUpdate(
-      { sub: payload.sub },
-      {
-        $set: { lastLogin: new Date() },
-        $setOnInsert: {
-          sub: payload.sub,
-          username: payload.username || 'New User',
-        },
-      },
-      {
-        upsert: true,
-        returnDocument: 'after',
-        setDefaultsOnInsert: true,
-      },
-    );
-
-    // Jos tarkistus menee läpi, tallennetaan tokenin sisältämä tieto req.user-olioon.
     req.user = payload;
-    req.dbUser = user;
+    console.log('COGNITO PAYLOAD SISÄLTÖ:', payload);
 
     // Kutsutaan next(), joka sallii pyynnön jatkamisen varsinaiseen koodiin (esim. hakuun tietokannasta).
     next();
