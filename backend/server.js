@@ -13,7 +13,6 @@ const { checkAuth } = require('./middleware/auth.middleware');
 
 // MongoDB-yhteys
 const mongoURL = process.env.MONGODB_URL;
-
 mongoose
   .connect(mongoURL)
   .then(() => console.log('MongoDB connected successfully'))
@@ -24,19 +23,34 @@ mongoose
 
 // REITIT
 
-// Testireitti
 app.get('/', (req, res) => {
   res.send('Backend works!');
 });
 
-// Hae kaikki reseptit, joissa public: true
+// Hakee kaikkien julkisten reseptien perustiedot
 app.get('/recipes', async (req, res) => {
   try {
-    // Haetaan vain ne, joissa public: true
-    const recipes = await Recipe.find({ public: true }).sort({ created: -1 });
+    const recipes = await Recipe.find({ public: true })
+      .select('name user_sub image created description tags')
+      .sort({ created: -1 });
+
     res.json(recipes);
   } catch (err) {
     res.status(500).json({ error: err.message });
+  }
+});
+
+// Hakee reseptin ID:n perusteella
+app.get('/recipes/:id', async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+    const recipe = await Recipe.findOne({ _id: recipeId, public: true });
+    if (!recipe) {
+      return res.status(404).json({ message: 'Recipe not found' });
+    }
+    res.json(recipe);
+  } catch (err) {
+    res.status(400).json({ error: 'Invalid ID format' });
   }
 });
 
@@ -49,11 +63,11 @@ app.get('/test-my-recipes', checkAuth, async (req, res) => {
     if (recipes.length === 0) {
       return res
         .status(404)
-        .json({ message: 'Reseptejä ei löytynyt tällä subilla.' });
+        .json({ message: 'Recipes not found with this sub.' });
     }
 
     res.json({
-      info: `Haettu käyttäjän ${mockSubFromCognito} reseptit`,
+      info: `Retrieved recipes for user ${mockSubFromCognito}`,
       count: recipes.length,
       results: recipes,
     });
