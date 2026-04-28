@@ -1,5 +1,6 @@
-// Kirjastot
 require('dotenv').config();
+
+// Kirjastot
 const express = require('express');
 const mongoose = require('mongoose');
 const Recipe = require('./models/Recipe');
@@ -55,6 +56,7 @@ app.get('/recipes/:id', async (req, res) => {
 });
 
 // Testireitti jossa simuloitu yhden käyttäjän reseptien haku
+// Pitää päivittää toimimaan oikealla Cognitolta palautuvalla subillä
 app.get('/test-my-recipes', checkAuth, async (req, res) => {
   try {
     const mockSubFromCognito = 'cognito-id-67890-fghij';

@@ -1,25 +1,36 @@
+// AWS:n tarjoama kirjasto JWT-tokenien tarkistamiseen
 const { CognitoJwtVerifier } = require('aws-jwt-verify');
 
+// Luodaan verifier-olio, joka keskustelee Cognito User Poolisi kanssa.
 const verifier = CognitoJwtVerifier.create({
   userPoolId: process.env.COGNITO_USER_POOL_ID,
   tokenUse: 'access',
   clientId: process.env.COGNITO_CLIENT_ID,
 });
 
+// Middleware-funktio, joka suoritetaan ennen varsinaista reittikäsittelijää
 const checkAuth = async (req, res, next) => {
   try {
+    // Haetaan HTTP-pyynnön otsikoista (headers) "authorization" -kenttä
     const authHeader = req.headers.authorization;
-    if (!authHeader) throw new Error('No header');
 
+    // Jos otsikkoa ei ole, heitetään virhe, joka siirtää meidät catch-lohkoon
+    if (!authHeader) throw new Error('No header');
     const token = authHeader.split(' ')[1];
+
+    // Verifier tarkistaa:
+    // - Onko token aito (AWS:n allekirjoittama)?
+    // - Onko se vanhentunut (expired)?
+    // - Onko se tarkoitettu juuri tälle sovellukselle (clientId)?
     const payload = await verifier.verify(token);
 
-    // TÄRKEÄÄ: Tallennetaan käyttäjän tiedot req-objektiin,
-    // jotta seuraava funktio voi käyttää niitä.
+    // Jos tarkistus menee läpi, tallennetaan tokenin sisältämä tieto req.user-olioon.
     req.user = payload;
 
-    next(); // Kaikki kunnossa, siirrytään eteenpäin
+    // Kutsutaan next(), joka sallii pyynnön jatkamisen varsinaiseen koodiin (esim. hakuun tietokannasta).
+    next();
   } catch (err) {
+    console.error('Auth error:', err.message);
     res.status(401).json({ message: 'Unauthorized' });
   }
 };
