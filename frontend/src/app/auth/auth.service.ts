@@ -62,4 +62,8 @@ export class AuthService {
     const logoutUri = 'http://localhost:4200';
     window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
   }
+
+  getAccessToken() {
+    return this.oidcSecurityService.getAccessToken();
+  }
 }
