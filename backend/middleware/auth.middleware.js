@@ -1,5 +1,6 @@
 // AWS:n tarjoama kirjasto JWT-tokenien tarkistamiseen
 const { CognitoJwtVerifier } = require('aws-jwt-verify');
+const User = require('../models/users');
 
 // Luodaan verifier-olio, joka keskustelee Cognito User Poolisi kanssa.
 const verifier = CognitoJwtVerifier.create({
@@ -24,8 +25,27 @@ const checkAuth = async (req, res, next) => {
     // - Onko se tarkoitettu juuri tälle sovellukselle (clientId)?
     const payload = await verifier.verify(token);
 
+    // KÄYTTÄJÄN TALLENNUS/PÄIVITYS
+    // Etsitään käyttäjä 'sub'-kentän perusteella
+    const user = await User.findOneAndUpdate(
+      { sub: payload.sub },
+      {
+        $set: { lastLogin: new Date() },
+        $setOnInsert: {
+          sub: payload.sub,
+          username: payload.username || 'New User',
+        },
+      },
+      {
+        upsert: true,
+        new: true,
+        setDefaultsOnInsert: true,
+      },
+    );
+
     // Jos tarkistus menee läpi, tallennetaan tokenin sisältämä tieto req.user-olioon.
     req.user = payload;
+    req.dbUser = user;
 
     // Kutsutaan next(), joka sallii pyynnön jatkamisen varsinaiseen koodiin (esim. hakuun tietokannasta).
     next();
