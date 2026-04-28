@@ -8,10 +8,19 @@ const Recipe = require('./models/Recipe');
 // Tuodaan reittitiedostot
 const publicRoutes = require('./routes/public-routes');
 const privateRoutes = require('./routes/private-routes');
-
+const userRoutes = require('./routes/user.routes');
 // Express-sovellus
 const app = express();
 
+const cors = require('cors');
+
+app.use(
+  cors({
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
 // Middlewaret
 app.use(express.json());
 const { checkAuth } = require('./middleware/auth.middleware');
@@ -32,6 +41,7 @@ app.use('/recipes', publicRoutes);
 // Yksityiset suojatut reseptireitit (esim. GET /my-recipes)
 app.use('/my-recipes', checkAuth, privateRoutes);
 
+app.use('/api/user', userRoutes);
 // Palvelimen käynnistys
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
