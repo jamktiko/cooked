@@ -1,7 +1,8 @@
 // src/app/login/login.component.ts
 import { Component, inject, OnInit } from '@angular/core';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { CommonModule } from '@angular/common'; // Tärkeä!
+import { AuthService } from '../auth/auth.service';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +11,10 @@ import { CommonModule } from '@angular/common'; // Tärkeä!
   templateUrl: './login.component.html',
 })
 export class LoginComponent implements OnInit {
-  private oidcSecurityService = inject(OidcSecurityService);
+  private authService = inject(AuthService);
+  private oidcSecurityService = inject(OidcSecurityService); // Säilytetään nämä täällä UI:ta varten toistaiseksi
 
   isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
-
   userData$ = this.oidcSecurityService.userData$;
 
   ngOnInit() {
@@ -24,10 +25,10 @@ export class LoginComponent implements OnInit {
 
   login() {
     console.log('Nappia painettu! Pyydetään redirectiä AWS:ään...');
-    this.oidcSecurityService.authorize();
+    this.authService.login();
   }
 
   logout() {
-    this.oidcSecurityService.logoff().subscribe();
+    this.authService.logout();
   }
 }
