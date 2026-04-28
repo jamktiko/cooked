@@ -1,0 +1,27 @@
+<div class="p-10 text-center">
+  @if (isAuthenticated$ | async; as auth) {
+    
+    @if (!auth.isAuthenticated) {
+      <div>
+        <h2 class="text-xl mb-4">Kirjaudu sisään</h2>
+        <button 
+          (click)="login()" 
+          class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition">
+          Kirjaudu sisään
+        </button>
+      </div>
+    } @else {
+      <div>
+        <h2 class="text-xl mb-4 text-green-600 font-bold">Olet kirjautunut sisään!</h2>
+        <button 
+          (click)="logout()" 
+          class="bg-gray-200 text-gray-800 px-4 py-2 rounded hover:bg-gray-300 transition">
+          Kirjaudu ulos
+        </button>
+      </div>
+    }
+
+  } @else {
+    <p>Ladataan...</p>
+  }
+</div>
