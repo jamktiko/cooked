@@ -5,12 +5,14 @@ const { checkAuth } = require('../middleware/auth.middleware');
 
 // Tämä reitti hoitaa käyttäjän tietojen "synkronoinnin"
 router.post('/sync', checkAuth, async (req, res) => {
+  console.log('SYNC-pyyntö vastaanotettu!');
+  console.log('Käyttäjä tokenista:', req.user.sub);
   try {
     // 1. Poimitaan sub-tunniste validoidusta tokenista (tietoturva-ankkuri)
     const subFromToken = req.user.sub;
 
     // 2. Poimitaan profiilitiedot, jotka Angular lähettää bodyssä
-    const { email, first_name, last_name, user_name } = req.body;
+    const { email, name, cognitoId } = req.body;
 
     // 3. Päivitetään käyttäjä tai luodaan uusi (upsert)
     const user = await User.findOneAndUpdate(
@@ -18,9 +20,9 @@ router.post('/sync', checkAuth, async (req, res) => {
       {
         $set: {
           email: email,
-          first_name: first_name,
-          last_name: last_name,
-          user_name: user_name,
+          first_name: name.split(' ')[0],
+          last_name: name.split(' ').slice(1).join(' '),
+          user_name: name,
           last_login: new Date(),
         },
         $setOnInsert: {

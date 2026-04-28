@@ -12,6 +12,15 @@ const userRoutes = require('./routes/user.routes');
 // Express-sovellus
 const app = express();
 
+const cors = require('cors');
+
+app.use(
+  cors({
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  }),
+);
 // Middlewaret
 app.use(express.json());
 const { checkAuth } = require('./middleware/auth.middleware');
