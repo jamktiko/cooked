@@ -1,9 +1,11 @@
-// src/app/auth/auth.service.ts
+// Auth servicen tarkoitus on hoitaa oidc security servicen avulla käyttäjän kirjautuminen
+// ja autentikaatio pyynnöt käyttäjädatan kanssa backendille jotta ne voidaan tallentaa kantaan
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { combineLatest } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,13 +14,10 @@ export class AuthService {
   private oidcSecurityService = inject(OidcSecurityService);
   private http = inject(HttpClient);
 
-  // Määritä backendisi URL
-  private apiUrl = 'http://localhost:3000/api/user'; // Muuta tarvittaessa reitti omasi mukaiseksi
-
-  // Tämän metodin voi kutsua esim. AppComponentin ngOnInit:ssä,
-  // jotta se lähtee aina käyntiin sovelluksen latautuessa.
+  // funktio backendin autentikointiin ja käyttäjän luontiin tietokantaan jos sitä ei siellä vielä ole
   syncUserWithBackend() {
-    // combineLatest yhdistää kaksi observablea ja kuuntelee niiden muutoksia
+    // yhdistetään isAuthenticated ja userdata observablet jotta saadaan lähetettyä autentikaatio tokenin kanssa
+    // käyttäjätiedot tietokantaa varten
     combineLatest([
       this.oidcSecurityService.isAuthenticated$,
       this.oidcSecurityService.userData$,
@@ -26,10 +25,10 @@ export class AuthService {
       const isAuthenticated = authResult.isAuthenticated;
       const userData = userDataResult.userData;
 
-      // Jos ollaan kirjauduttu ja Cognito on palauttanut ID Tokenin tiedot (userData)
+      // katsotaan ollaanko kirjauduttu (isAuthenticated)
+      // katsotaan onko käyttäjädata palautunut (userData)
       if (isAuthenticated && userData) {
-        // Lähetetään backendille käyttäjän oleelliset tiedot ID tokenista.
-        // cognito:username (tai sub) on yksilöllinen tunniste
+        // luodaan paketti joka lähetetään http pyynnön yhteydessä backendille
         const syncData = {
           cognitoId: userData.sub,
           email: userData.email,
@@ -38,10 +37,10 @@ export class AuthService {
 
         console.log('Lähetetään käyttäjä backendille:', syncData);
 
-        // jwt.interceptor hoitaa Access Tokenin lisäämisen tähän pyyntöön!
-        // Sync-endpoint voi katsoa backendissa, löytyykö käyttäjä. Jos ei, luodaan uusi. Jos löytyy, päivitetään tiedot.
+        // ja laittaa siihen mukaan syncData paketin eli käyttäjän subin spostin ja nimen
+        // lähetetään http pyyntö backendin /sync polkuun ja lisätään siihen syncdata
         this.http
-          .post(`${this.apiUrl}/sync`, syncData)
+          .post(`${environment.backendApi}/sync`, syncData)
           .pipe(delay(500), take(1)) // Pieni viive varmistaa, että token on varmasti valmis
           .subscribe({
             next: () => console.log('Käyttäjä synkronoitu!'),
@@ -55,14 +54,13 @@ export class AuthService {
     this.oidcSecurityService.authorize();
   }
 
+  // Logout funktio rakennettu näin koska cogniton vaatii ohjauksen sen omaan päätepisteeseen /logout?...
+  // jos käyttää oidcSecurityService.logoff() metodia niin ohjausta ei toimi ja sessio ei kirjaudu ulos aws päädyssä
   logout() {
     this.oidcSecurityService.logoffLocal();
-    const cognitoDomain = 'https://eu-north-180236gypt.auth.eu-north-1.amazoncognito.com';
-    const clientId = '3b6d5hg51lp4i1p1d97eibom9p';
-    const logoutUri = 'http://localhost:4200';
-    window.location.href = `${cognitoDomain}/logout?client_id=${clientId}&logout_uri=${encodeURIComponent(logoutUri)}`;
+    window.location.href = `${environment.cognitoDomain}/logout?client_id=${environment.clientId}&logout_uri=${encodeURIComponent(environment.logoutUri)}`;
   }
-
+  // 
   getAccessToken() {
     return this.oidcSecurityService.getAccessToken();
   }

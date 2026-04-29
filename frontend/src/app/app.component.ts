@@ -7,23 +7,17 @@ import { AuthService } from './auth/auth.service';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet],
-  template: '<router-outlet></router-outlet>',
+  templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
   private oidcSecurityService = inject(OidcSecurityService);
   private authService = inject(AuthService);
 
   ngOnInit() {
-    // 1. Angular-auth-oidc-clientin vaatima juurialustus
-    this.oidcSecurityService.checkAuth().subscribe(({ isAuthenticated, userData, accessToken }) => {
-      console.log('Sovellus alustettu, kirjautumistila:', isAuthenticated);
-      if (isAuthenticated) {
-        console.log('Käyttäjän tiedot:', userData);
-        console.log('Tokenisi on:', accessToken);
-      }
-    });
+    // alustetaan tai käynnistetään oidcsecurityservice tarkistamalla onko käyttäjä autentikoitu
+    this.oidcSecurityService.checkAuth().subscribe();
 
-    // 2. Käynnistetään taustakuuntelija (kuuntelee kirjautumistilan muutoksia ja synkkaa backendille)
+    // käynnistetään authservicestä tuleva sync funktio jotta voidaan autentikoida käyttäjä 
     this.authService.syncUserWithBackend();
   }
 }
