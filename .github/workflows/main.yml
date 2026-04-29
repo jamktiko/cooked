@@ -1,0 +1,65 @@
+name: Deploy MEAN Stack
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  # --- BACKENDIN JULKAISU (Elastic Beanstalk) ---
+  deploy-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout koodi
+        uses: actions/checkout@v4
+
+      - name: Asenna Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Pakkaa Backend
+        # Luodaan zip-paketti vain backendin tiedostoista
+                working-directory: ./backend
+        # Pakataan kaikki kansiossa olevat, mutta EI node_modulesia, sillä
+        # Elastic Beanstalk ajaa "npm install" automaattisesti EC2-instanssissa.
+        run: zip -r deploy.zip . -x "node_modules/*"
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: Cooked
+          environment_name: Cooked-env
+          version_label: ${{ github.sha }}
+          region: eu-north-1
+          deployment_package: deploy.zip
+
+  # --- FRONTENDIN JULKAISU (S3) ---
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout koodi
+        uses: actions/checkout@v4
+
+      - name: Asenna Node.js ja Angular CLI
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build Frontend
+        working-directory: ./frontend
+        run: |
+          npm install
+          npm run build -- --configuration=production
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-north-1
+
+      - name: Deploy to S3
+        # Kopioidaan buildatut tiedostot (dist/) S3-bucketiin
+        run: aws s3 sync ./frontend/dist/cooked-frontend s3://cookedfrontend --delete
