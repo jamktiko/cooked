@@ -6,7 +6,7 @@ const Recipe = require('../models/Recipe');
 router.get('/', async (req, res) => {
   try {
     const recipes = await Recipe.find({ public: true })
-      .select('name user_sub image created description tags')
+      .select('name image created description tags')
       .sort({ created: -1 });
 
     res.json(recipes);
@@ -25,7 +25,10 @@ router.get('/:id', async (req, res) => {
     }
     res.json(recipe);
   } catch (err) {
-    res.status(400).json({ error: 'Invalid ID format' });
+    if (err.kind === 'ObjectId') {
+      return res.status(400).json({ error: 'Id is invalid' });
+    }
+    res.status(500).json({ error: 'Server error' });
   }
 });
 

@@ -1,62 +1,112 @@
 const express = require('express');
 const router = express.Router();
 const Recipe = require('../models/Recipe');
+const { validateRecipe } = require('../middleware/validation.middleware');
 
 // Hae omat reseptit
 router.get('/', async (req, res) => {
-  // Käytetään '/' jotta se on päätaso
   try {
     // req.user.sub tulee Cognitosta
-    const recipes = await Recipe.find({ sub: req.user.sub }).sort({
-      created: -1,
-    });
-
-    // Jos reseptejä ei ole, palautetaan tyhjä lista (ei virhettä)
+    const recipes = await Recipe.find({ sub: req.user.sub })
+      .select('name image created description tags')
+      .sort({
+        created: -1,
+      });
     res.json(recipes);
   } catch (err) {
-    res.status(500).json({ error: 'Omien reseptien haku epäonnistui' });
+    res.status(500).json({ error: 'Recipes could not be retrieved' });
   }
 });
 
-router.post('/', async (req, res) => {
+// Hae yksi tietty resepti ID:n perusteella
+router.get('/:id', async (req, res) => {
   try {
-    // Luodaan uusi resepti-olio bodysta tulevalla datalla
-    const newRecipe = new Recipe({
-      name: req.body.name,
-      description: req.body.description,
-      image: req.body.image,
-      public: req.body.public || false, // Oletuksena yksityinen
-      tags: req.body.tags || [],
-      // TÄRKEÄÄ: Otetaan käyttäjän ID auth-middlewaren asettamasta req.user-oliosta
+    const recipe = await Recipe.findOne({
+      _id: req.params.id,
       sub: req.user.sub,
-      user_sub: req.user.sub,
-
-      ingredients: req.body.ingredients || [],
     });
 
-    // Tallennetaan tietokantaan
-    const savedRecipe = await newRecipe.save();
+    if (!recipe) {
+      return res.status(404).json({ error: 'Recipes not found' });
+    }
 
-    // Palautetaan tallennettu resepti ja status 201 (Created)
-    res.status(201).json(savedRecipe);
-
-    console.log(
-      `Resepti "${savedRecipe.name}" tallennettu käyttäjälle ${req.user.sub}`,
-    );
+    res.json(recipe);
   } catch (err) {
-    console.error('Tallennusvirhe:', err.message);
-    res.status(400).json({ error: 'Reseptin tallennus epäonnistui' });
+    console.error('Hakuherja:', err.message);
+    res.status(500).json({ error: 'Error occurred while fetching the recipe' });
   }
 });
 
-// Muokkaa (Update)
-router.put('/:id', async (req, res) => {
-  // ...
+// Luo uusi resepti
+router.post('/create', validateRecipe, async (req, res) => {
+  try {
+    const newRecipe = new Recipe({
+      ...req.body,
+      sub: req.user.sub,
+    });
+    const savedRecipe = await newRecipe.save();
+    res.status(201).json(savedRecipe);
+
+    console.log(`Recipe created. Image: ${savedRecipe.image}`);
+  } catch (err) {
+    console.error('Save error:', err.message);
+    res.status(500).json({ error: 'Database error while saving the recipe' });
+  }
 });
 
-// Poista (Delete)
-router.delete('/:id', async (req, res) => {
-  // ...
+// Muokkaa olemassa olevaa reseptiä
+router.put('/update/:id', validateRecipe, async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+    const userSub = req.user.sub;
+
+    // Varmistaa, että resepti löytyy ja kuuluu käyttäjälle
+    const recipe = await Recipe.findOne({ _id: recipeId, sub: userSub });
+
+    if (!recipe) {
+      return res.status(404).json({
+        error: 'Recipe not found or you do not have permission to edit it',
+      });
+    }
+
+    // Päivittää tiedot (Mongoose findOneAndUpdate)
+    // Käytetään $set: req.body, jotta vain lähetetyt kentät muuttuvat
+    const updatedRecipe = await Recipe.findByIdAndUpdate(
+      recipeId,
+      { $set: req.body },
+      { new: true, runValidators: true },
+    );
+
+    console.log(`Recipe "${updatedRecipe.name}" updated.`);
+    res.status(200).json(updatedRecipe);
+  } catch (err) {
+    console.error('Update error:', err.message);
+    res.status(500).json({ error: 'Failed to update the recipe' });
+  }
+});
+
+// Poista resepti (Delete)
+router.delete('/delete/:id', async (req, res) => {
+  try {
+    const recipeId = req.params.id;
+    const userSub = req.user.sub;
+    const deletedRecipe = await Recipe.findOneAndDelete({
+      _id: recipeId,
+      sub: userSub,
+    });
+
+    if (!deletedRecipe) {
+      return res.status(404).json({
+        error: 'Recipe not found or you do not have permission to delete it',
+      });
+    }
+
+    console.log(`Recipe "${deletedRecipe.name}" deleted.`);
+    res.status(200).json({ message: 'Recipe deleted successfully' });
+  } catch (err) {
+    console.error('Delete error:', err.message);
+    res.status(500).json({ error: 'Failed to delete the recipe' });
+  }
 });
 
 module.exports = router;

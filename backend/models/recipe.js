@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const RecipeSchema = new mongoose.Schema({
-  user_sub: {
-    type: String,
-    required: true,
-    index: true,
-  },
   name: {
     type: String,
     required: [true, 'Reseptin nimi on pakollinen'],

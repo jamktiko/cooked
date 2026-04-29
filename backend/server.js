@@ -36,12 +36,16 @@ mongoose
   });
 
 // Reittien kytkeminen
-// Julkiset reseptireitit (esim. GET /recipes)
+
+// Julkiset reseptireitit
 app.use('/recipes', publicRoutes);
-// Yksityiset suojatut reseptireitit (esim. GET /my-recipes)
+
+// Yksityiset suojatut reseptireitit
 app.use('/my-recipes', checkAuth, privateRoutes);
 
-app.use('/api/user', userRoutes);
+// Käyttäjään liittyvät reitit
+app.use('/api/user', checkAuth, userRoutes);
+
 // Palvelimen käynnistys
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
