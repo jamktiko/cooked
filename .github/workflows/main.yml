@@ -19,7 +19,7 @@ jobs:
 
       - name: Pakkaa Backend
         # Luodaan zip-paketti vain backendin tiedostoista
-                working-directory: ./backend
+        working-directory: ./backend
         # Pakataan kaikki kansiossa olevat, mutta EI node_modulesia, sillä
         # Elastic Beanstalk ajaa "npm install" automaattisesti EC2-instanssissa.
         run: zip -r deploy.zip . -x "node_modules/*"
