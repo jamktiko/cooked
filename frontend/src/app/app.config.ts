@@ -5,7 +5,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAuth } from 'angular-auth-oidc-client';
 import { routes } from './app.routes';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
-
+import { environment } from '../environments/environment';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),
@@ -17,8 +17,8 @@ export const appConfig: ApplicationConfig = {
     provideAuth({
       config: {
         authority: 'https://cognito-idp.eu-north-1.amazonaws.com/eu-north-1_80236Gypt',
-        redirectUrl: 'http://localhost:4200',
-        postLogoutRedirectUri: 'http://localhost:4200',
+        redirectUrl: environment.redirectUrl,
+        postLogoutRedirectUri: environment.redirectUrl,
         clientId: '3b6d5hg51lp4i1p1d97eibom9p',
         scope: 'openid email profile',
         responseType: 'code',
