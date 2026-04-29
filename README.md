@@ -46,7 +46,7 @@ command to run if program contains helper info
 - 0.3
   - Added login and various bugfixes
   - 0.3.1
-    - Bugfixejä
+    - Bugfixejä lisää
 - 0.2
   - Various bug fixes and optimizations
 - 0.1
