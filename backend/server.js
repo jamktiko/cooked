@@ -3,7 +3,7 @@ require('dotenv').config();
 // Kirjastot
 const express = require('express');
 const mongoose = require('mongoose');
-const Recipe = require('./models/Recipe');
+const Recipe = require('./models/recipe');
 
 // Tuodaan reittitiedostot
 const publicRoutes = require('./routes/public-routes');
