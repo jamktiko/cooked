@@ -36,13 +36,15 @@ command to run if program contains helper info
 
 ## Authors
 
-* Eetu Auvinen
-* Mikael Makkonen
-* Essi Kaukometsä
-* Janika Rahikainen
+- Eetu Auvinen
+- Mikael Makkonen
+- Essi Kaukometsä
+- Janika Rahikainen
 
 ## Version History
 
+- 0.3
+  - Added login and various bugfixes
 - 0.2
   - Various bug fixes and optimizations
 - 0.1
