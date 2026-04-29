@@ -2,24 +2,27 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { switchMap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
-  // Ohita kaikki AWS-pyynnöt
-  if (
-    req.url.includes('amazoncognito.com') ||
-    req.url.includes('cognito-idp') ||
-    req.url.includes('amazonaws.com')
-  ) {
+  // interceptorit nappaavat http pyynnön, muokkaavat sitä halutulla tavalla ja lopuksi palauttavat vastauksen
+
+  // tässä katsotaan onko http pyynnön osoite backendimme osoite
+  if (!req.url.startsWith(environment.backendApi)) {
     return next(req);
   }
 
   // getAccessToken() palauttaa Observablen, joten käytetään rxjs:n switchMapia
   return authService.getAccessToken().pipe(
+    // switchmap ketjuttaa asynkroniset operaatiot
+    // ja vaihtaa ensimmäisen observablen tuloksen seuraavaan lennosta
+    // tässä switchmap nappaa tokenin heti kun se tulee observablesta
     switchMap((token) => {
-      // console.log('interceptataan pyyntö urliin', req.url);
-
+      // jos tokeni on saapunut tehdään muutokset http pyyntöön
+      // tässä tapauksessa lisätään headeriin auth token
       if (token) {
         req = req.clone({
           setHeaders: {
@@ -27,7 +30,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
           },
         });
       }
-
+      // palautetaan seuraava observable joka on originaali http pyyntö
       return next(req);
     })
   );
