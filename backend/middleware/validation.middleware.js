@@ -1,7 +1,9 @@
+// Middleware, joka validatoi reseptin luonti- ja muokkauspyynnöt Joi-kirjastolla
+
 const Joi = require('joi');
 
 const recipeSchema = Joi.object({
-  name: Joi.string().min(3).max(100).required().messages({
+  name: Joi.string().trim().min(3).max(100).required().messages({
     'string.min': 'Nimen pitää olla vähintään 3 merkkiä pitkä',
     'any.required': 'Nimi on pakollinen kenttä',
   }),
@@ -25,7 +27,15 @@ const recipeSchema = Joi.object({
 });
 
 const validateRecipe = (req, res, next) => {
-  const { error, value } = recipeSchema.validate(req.body, {
+  // Tarkistetaan onko kyseessä muokkaus (PUT tai PATCH)
+  const isUpdate = req.method === 'PUT' || req.method === 'PATCH';
+  const schemaToValidate = isUpdate
+    ? recipeSchema.fork(Object.keys(recipeSchema.describe().keys), (schema) =>
+        schema.optional(),
+      )
+    : recipeSchema;
+
+  const { error, value } = schemaToValidate.validate(req.body, {
     abortEarly: false,
   });
 
@@ -33,7 +43,11 @@ const validateRecipe = (req, res, next) => {
     const messages = error.details.map((d) => d.message);
     return res.status(400).json({ errors: messages });
   }
-  req.body = value;
+
+  // TÄRKEÄÄ: Muokkauksessa emme halua korvata req.bodya oletusarvoilla (kuten image.default),
+  // jos käyttäjä ei lähettänyt niitä. Luonnissa se on OK.
+  req.body = isUpdate ? req.body : value;
+
   next();
 };
 
