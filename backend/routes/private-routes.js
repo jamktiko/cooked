@@ -7,9 +7,11 @@ const { validateRecipe } = require('../middleware/validation.middleware');
 router.get('/', async (req, res) => {
   try {
     // req.user.sub tulee Cognitosta
-    const recipes = await Recipe.find({ sub: req.user.sub }).sort({
-      created: -1,
-    });
+    const recipes = await Recipe.find({ sub: req.user.sub })
+      .select('name image created description tags')
+      .sort({
+        created: -1,
+      });
     res.json(recipes);
   } catch (err) {
     res.status(500).json({ error: 'Recipes could not be retrieved' });
@@ -25,13 +27,13 @@ router.get('/:id', async (req, res) => {
     });
 
     if (!recipe) {
-      return res.status(404).json({ error: 'Reseptiä ei löytynyt' });
+      return res.status(404).json({ error: 'Recipes not found' });
     }
 
     res.json(recipe);
   } catch (err) {
     console.error('Hakuherja:', err.message);
-    res.status(500).json({ error: 'Virhe reseptiä hakiessa' });
+    res.status(500).json({ error: 'Error occurred while fetching the recipe' });
   }
 });
 
