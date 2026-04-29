@@ -1,51 +1,35 @@
 const express = require('express');
 const router = express.Router();
 const Recipe = require('../models/Recipe');
+const { validateRecipe } = require('../middleware/recipe.validation');
 
 // Hae omat reseptit
 router.get('/', async (req, res) => {
-  // Käytetään '/' jotta se on päätaso
   try {
     // req.user.sub tulee Cognitosta
     const recipes = await Recipe.find({ sub: req.user.sub }).sort({
       created: -1,
     });
-
-    // Jos reseptejä ei ole, palautetaan tyhjä lista (ei virhettä)
     res.json(recipes);
   } catch (err) {
-    res.status(500).json({ error: 'Omien reseptien haku epäonnistui' });
+    res.status(500).json({ error: 'Recipes could not be retrieved' });
   }
 });
 
-router.post('/', async (req, res) => {
+// Luo uusi resepti
+router.post('/create', validateRecipe, async (req, res) => {
   try {
-    // Luodaan uusi resepti-olio bodysta tulevalla datalla
     const newRecipe = new Recipe({
-      name: req.body.name,
-      description: req.body.description,
-      image: req.body.image,
-      public: req.body.public || false, // Oletuksena yksityinen
-      tags: req.body.tags || [],
-      // TÄRKEÄÄ: Otetaan käyttäjän ID auth-middlewaren asettamasta req.user-oliosta
+      ...req.body,
       sub: req.user.sub,
-      user_sub: req.user.sub,
-
-      ingredients: req.body.ingredients || [],
     });
-
-    // Tallennetaan tietokantaan
     const savedRecipe = await newRecipe.save();
-
-    // Palautetaan tallennettu resepti ja status 201 (Created)
     res.status(201).json(savedRecipe);
 
-    console.log(
-      `Resepti "${savedRecipe.name}" tallennettu käyttäjälle ${req.user.sub}`,
-    );
+    console.log(`Recipe created. Image: ${savedRecipe.image}`);
   } catch (err) {
-    console.error('Tallennusvirhe:', err.message);
-    res.status(400).json({ error: 'Reseptin tallennus epäonnistui' });
+    console.error('Save error:', err.message);
+    res.status(500).json({ error: 'Database error while saving the recipe' });
   }
 });
 
