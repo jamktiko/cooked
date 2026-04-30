@@ -24,6 +24,7 @@ export const appConfig: ApplicationConfig = {
         responseType: 'code',
         silentRenew: true,
         useRefreshToken: true,
+        historyCleanupOff: false,
       },
     }),
   ],
