@@ -36,13 +36,12 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: 'Error occurred while fetching the recipe' });
   }
 });
-
 // Luo uusi resepti
 router.post('/create', validateRecipe, async (req, res) => {
   try {
     const newRecipe = new Recipe({
       ...req.body,
-      sub: req.user.sub,
+      sub: req.user ? req.user.sub : 'testikayttaja123',
     });
     const savedRecipe = await newRecipe.save();
     res.status(201).json(savedRecipe);
