@@ -11,13 +11,7 @@ router.post('/sync', async (req, res) => {
     const subFromToken = req.user.sub;
 
     // 2. Poimitaan profiilitiedot, jotka Angular lähettää bodyssä
-    const { email, name, cognitoId } = req.body;
-
-    const nameParts = (name || '').trim().split(/\s+/);
-    const firstName = nameParts[0] || 'User';
-    // Jos sukunimeä ei ole (esim. Google-kirjautumisessa vain sähköposti nimikentässä),
-    // laitetaan tyhjän sijasta vakio, jottei tietokannan required-validointi hajoa.
-    const lastName = nameParts.slice(1).join(' ') || 'User';
+    const { email, cognitoId } = req.body;
 
     // 3. Päivitetään käyttäjä tai luodaan uusi (upsert)
     const user = await User.findOneAndUpdate(
@@ -25,9 +19,6 @@ router.post('/sync', async (req, res) => {
       {
         $set: {
           email: email,
-          first_name: firstName,
-          last_name: lastName,
-          user_name: name,
           last_login: new Date(),
         },
         $setOnInsert: {
@@ -46,7 +37,9 @@ router.post('/sync', async (req, res) => {
     res.status(200).json(user);
   } catch (error) {
     console.error('SYNC ERROR DETAILS:', error); // TÄMÄ ON LISÄTTY: logittaa koko virheen, ei vain viestiä
-    res.status(500).json({ error: 'Failed to sync user data', details: error.message });
+    res
+      .status(500)
+      .json({ error: 'Failed to sync user data', details: error.message });
   }
 });
 
