@@ -2,23 +2,28 @@
   <h2>Lisää uusi resepti</h2>
 
   <div class="form-group">
-    <label>Reseptin nimi:</label>
-    <input formControlName="name" placeholder="esim. Bolognese" />
+    <label for="recipeName">Reseptin nimi:</label>
+    <input id="recipeName" name="recipeName" formControlName="name" placeholder="esim. Bolognese" />
   </div>
 
   <div class="form-group">
-    <label>Kuvaus:</label>
-    <textarea formControlName="description" placeholder="Lyhyt kuvaus reseptistä"></textarea>
+    <label for="recipeDescription">Kuvaus:</label>
+    <textarea
+      id="recipeDescription"
+      name="description"
+      formControlName="description"
+      placeholder="Lyhyt kuvaus reseptistä"
+    ></textarea>
   </div>
 
   <div class="form-group">
-    <label>Annokset:</label>
-    <input formControlName="servings" type="number" />
+    <label for="recipeServings">Annokset:</label>
+    <input id="recipeServings" name="servings" formControlName="servings" type="number" />
   </div>
 
   <div class="form-group">
-    <label>Kesto (min):</label>
-    <input formControlName="duration" type="number" />
+    <label for="recipeDuration">Kesto (min):</label>
+    <input id="recipeDuration" name="duration" formControlName="duration" type="number" />
   </div>
 
   <hr />
@@ -27,9 +32,25 @@
   <div formArrayName="ingredients">
     @for (ing of ingredients.controls; track ing; let i = $index) {
       <div [formGroupName]="i" class="row">
-        <input formControlName="name" placeholder="raaka-aine" />
-        <input formControlName="amount" type="number" placeholder="määrä" />
-        <input formControlName="unit" placeholder="yksikkö" />
+        <input
+          [id]="'ingName' + i"
+          name="ingredientName"
+          formControlName="name"
+          placeholder="raaka-aine"
+        />
+        <input
+          [id]="'ingAmount' + i"
+          name="ingredientAmount"
+          formControlName="amount"
+          type="number"
+          placeholder="määrä"
+        />
+        <input
+          [id]="'ingUnit' + i"
+          name="ingredientUnit"
+          formControlName="unit"
+          placeholder="yksikkö"
+        />
         <button type="button" (click)="removeIngredient(i)" class="remove-btn">Poista</button>
       </div>
     }
@@ -42,7 +63,12 @@
   <div formArrayName="directions">
     @for (dir of directions.controls; track dir; let i = $index) {
       <div class="row">
-        <input [formControlName]="i" placeholder="Vaihe {{ i + 1 }}" />
+        <input
+          [id]="'dir' + i"
+          [name]="'direction' + i"
+          [formControlName]="i"
+          placeholder="Vaihe {{ i + 1 }}"
+        />
         <button type="button" (click)="removeDirection(i)" class="remove-btn">Poista</button>
       </div>
     }
@@ -55,7 +81,12 @@
   <div formArrayName="tags" class="tags-container">
     @for (tag of tags.controls; track tag; let i = $index) {
       <div class="tag-row">
-        <input [formControlName]="i" placeholder="esim. vegaani" />
+        <input
+          [id]="'tag' + i"
+          [name]="'tag' + i"
+          [formControlName]="i"
+          placeholder="esim. vegaani"
+        />
         <button type="button" (click)="removeTag(i)" class="remove-tag-btn">×</button>
       </div>
     }
@@ -65,7 +96,10 @@
   <hr />
 
   <div class="form-group checkbox-group">
-    <label> <input type="checkbox" formControlName="public" /> Julkinen resepti </label>
+    <label for="isPublic">
+      <input type="checkbox" id="isPublic" name="public" formControlName="public" />
+      Julkinen resepti
+    </label>
   </div>
 
   <button type="submit" [disabled]="recipeForm.invalid" class="submit-btn">Tallenna resepti</button>

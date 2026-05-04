@@ -41,7 +41,7 @@ mongoose
 app.use('/recipes', publicRoutes);
 
 // Yksityiset suojatut reseptireitit
-app.use('/my-recipes', privateRoutes);
+app.use('/my-recipes', checkAuth, privateRoutes);
 
 // Käyttäjään liittyvät reitit
 app.use('/api/user', checkAuth, userRoutes);

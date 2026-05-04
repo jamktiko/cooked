@@ -39,16 +39,25 @@ router.get('/:id', async (req, res) => {
 // Luo uusi resepti
 router.post('/create', validateRecipe, async (req, res) => {
   try {
+    if (!req.user || !req.user.sub) {
+      return res
+        .status(401)
+        .json({ error: 'Unauthorized: User information is missing' });
+    }
     const newRecipe = new Recipe({
       ...req.body,
-      sub: req.user ? req.user.sub : 'testikayttaja123',
+      sub: req.user.sub,
     });
-    const savedRecipe = await newRecipe.save();
+    console.log(
+      `Recipe created by ${req.user.sub}. Image: ${savedRecipe.image}`,
+    );
     res.status(201).json(savedRecipe);
-
-    console.log(`Recipe created. Image: ${savedRecipe.image}`);
   } catch (err) {
-    console.error('Save error:', err.message);
+    if (err.name === 'ValidationError') {
+      return res
+        .status(400)
+        .json({ error: 'Validation failed', details: err.message });
+    }
     res.status(500).json({ error: 'Database error while saving the recipe' });
   }
 });

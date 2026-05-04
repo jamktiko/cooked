@@ -89,7 +89,13 @@ export class RecipeAdd {
         // Pidetään vain ne, joissa on tekstiä
         tags: rawData.tags.filter((t: string) => t && t.trim() !== ''),
         directions: rawData.directions.filter((d: string) => d && d.trim() !== ''),
-        ingredients: rawData.ingredients.filter((ing: any) => ing.name && ing.name.trim() !== ''),
+        ingredients: rawData.ingredients
+          .filter((ing: any) => ing.name && ing.name.trim() !== '')
+          .map((ing: any) => ({
+            ...ing,
+            name: ing.name.trim(),
+            amount: Number(ing.amount),
+          })),
       };
 
       console.log('Sending cleaned data:', cleanedData);
