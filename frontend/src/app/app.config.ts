@@ -16,11 +16,11 @@ export const appConfig: ApplicationConfig = {
 
     provideAuth({
       config: {
-        authority: 'https://cognito-idp.eu-north-1.amazonaws.com/eu-north-1_80236Gypt',
+        authority: 'https://cognito-idp.eu-north-1.amazonaws.com/eu-north-1_Hn9USNBWY',
         redirectUrl: environment.redirectUrl,
         postLogoutRedirectUri: environment.redirectUrl,
-        clientId: '3b6d5hg51lp4i1p1d97eibom9p',
-        scope: 'openid email profile',
+        clientId: '31r3baig5pejtegiqopu61pt3',
+        scope: 'openid email',
         responseType: 'code',
         silentRenew: true,
         useRefreshToken: true,
