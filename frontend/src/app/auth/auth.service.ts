@@ -60,7 +60,7 @@ export class AuthService {
     this.oidcSecurityService.logoffLocal();
     window.location.href = `${environment.cognitoDomain}/logout?client_id=${environment.clientId}&logout_uri=${encodeURIComponent(environment.logoutUri)}`;
   }
-  // 
+  //
   getAccessToken() {
     return this.oidcSecurityService.getAccessToken();
   }

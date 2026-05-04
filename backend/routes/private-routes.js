@@ -40,17 +40,31 @@ router.get('/:id', async (req, res) => {
 // Luo uusi resepti
 router.post('/create', validateRecipe, async (req, res) => {
   try {
+    if (!req.user || !req.user.sub) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
     const newRecipe = new Recipe({
       ...req.body,
       sub: req.user.sub,
     });
-    const savedRecipe = await newRecipe.save();
-    res.status(201).json(savedRecipe);
 
-    console.log(`Recipe created. Image: ${savedRecipe.image}`);
+    const savedRecipe = await newRecipe.save();
+
+    console.log(`✅ Recipe created: ${savedRecipe.name} by ${req.user.sub}`);
+
+    res.status(201).json(savedRecipe);
   } catch (err) {
-    console.error('Save error:', err.message);
-    res.status(500).json({ error: 'Database error while saving the recipe' });
+    console.error('SERVER ERROR DURING CREATE:', err);
+
+    if (err.name === 'ValidationError') {
+      return res.status(400).json({
+        error: 'Validation failed',
+        details: err.message,
+      });
+    }
+
+    res.status(500).json({ error: 'Database error' });
   }
 });
 
