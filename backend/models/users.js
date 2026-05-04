@@ -20,13 +20,6 @@ const UserSchema = new mongoose.Schema({
     maxlength: [500, 'Kuvaus on liian pitkä'],
   },
 
-  user_name: {
-    type: String,
-    unique: true,
-    trim: true,
-    minlength: [3, 'Nimimerkin on oltava vähintään 3 merkkiä pitkä'],
-  },
-
   first_name: {
     type: String,
     trim: true,
