@@ -40,7 +40,7 @@ export class AuthService {
         // ja laittaa siihen mukaan syncData paketin eli käyttäjän subin spostin ja nimen
         // lähetetään http pyyntö backendin /sync polkuun ja lisätään siihen syncdata
         this.http
-          .post(`${environment.backendApi}/user/sync`, syncData)
+          .post(`${environment.backendApi}/api/user/sync`, syncData)
           .pipe(delay(500), take(1)) // Pieni viive varmistaa, että token on varmasti valmis
           .subscribe({
             next: () => console.log('Käyttäjä synkronoitu!'),
@@ -60,7 +60,7 @@ export class AuthService {
     this.oidcSecurityService.logoffLocal();
     window.location.href = `${environment.cognitoDomain}/logout?client_id=${environment.clientId}&logout_uri=${encodeURIComponent(environment.logoutUri)}`;
   }
-  // 
+  //
   getAccessToken() {
     return this.oidcSecurityService.getAccessToken();
   }

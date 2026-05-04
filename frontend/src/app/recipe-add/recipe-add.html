@@ -18,12 +18,12 @@
 
   <div class="form-group">
     <label for="recipeServings">Annokset:</label>
-    <input id="recipeServings" name="servings" formControlName="servings" type="number" />
+    <input id="recipeServings" name="servings" formControlName="servings" type="number" min="1" />
   </div>
 
   <div class="form-group">
     <label for="recipeDuration">Kesto (min):</label>
-    <input id="recipeDuration" name="duration" formControlName="duration" type="number" />
+    <input id="recipeDuration" name="duration" formControlName="duration" min="1" type="number" />
   </div>
 
   <hr />

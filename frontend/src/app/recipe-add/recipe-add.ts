@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { RecipeService } from '../services/recipe.service';
@@ -9,21 +9,24 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './recipe-add.html',
+  providers: [RecipeService],
   styleUrl: './recipe-add.css',
 })
 export class RecipeAdd {
+  private fb = inject(FormBuilder);
+  private recipeService = inject(RecipeService); // Vaihdetaan inject-tyyliin
+  private router = inject(Router);
+
   recipeForm: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private recipeService: RecipeService,
-    private router: Router,
-  ) {
+  constructor() {
+    // Siirrä lomakkeen alustus konstruktorin sisään,
+    // mutta poista parametrit konstruktorin suluista
     this.recipeForm = this.fb.group({
       name: ['', [Validators.required]],
       description: [''],
       servings: [1, [Validators.min(1)]],
-      duration: [0, [Validators.min(0)]],
+      duration: [1, [Validators.min(1)]],
       image: [''],
       public: [false],
       ingredients: this.fb.array([]),
@@ -31,7 +34,6 @@ export class RecipeAdd {
       tags: this.fb.array([]),
     });
 
-    // Alustetaan lomake yhdellä tyhjällä rivillä kutakin
     this.addIngredient();
     this.addDirection();
     this.addTag();
