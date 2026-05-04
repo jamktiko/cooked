@@ -40,7 +40,7 @@ export class AuthService {
         // ja laittaa siihen mukaan syncData paketin eli käyttäjän subin spostin ja nimen
         // lähetetään http pyyntö backendin /sync polkuun ja lisätään siihen syncdata
         this.http
-          .post(`${environment.backendApi}/api/user/sync`, syncData)
+          .post(`${environment.backendApi}/user/sync`, syncData)
           .pipe(delay(500), take(1)) // Pieni viive varmistaa, että token on varmasti valmis
           .subscribe({
             next: () => console.log('Käyttäjä synkronoitu!'),
