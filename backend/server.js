@@ -44,7 +44,7 @@ app.use('/recipes', publicRoutes);
 app.use('/my-recipes', checkAuth, privateRoutes);
 
 // Käyttäjään liittyvät reitit
-app.use('/api/user', checkAuth, userRoutes);
+app.use('/user', checkAuth, userRoutes);
 
 // Palvelimen käynnistys
 const PORT = process.env.PORT || 3000;
