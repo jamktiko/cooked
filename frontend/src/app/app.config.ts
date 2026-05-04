@@ -13,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([jwtInterceptor]), // Tämä liittää tokenit automaattisesti pyyntöihin
     ),
-
+    // cognitolle annettavat configuraatiot
     provideAuth({
       config: {
         authority: 'https://cognito-idp.eu-north-1.amazonaws.com/eu-north-1_Hn9USNBWY',
