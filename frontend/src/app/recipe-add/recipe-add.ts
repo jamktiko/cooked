@@ -14,32 +14,35 @@ import { Router } from '@angular/router';
 })
 export class RecipeAdd {
   private fb = inject(FormBuilder);
-  private recipeService = inject(RecipeService); // Vaihdetaan inject-tyyliin
+  private recipeService = inject(RecipeService);
   private router = inject(Router);
 
+  // Lomakkeen pääryhmä
   recipeForm: FormGroup;
 
   constructor() {
-    // Siirrä lomakkeen alustus konstruktorin sisään,
-    // mutta poista parametrit konstruktorin suluista
+    // Alustetaan lomakerakenne ja sen validointisäännöt
     this.recipeForm = this.fb.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required]], // Pakollinen kenttä
       description: [''],
       servings: [1, [Validators.min(1)]],
-      duration: [1, [Validators.min(1)]],
+      duration: [0, [Validators.min(0)]],
       image: [''],
       public: [false],
+      // FormArrayt dynaamisille listoille (ainesosat, vaiheet, tägit)
       ingredients: this.fb.array([]),
       directions: this.fb.array([]),
       tags: this.fb.array([]),
     });
 
+    // Lisätään lomakkeelle heti kättelyssä yhdet tyhjät rivit käyttäjää varten
     this.addIngredient();
     this.addDirection();
     this.addTag();
   }
 
   // --- GETTERIT ---
+  // Getterit helpottavat FormArray-kenttien käsittelyä HTML-templatessa
   get ingredients() {
     return this.recipeForm.get('ingredients') as FormArray;
   }
@@ -51,6 +54,8 @@ export class RecipeAdd {
   }
 
   // --- METODIT RIVIEN LISÄÄMISEEN ---
+
+  // Lisää uuden ainesosaryhmän (nimi, määrä, yksikkö) listaan
   addIngredient() {
     const ingredientForm = this.fb.group({
       name: ['', Validators.required],
@@ -60,15 +65,18 @@ export class RecipeAdd {
     this.ingredients.push(ingredientForm);
   }
 
+  // Lisää uuden tekstikentän valmistusohjeille
   addDirection() {
     this.directions.push(this.fb.control('', Validators.required));
   }
 
+  // Lisää uuden tekstikentän tägeille
   addTag() {
     this.tags.push(this.fb.control(''));
   }
 
   // --- METODIT RIVIEN POISTAMISEEN ---
+  // Poistavat valitun rivin indeksin perusteella
   removeIngredient(index: number) {
     this.ingredients.removeAt(index);
   }
@@ -81,16 +89,20 @@ export class RecipeAdd {
 
   // --- LÄHETYS ---
   onSubmit() {
+    // Tarkistetaan, että kaikki pakolliset kentät on täytetty oikein
     if (this.recipeForm.valid) {
-      // 1. Otetaan kaikki data lomakkeelta
+      // 1. Haetaan raakadata lomakkeelta
       const rawData = this.recipeForm.value;
 
-      // 2. Siivotaan tyhjät pois (trim poistaa välilyönnit)
+      // 2. Datan siivous ennen lähetyksestä
+      // Poistetaan tyhjät rivit ja trimataan ylimääräiset välilyönnit
       const cleanedData = {
         ...rawData,
-        // Pidetään vain ne, joissa on tekstiä
+        // Suodatetaan pois tyhjät tägit
         tags: rawData.tags.filter((t: string) => t && t.trim() !== ''),
+        // Suodatetaan pois tyhjät ohjevaiheet
         directions: rawData.directions.filter((d: string) => d && d.trim() !== ''),
+        // Suodatetaan ainesosat, joilla ei ole nimeä, ja varmistetaan määrän numeerisuus
         ingredients: rawData.ingredients
           .filter((ing: any) => ing.name && ing.name.trim() !== '')
           .map((ing: any) => ({
@@ -102,12 +114,17 @@ export class RecipeAdd {
 
       console.log('Sending cleaned data:', cleanedData);
 
+      // Kutsutaan palvelua reseptin tallentamiseksi
       this.recipeService.createRecipe(cleanedData).subscribe({
         next: (res) => {
           alert('Recipe created successfully!');
+          // Ohjataan käyttäjä takaisin etusivulle onnistuneen tallennuksen jälkeen
           this.router.navigate(['/frontpage']);
         },
-        error: (err) => console.error('Error creating recipe:', err),
+        error: (err) => {
+          // Logataan virhe, jos tallennus epäonnistuu (esim. 401 tai 500 -virheet)
+          console.error('Error creating recipe:', err);
+        },
       });
     }
   }

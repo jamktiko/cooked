@@ -1,3 +1,7 @@
+<div>
+  <a class="link" href="/frontpage">frontpage</a>
+</div>
+
 <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="recipe-form">
   <h2>Lisää uusi resepti</h2>
 
@@ -23,7 +27,7 @@
 
   <div class="form-group">
     <label for="recipeDuration">Kesto (min):</label>
-    <input id="recipeDuration" name="duration" formControlName="duration" min="1" type="number" />
+    <input id="recipeDuration" name="duration" formControlName="duration" min="0" type="number" />
   </div>
 
   <hr />
