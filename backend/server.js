@@ -9,6 +9,7 @@ const Recipe = require('./models/recipe');
 const publicRoutes = require('./routes/public-routes');
 const privateRoutes = require('./routes/private-routes');
 const userRoutes = require('./routes/user.routes');
+const awsRoutes = require('./routes/aws-routes');
 // Express-sovellus
 const app = express();
 
@@ -46,6 +47,8 @@ app.use('/my-recipes', checkAuth, privateRoutes);
 // Käyttäjään liittyvät reitit
 app.use('/api/user', checkAuth, userRoutes);
 
+// aws reitit
+app.use('/aws', awsRoutes);
 // Palvelimen käynnistys
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

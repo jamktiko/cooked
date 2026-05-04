@@ -1,0 +1,29 @@
+<div class="upload-card">
+  <h3>Lataa kuva S3-palveluun</h3>
+
+  <div class="file-input-wrapper">
+    <input 
+      type="file" 
+      (change)="onFileSelected($event)" 
+      [disabled]="isUploading()" 
+      accept="image/*"
+      #fileInput
+    />
+  </div>
+
+  @if (isUploading()) {
+    <div class="status-container">
+      <div class="progress-wrapper">
+        <div class="progress-bar" [style.width.%]="progress()"></div>
+      </div>
+      <p>Ladataan... {{ progress() }}%</p>
+    </div>
+  }
+
+  @if (uploadComplete()) {
+    <div class="success-banner">
+      <p>✅ Kuva ladattu onnistuneesti!</p>
+      <button (click)="uploadComplete.set(false)">Lataa uusi kuva</button>
+    </div>
+  }
+</div>
