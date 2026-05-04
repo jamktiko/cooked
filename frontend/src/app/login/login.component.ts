@@ -3,11 +3,11 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Tärkeä!
 import { AuthService } from '../auth/auth.service';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-
+import { Navbar } from '../navbar/navbar';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, Navbar],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
