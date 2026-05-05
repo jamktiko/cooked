@@ -4,6 +4,7 @@ import { Frontpage } from './frontpage/frontpage';
 import { RecipeAdd } from './recipe-add/recipe-add';
 import { RecipeDetail } from './recipe-detail/recipe-detail';
 import { CompleteProfile } from './complete-profile/complete-profile';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -14,6 +15,7 @@ export const routes: Routes = [
   {
     path: 'new-recipe',
     component: RecipeAdd,
+    canActivate: [authGuard],
   },
   { path: 'complete-profile', component: CompleteProfile },
 ];
