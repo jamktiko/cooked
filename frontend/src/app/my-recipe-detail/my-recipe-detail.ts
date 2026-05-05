@@ -21,14 +21,12 @@ export class MyRecipeDetail implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      // TÄSSÄ PITI OLLA: getMyRecipeById
-      // Sinulla on siellä todennäköisesti vahingossa: getRecipeById
       this.recipeService.getMyRecipeById(id).subscribe({
         next: (data) => {
           this.recipe = data;
         },
         error: (err) => {
-          console.error('Virhe:', err);
+          console.error('Error fetching my recipe:', err);
         },
       });
     }

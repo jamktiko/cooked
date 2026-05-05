@@ -26,9 +26,15 @@ export class MyRecipes implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        console.error('Haku epäonnistui:', err);
+        console.error('Error fetching my recipes:', err);
         this.loading = false;
       },
     });
+  }
+  get recipeStats(): string {
+    const count = this.myRecipes.length;
+    if (count === 0) return '0 recipe';
+    if (count === 1) return '1 recipe';
+    return `${count} recipes`;
   }
 }
