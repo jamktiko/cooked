@@ -48,7 +48,7 @@ app.use('/api/my-recipes', checkAuth, privateRoutes);
 app.use('/api/user', checkAuth, userRoutes);
 
 // aws reitit
-app.use('/aws', awsRoutes);
+app.use('/api/aws', awsRoutes);
 // Palvelimen käynnistys
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

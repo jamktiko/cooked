@@ -14,12 +14,13 @@ const s3 = new S3Client({
 
 router.get('/get-upload-url', async (req, res) => {
   try {
-    const fileName = `${Date.now()}-${req.query.name}`;
-    const fileType = req.query.type;
+    const folder = req.query.folder;
+    const fileName = `${Date.now()}-${req.query.fileName}`;
+    const fileType = req.query.fileType;
 
     const command = new PutObjectCommand({
       Bucket: process.env.S3_BUCKET_NAME,
-      Key: `recipes/${fileName}`,
+      Key: `${folder}/${fileName}`,
       ContentType: fileType,
     });
 
@@ -27,8 +28,8 @@ router.get('/get-upload-url', async (req, res) => {
 
     res.json({
       uploadUrl: signedUrl,
-      key: `test-uploads/${fileName}`,
-      imageUrl: `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/test-uploads/${fileName}`,
+      key: `${folder}/${fileName}`,
+      imageUrl: `https://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${folder}/${fileName}`,
     });
   } catch (err) {
     res.status(500).json({ error: err.message });

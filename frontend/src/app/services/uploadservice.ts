@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpEvent, HttpEventType, HttpRequest } from '@angular/common/http';
 import { Observable, map } from 'rxjs'
-import { environment } from '../environments/environment'
+import { environment } from '../../environments/environment'
 
 @Injectable({
   providedIn: 'root',
@@ -9,11 +9,11 @@ import { environment } from '../environments/environment'
 export class Uploadservice {
     private http = inject(HttpClient);
 
-  getPresignedUrl(fileName: string, fileType: string): Observable<{ url: string }> {
-    const requesturl = `${environment.backendApi}aws/get-upload-url`
+  getPresignedUrl(fileName: string, fileType: string, folder: string): Observable<{ url: string }> {
+    const requesturl = `${environment.backendApi}/aws/get-upload-url`
     console.log(environment.backendApi)
     return this.http.get<{ url: string }>(requesturl, {
-      params: { fileName, fileType }
+      params: { fileName, fileType, folder }
     });
   }
 

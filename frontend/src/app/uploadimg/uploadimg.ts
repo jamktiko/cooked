@@ -1,6 +1,6 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Uploadservice } from '../uploadservice';
+import { Uploadservice } from '../services/uploadservice';
 @Component({
   selector: 'app-uploadimg',
   imports: [],
@@ -9,6 +9,7 @@ import { Uploadservice } from '../uploadservice';
 })
 export class Uploadimg {
     private Uploadservice = inject(Uploadservice);
+    folder = input.required<string>();
 
   // Signals tilanhallintaan
   progress = signal(0);
@@ -25,11 +26,11 @@ onFileSelected(event: Event) {
     this.isUploading.set(true);
     this.uploadComplete.set(false);
     this.progress.set(0);
-
+    
     console.log('1. Aloitetaan haku tiedostolle:', file.name);
 
     // 1. Haetaan presigned URL backendistä
-    this.Uploadservice.getPresignedUrl(file.name, file.type).subscribe({
+    this.Uploadservice.getPresignedUrl(file.name, file.type, this.folder()).subscribe({
       next: (response: any) => {
         console.log('2. Backend vastaus:', response);
 
