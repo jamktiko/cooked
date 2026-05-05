@@ -105,6 +105,8 @@
       Julkinen resepti
     </label>
   </div>
-
+  <div class="uploadimg">
+    <app-uploadimg folder="recipes" (fileSelected)="onImageSelected($event)"></app-uploadimg>
+  </div>
   <button type="submit" [disabled]="recipeForm.invalid" class="submit-btn">Tallenna resepti</button>
 </form>

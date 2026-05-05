@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { RecipeService } from '../services/recipe.service';
 import { Router } from '@angular/router';
+import { Uploadimg } from '../uploadimg/uploadimg';
+import { Uploadservice } from '../services/uploadservice';
 
 @Component({
   selector: 'app-recipe-add',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, Uploadimg],
   templateUrl: './recipe-add.html',
   styleUrl: './recipe-add.css',
 })
@@ -15,9 +17,11 @@ export class RecipeAdd {
   private fb = inject(FormBuilder);
   private recipeService = inject(RecipeService);
   private router = inject(Router);
+  private uploadService = inject(Uploadservice);
 
   // Lomakkeen pääryhmä
   recipeForm: FormGroup;
+  selectedFile: File | null = null;
 
   constructor() {
     // Alustetaan lomakerakenne ja sen validointisäännöt
@@ -86,45 +90,46 @@ export class RecipeAdd {
     this.tags.removeAt(index);
   }
 
+  onImageSelected(file: File) {
+    this.selectedFile = file;
+  }
+
   // --- LÄHETYS ---
   onSubmit() {
-    // Tarkistetaan, että kaikki pakolliset kentät on täytetty oikein
-    if (this.recipeForm.valid) {
-      // 1. Haetaan raakadata lomakkeelta
-      const rawData = this.recipeForm.value;
+    if (this.recipeForm.invalid) return;
 
-      // 2. Datan siivous ennen lähetyksestä
-      // Poistetaan tyhjät rivit ja trimataan ylimääräiset välilyönnit
-      const cleanedData = {
-        ...rawData,
-        // Suodatetaan pois tyhjät tägit
-        tags: rawData.tags.filter((t: string) => t && t.trim() !== ''),
-        // Suodatetaan pois tyhjät ohjevaiheet
-        directions: rawData.directions.map((d: string) => d.trim()).filter((d: string) => d !== ''),
-        // Suodatetaan ainesosat, joilla ei ole nimeä, ja varmistetaan määrän numeerisuus
-        ingredients: rawData.ingredients
-          .filter((ing: any) => ing.name && ing.name.trim() !== '')
-          .map((ing: any) => ({
-            ...ing,
-            name: ing.name.trim(),
-            amount: Number(ing.amount),
-          })),
-      };
-
-      console.log('Sending cleaned data:', cleanedData);
-
-      // Kutsutaan palvelua reseptin tallentamiseksi
-      this.recipeService.createRecipe(cleanedData).subscribe({
+    if (this.selectedFile) {
+      // 1. Lataa kuva S3:een ensin
+      this.uploadService.uploadProcess(this.selectedFile, 'recipes').subscribe({
         next: (res) => {
-          alert('Recipe created successfully!');
-          // Ohjataan käyttäjä takaisin omalle sivulle onnistuneen tallennuksen jälkeen
-          this.router.navigate(['/my-recipes']);
+          this.saveRecipe(res.key);
         },
-        error: (err) => {
-          // Logataan virhe, jos tallennus epäonnistuu (esim. 401 tai 500 -virheet)
-          console.error('Error creating recipe:', err);
-        },
+        error: (err) => console.error('Kuvan lataus epäonnistui', err),
       });
+    } else {
+      // Jos ei kuvaa, tallennetaan suoraan
+      this.saveRecipe();
     }
+  }
+
+  private saveRecipe(imageKey?: string) {
+    console.log(imageKey + 'tässä image key')
+    const rawData = this.recipeForm.value;
+
+    const cleanedData = {
+      ...rawData,
+      image: imageKey || '', // Tallennetaan vain key image-kenttään
+      tags: rawData.tags.filter((tag: string) => tag.trim() !== ''),
+      directions: rawData.directions.filter((dir: string) => dir.trim() !== ''),
+      ingredients: rawData.ingredients.filter((ing: any) => ing.name.trim() !== ''),
+    };
+
+    this.recipeService.createRecipe(cleanedData).subscribe({
+      next: (response) => {
+        console.log('Resepti luotu:', response);
+        this.router.navigate(['/frontpage']);
+      },
+      error: (err) => console.error('Tallennus epäonnistui', err),
+    });
   }
 }
