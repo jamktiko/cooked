@@ -12,8 +12,20 @@ export class RecipeService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
+  private publicUrl = `${environment.backendApi}/recipes`;
   private apiUrl = `${environment.backendApi}/my-recipes`;
 
+  // Hakee kaikki julkiset reseptit
+  getPublicRecipes(): Observable<Recipe[]> {
+    // Julkiseen hakuun ei yleensä tarvita Authorization-headeria
+    return this.http.get<Recipe[]>(`${this.publicUrl}/all`);
+  }
+  getRecipeById(id: string): Observable<Recipe> {
+    // Huom: Tämä hakee julkisesta polusta.
+    // Jos backendissä on eri reitti, tarkista se (esim. `${this.publicUrl}/${id}`)
+    return this.http.get<Recipe>(`${this.publicUrl}/${id}`);
+  }
+  // Luo uuden reseptin, vaatii autentikoinnin
   createRecipe(recipeData: Recipe): Observable<Recipe> {
     // Hakee Access Token
     const token = this.authService.getAccessToken();

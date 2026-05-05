@@ -1,8 +1,14 @@
 <div class="navbar">
   <app-navbar></app-navbar>
-</div>
-  <div class="recipe-container">
-  <app-recipecard></app-recipecard>
-  <app-recipecard></app-recipecard>
-  <app-recipecard></app-recipecard>
+  <div class="container">
+    <h2>Explore Recipes</h2>
+
+    <div class="recipe-grid">
+      @for (r of recipes; track r._id) {
+        <app-recipecard [recipe]="r"></app-recipecard>
+      } @empty {
+        <p>No recipes to display.</p>
+      }
+    </div>
+  </div>
 </div>

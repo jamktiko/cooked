@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './recipe-add.html',
-  providers: [RecipeService],
   styleUrl: './recipe-add.css',
 })
 export class RecipeAdd {
@@ -101,7 +100,7 @@ export class RecipeAdd {
         // Suodatetaan pois tyhjät tägit
         tags: rawData.tags.filter((t: string) => t && t.trim() !== ''),
         // Suodatetaan pois tyhjät ohjevaiheet
-        directions: rawData.directions.filter((d: string) => d && d.trim() !== ''),
+        directions: rawData.directions.map((d: string) => d.trim()).filter((d: string) => d !== ''),
         // Suodatetaan ainesosat, joilla ei ole nimeä, ja varmistetaan määrän numeerisuus
         ingredients: rawData.ingredients
           .filter((ing: any) => ing.name && ing.name.trim() !== '')
