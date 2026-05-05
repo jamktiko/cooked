@@ -1,5 +1,8 @@
 @if (recipe) {
   <div class="recipe-card" [routerLink]="['/recipe', recipe._id]">
+    <div class="card-image">
+      <img [src]="recipe.image || '/taustakuva_cooked.png'" alt="{{ recipe.name }}" />
+    </div>
     <div class="card-body">
       <h3 class="recipe-title">{{ recipe.name }}</h3>
 

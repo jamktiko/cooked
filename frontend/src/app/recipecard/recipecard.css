@@ -98,3 +98,9 @@
   font-size: 0.9rem;
   /* Rajoitetaan rivien määrää, jotta kortit pysyvät siistinä */
 }
+.card-image img {
+  width: 100%;
+  height: 200px; /* Tai mikä tahansa korkeus jonka haluat kortille */
+  object-fit: cover; /* TÄMÄ ON TÄRKEÄ: Se rajaa kuvan keskeltä eikä venytä sitä */
+  display: block;
+}
