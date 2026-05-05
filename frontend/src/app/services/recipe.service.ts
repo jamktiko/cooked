@@ -17,22 +17,24 @@ export class RecipeService {
 
   // Hakee kaikki julkiset reseptit
   getPublicRecipes(): Observable<Recipe[]> {
-    // Julkiseen hakuun ei yleensä tarvita Authorization-headeria
     return this.http.get<Recipe[]>(`${this.publicUrl}/all`);
   }
+  // Hakee yhden julkisen reseptin ID:llä (
   getRecipeById(id: string): Observable<Recipe> {
-    // Huom: Tämä hakee julkisesta polusta.
-    // Jos backendissä on eri reitti, tarkista se (esim. `${this.publicUrl}/${id}`)
     return this.http.get<Recipe>(`${this.publicUrl}/${id}`);
+  }
+
+  // Hakee listan omina reseptejä
+  getMyRecipes(): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(this.apiUrl);
+  }
+
+  // Hakee yhden oman reseptin kaikki tiedot
+  getMyRecipeById(id: string): Observable<Recipe> {
+    return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
   }
   // Luo uuden reseptin, vaatii autentikoinnin
   createRecipe(recipeData: Recipe): Observable<Recipe> {
-    // Hakee Access Token
-    const token = this.authService.getAccessToken();
-
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-    return this.http.post<Recipe>(`${this.apiUrl}/create`, recipeData, { headers });
+    return this.http.post<Recipe>(`${this.apiUrl}/create`, recipeData);
   }
 }
