@@ -1,0 +1,13 @@
+<app-navbar></app-navbar>
+<div>
+    <h1>Viimeistele profiilisi</h1>
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <label for="username">Username: </label>
+        <input id="username" type="text" formControlName="username" />
+        <br>
+        <label for="info">Description</label>
+        <textarea id="info" type="text" formControlName="info" ></textarea>
+        <p>Tähän vielä profiilikuvan lataus</p>
+        <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+    </form>
+</div>
