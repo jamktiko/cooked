@@ -7,10 +7,9 @@
         {{ recipe.description }}
       </p>
 
-      <div class="tags-container">
-        @for (tag of recipe.tags; track tag) {
-          <span class="tag">#{{ tag }}</span>
-        }
+      <div class="recipe-meta">
+        <span class="meta-item"> {{ recipe.duration }} minutes</span>
+        <span class="meta-item">{{ recipe.servings }} servings</span>
       </div>
     </div>
   </div>

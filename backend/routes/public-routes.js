@@ -6,7 +6,7 @@ const Recipe = require('../models/recipe');
 router.get('/all', async (req, res) => {
   try {
     const recipes = await Recipe.find({ public: true })
-      .select('name image created description tags')
+      .select('name image created description tags duration servings')
       .sort({ created: -1 });
 
     res.json(recipes);

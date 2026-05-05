@@ -70,3 +70,31 @@
   display: flex;
   justify-content: flex-end;
 }
+/* Meta-tietojen säiliö (kesto ja annokset) */
+.recipe-meta {
+  display: flex;
+  gap: 15px;
+  margin-top: auto; /* Työntää metatiedot kortin pohjalle */
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.recipe-title {
+  margin-top: 0;
+  color: #222;
+  font-size: 1.25rem;
+}
+
+.recipe-description {
+  color: #666;
+  font-size: 0.9rem;
+  /* Rajoitetaan rivien määrää, jotta kortit pysyvät siistinä */
+}
