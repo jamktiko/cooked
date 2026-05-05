@@ -1,13 +1,13 @@
 <div class="navbar">
   <app-navbar></app-navbar>
   <div class="container">
-    <h2>Kaikki julkiset reseptit</h2>
+    <h2>Explore Recipes</h2>
 
     <div class="recipe-grid">
       @for (r of recipes; track r._id) {
         <app-recipecard [recipe]="r"></app-recipecard>
       } @empty {
-        <p>Ei reseptejä näytettäväksi.</p>
+        <p>No recipes to display.</p>
       }
     </div>
   </div>

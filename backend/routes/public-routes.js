@@ -3,7 +3,7 @@ const router = express.Router();
 const Recipe = require('../models/recipe');
 
 // Hakee kaikkien julkisten reseptien perustiedot
-router.get('/', async (req, res) => {
+router.get('/all', async (req, res) => {
   try {
     const recipes = await Recipe.find({ public: true })
       .select('name image created description tags')
