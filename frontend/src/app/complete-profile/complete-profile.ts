@@ -3,10 +3,12 @@ import { Navbar } from '../navbar/navbar';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { ProfileupdateService } from '../services/profileupdate.service';
 import { Router } from '@angular/router';
+import { Uploadimg } from '../uploadimg/uploadimg';
+import { Uploadservice } from '../services/uploadservice';
 
 @Component({
   selector: 'app-complete-profile',
-  imports: [Navbar, ReactiveFormsModule],
+  imports: [Navbar, ReactiveFormsModule, Uploadimg],
   templateUrl: './complete-profile.html',
   styleUrl: './complete-profile.css',
 })
@@ -15,24 +17,49 @@ import { Router } from '@angular/router';
 export class CompleteProfile {
   private updateService = inject(ProfileupdateService)
   private router = inject(Router);
+  private uploadService = inject(Uploadservice)
+  selectedFile: File | null = null;
 
   profileForm = new FormGroup({
     username: new FormControl(''),
     info: new FormControl('')
   })
 
-  onSubmit(){
-    console.log(this.profileForm.value)
-    this.updateService.updateUser(this.profileForm.value).subscribe({
-          next: (res) => {
-          alert('Käyttäjän profiili päivitetty');
-          // Ohjataan käyttäjä takaisin etusivulle onnistuneen tallennuksen jälkeen
-          this.router.navigate(['/frontpage']);
-        },
-        error: (err) => {
-          // Logataan virhe, jos tallennus epäonnistuu (esim. 401 tai 500 -virheet)
-          console.error('error in updating profile:', err);
-        },
-    })
+  onImageSelected(file: File) {
+    this.selectedFile = file;
+    console.log('Tiedosto valittu ja valmiina ladattavaksi:', file.name);
   }
+
+onSubmit() {
+  if (this.profileForm.invalid) return;
+
+  // Jos kuva on valittu, ladataan se ensin S3:een
+  if (this.selectedFile) {
+    this.uploadService.uploadProcess(this.selectedFile, 'profiles').subscribe({
+      next: (res) => {
+        // lisätään profileForm valueihin mukaan backendistä saatu kuvan key
+        const profileData = {
+          ...this.profileForm.value,
+          prof_picture: res.key
+        };
+
+        this.sendToBackend(profileData);
+      },
+      error: (err) => console.error('Kuvan lataus epäonnistui', err)
+    });
+  } else {
+    // Jos kuvaa ei valittu, lähetetään vain lomakkeen tiedot
+    this.sendToBackend(this.profileForm.value);
+  }
+}
+
+private sendToBackend(finalData: any) {
+  this.updateService.updateUser(finalData).subscribe({
+    next: () => {
+      console.log('Profiili valmis!');
+      this.router.navigate(['/frontpage']);
+    },
+    error: (err) => console.error('Backend-virhe', err)
+  });
+}
 }

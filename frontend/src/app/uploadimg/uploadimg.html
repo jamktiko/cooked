@@ -5,25 +5,14 @@
     <input 
       type="file" 
       (change)="onFileSelected($event)" 
-      [disabled]="isUploading()" 
       accept="image/*"
       #fileInput
     />
   </div>
 
-  @if (isUploading()) {
-    <div class="status-container">
-      <div class="progress-wrapper">
-        <div class="progress-bar" [style.width.%]="progress()"></div>
-      </div>
-      <p>Ladataan... {{ progress() }}%</p>
-    </div>
-  }
-
-  @if (uploadComplete()) {
-    <div class="success-banner">
-      <p>✅ Kuva ladattu onnistuneesti!</p>
-      <button (click)="uploadComplete.set(false)">Lataa uusi kuva</button>
+  @if (previewUrl()) {
+    <div class="preview-container">
+      <img [src]="previewUrl()" alt="Esikatselu" class="preview-img" />
     </div>
   }
 </div>

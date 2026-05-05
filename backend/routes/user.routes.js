@@ -57,7 +57,7 @@ router.get('/me', async (req, res) => {
 // 3. Käyttäjän profiilin viimeistely
 router.patch('/complete-profile', async (req, res) => {
   try {
-    const { username, info } = req.body;
+    const { username, info, prof_picture } = req.body;
     const sub = req.user.sub;
     const updatedUser = await User.findOneAndUpdate(
       { sub: sub },
@@ -66,6 +66,7 @@ router.patch('/complete-profile', async (req, res) => {
           username: username,
           info: info,
           isProfileComplete: true,
+          prof_picture: prof_picture,
         },
       },
       { new: true, runValidators: true },
