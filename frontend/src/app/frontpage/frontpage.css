@@ -1,11 +1,50 @@
-.recipe-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
-    margin-top: 30px
+/* Koko sivun taustaväri ja fontti */
+:host {
+  display: block;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
-.navbar {
-  gap: 30
+
+/* Container pitää sisällön keskellä ja rajoittaa leveyden */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* TÄRKEIN: Ruudukko-asettelu */
+.recipe-grid {
+  display: grid;
+  /* Luodaan sarakkeita automaattisesti: vähintään 280px leveitä */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px; /* Korttien välinen rako */
+  justify-content: center;
+}
+
+/* Tyhjä ilmoitus */
+.recipe-grid p {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin-top: 50px;
+}
+
+/* Mobiilioptimointi: pienemmillä näytöillä vähennetään paddingia */
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+  }
+
+  .recipe-grid {
+    gap: 15px;
+  }
 }

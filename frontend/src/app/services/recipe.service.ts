@@ -8,12 +8,20 @@ import { AuthService } from '../auth/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AddRecipeService {
+export class RecipeService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
+  private publicUrl = `${environment.backendApi}/recipes`;
   private apiUrl = `${environment.backendApi}/my-recipes`;
 
+  // Hakee kaikki julkiset reseptit
+  getPublicRecipes(): Observable<Recipe[]> {
+    // Julkiseen hakuun ei yleensä tarvita Authorization-headeria
+    return this.http.get<Recipe[]>(`${environment.backendApi}/api/recipes`);
+  }
+
+  // Luo uuden reseptin, vaatii autentikoinnin
   createRecipe(recipeData: Recipe): Observable<Recipe> {
     // Hakee Access Token
     const token = this.authService.getAccessToken();

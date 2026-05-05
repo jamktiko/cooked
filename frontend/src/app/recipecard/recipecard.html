@@ -1,4 +1,21 @@
-<div>
-  <p>recipecard works!</p>
-</div>
+@if (recipe) {
+  <div class="recipe-card" [routerLink]="['/recipe', recipe._id]">
+    <div class="card-body">
+      <h3 class="recipe-title">{{ recipe.name }}</h3>
 
+      <p class="recipe-description">
+        {{ recipe.description }}
+      </p>
+
+      <div class="tags-container">
+        @for (tag of recipe.tags; track tag) {
+          <span class="tag">#{{ tag }}</span>
+        }
+      </div>
+
+      <div class="card-footer">
+        <button class="btn-open">Katso resepti</button>
+      </div>
+    </div>
+  </div>
+}

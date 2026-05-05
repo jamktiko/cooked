@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { AddRecipeService } from '../services/addrecipe.service';
+import { RecipeService } from '../services/recipe.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,12 +9,11 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './recipe-add.html',
-  providers: [AddRecipeService],
   styleUrl: './recipe-add.css',
 })
 export class RecipeAdd {
   private fb = inject(FormBuilder);
-  private addRecipeService = inject(AddRecipeService);
+  private recipeService = inject(RecipeService);
   private router = inject(Router);
 
   // Lomakkeen pääryhmä
@@ -101,7 +100,7 @@ export class RecipeAdd {
         // Suodatetaan pois tyhjät tägit
         tags: rawData.tags.filter((t: string) => t && t.trim() !== ''),
         // Suodatetaan pois tyhjät ohjevaiheet
-        directions: rawData.directions.filter((d: string) => d && d.trim() !== ''),
+        directions: rawData.directions.map((d: string) => d.trim()).filter((d: string) => d !== ''),
         // Suodatetaan ainesosat, joilla ei ole nimeä, ja varmistetaan määrän numeerisuus
         ingredients: rawData.ingredients
           .filter((ing: any) => ing.name && ing.name.trim() !== '')
@@ -115,7 +114,7 @@ export class RecipeAdd {
       console.log('Sending cleaned data:', cleanedData);
 
       // Kutsutaan palvelua reseptin tallentamiseksi
-      this.addRecipeService.createRecipe(cleanedData).subscribe({
+      this.recipeService.createRecipe(cleanedData).subscribe({
         next: (res) => {
           alert('Recipe created successfully!');
           // Ohjataan käyttäjä takaisin etusivulle onnistuneen tallennuksen jälkeen
