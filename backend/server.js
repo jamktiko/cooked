@@ -18,7 +18,7 @@ const cors = require('cors');
 app.use(
   cors({
     origin: 'http://localhost:4200',
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
