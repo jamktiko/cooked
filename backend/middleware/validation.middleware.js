@@ -8,7 +8,7 @@ const recipeSchema = Joi.object({
     'any.required': 'Nimi on pakollinen kenttä',
   }),
   description: Joi.string().max(1000).allow(''),
-  image: Joi.string().uri().allow('').default('Tähän oletuskuvan URL!'),
+  image: Joi.string().allow(''),
   public: Joi.boolean().default(false),
   tags: Joi.array().items(Joi.string()),
   ingredients: Joi.array()
