@@ -32,7 +32,6 @@ export class AuthService {
         const syncData = {
           cognitoId: userData.sub,
           email: userData.email,
-          name: userData.name || userData.preferred_username || userData.email,
         };
 
         console.log('Lähetetään käyttäjä backendille:', syncData);
@@ -60,7 +59,7 @@ export class AuthService {
     this.oidcSecurityService.logoffLocal();
     window.location.href = `${environment.cognitoDomain}/logout?client_id=${environment.clientId}&logout_uri=${encodeURIComponent(environment.logoutUri)}`;
   }
-  // 
+  //
   getAccessToken() {
     return this.oidcSecurityService.getAccessToken();
   }

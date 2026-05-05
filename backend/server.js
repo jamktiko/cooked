@@ -39,10 +39,10 @@ mongoose
 // Reittien kytkeminen
 
 // Julkiset reseptireitit
-app.use('/recipes', publicRoutes);
+app.use('/api/recipes', publicRoutes);
 
 // Yksityiset suojatut reseptireitit
-app.use('/my-recipes', checkAuth, privateRoutes);
+app.use('/api/my-recipes', checkAuth, privateRoutes);
 
 // Käyttäjään liittyvät reitit
 app.use('/api/user', checkAuth, userRoutes);
