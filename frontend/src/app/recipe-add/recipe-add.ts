@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { RecipeService } from '../services/recipe.service';
+import { AddRecipeService } from '../services/addrecipe.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,12 +9,12 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './recipe-add.html',
-  providers: [RecipeService],
+  providers: [AddRecipeService],
   styleUrl: './recipe-add.css',
 })
 export class RecipeAdd {
   private fb = inject(FormBuilder);
-  private recipeService = inject(RecipeService);
+  private addRecipeService = inject(AddRecipeService);
   private router = inject(Router);
 
   // Lomakkeen pääryhmä
@@ -115,7 +115,7 @@ export class RecipeAdd {
       console.log('Sending cleaned data:', cleanedData);
 
       // Kutsutaan palvelua reseptin tallentamiseksi
-      this.recipeService.createRecipe(cleanedData).subscribe({
+      this.addRecipeService.createRecipe(cleanedData).subscribe({
         next: (res) => {
           alert('Recipe created successfully!');
           // Ohjataan käyttäjä takaisin etusivulle onnistuneen tallennuksen jälkeen

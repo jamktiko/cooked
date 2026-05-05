@@ -8,7 +8,7 @@ import { AuthService } from '../auth/auth.service';
 @Injectable({
   providedIn: 'root',
 })
-export class RecipeService {
+export class AddRecipeService {
   private http = inject(HttpClient);
   private authService = inject(AuthService);
 
