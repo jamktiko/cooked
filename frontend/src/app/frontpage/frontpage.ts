@@ -2,13 +2,6 @@ import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Recipecard } from '../recipecard/recipecard';
 import { Navbar } from '../navbar/navbar';
-<<<<<<< HEAD
-import { Uploadimg } from '../uploadimg/uploadimg';
-
-@Component({
-  selector: 'app-frontpage',
-  imports: [Recipecard, Navbar, Uploadimg],
-=======
 import { Recipe } from '../models/recipe.model';
 import { RecipeService } from '../services/recipe.service';
 
@@ -16,7 +9,6 @@ import { RecipeService } from '../services/recipe.service';
   selector: 'app-frontpage',
   standalone: true,
   imports: [CommonModule, Recipecard, Navbar],
->>>>>>> main
   templateUrl: './frontpage.html',
   styleUrl: './frontpage.css',
 })
