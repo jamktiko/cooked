@@ -7,7 +7,7 @@
         <br>
         <label for="info">Description</label>
         <textarea id="info" type="text" formControlName="info" ></textarea>
-        <p>Tähän vielä profiilikuvan lataus</p>
+        <app-uploadimg folder="profiles" (fileSelected)="onImageSelected($event)"></app-uploadimg>
         <button type="submit" [disabled]="!profileForm.valid">Submit</button>
     </form>
 </div>
