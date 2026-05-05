@@ -12,4 +12,5 @@ import { RouterModule } from '@angular/router';
 })
 export class Recipecard {
   @Input() recipe!: Recipe;
+  @Input() isOwnRecipe: boolean = false;
 }

@@ -25,14 +25,20 @@ export class RecipeService {
     // Jos backendissä on eri reitti, tarkista se (esim. `${this.publicUrl}/${id}`)
     return this.http.get<Recipe>(`${this.publicUrl}/${id}`);
   }
+
+  // Hakee listan omina reseptejä (Grid-näkymää varten)
+  getMyRecipes(): Observable<Recipe[]> {
+    return this.http.get<Recipe[]>(this.apiUrl); // GET /api/my-recipes/
+  }
+
+  // Hakee yhden oman reseptin kaikki tiedot (Muokkausta/Katselua varten)
+  getMyRecipeById(id: string): Observable<Recipe> {
+    return this.http.get<Recipe>(`${this.apiUrl}/${id}`); // GET /api/my-recipes/:id
+  }
   // Luo uuden reseptin, vaatii autentikoinnin
   createRecipe(recipeData: Recipe): Observable<Recipe> {
     // Hakee Access Token
-    const token = this.authService.getAccessToken();
 
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-    return this.http.post<Recipe>(`${this.apiUrl}/create`, recipeData, { headers });
+    return this.http.post<Recipe>(`${this.apiUrl}/create`, recipeData);
   }
 }

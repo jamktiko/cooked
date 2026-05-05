@@ -1,0 +1,24 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div class="page-header">
+    <h1>Omat reseptit</h1>
+    <p>Hallitse ja muokkaa omia keitoksiasi.</p>
+  </div>
+
+  @if (loading) {
+    <div class="loader">Ladataan omia reseptejäsi...</div>
+  } @else {
+    <div class="recipe-grid">
+      @for (r of myRecipes; track r._id) {
+        <app-recipecard [recipe]="r" [isOwnRecipe]="true"></app-recipecard>
+      } @empty {
+        <div class="empty-state">
+          <h3>Täällä on vielä tyhjää...</h3>
+          <p>Et ole vielä luonut yhtään omaa reseptiä.</p>
+          <button routerLink="/add" class="btn-primary">Lisää uusi resepti</button>
+        </div>
+      }
+    </div>
+  }
+</div>

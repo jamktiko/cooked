@@ -117,8 +117,8 @@ export class RecipeAdd {
       this.recipeService.createRecipe(cleanedData).subscribe({
         next: (res) => {
           alert('Recipe created successfully!');
-          // Ohjataan käyttäjä takaisin etusivulle onnistuneen tallennuksen jälkeen
-          this.router.navigate(['/frontpage']);
+          // Ohjataan käyttäjä takaisin omalle sivulle onnistuneen tallennuksen jälkeen
+          this.router.navigate(['/my-recipes']);
         },
         error: (err) => {
           // Logataan virhe, jos tallennus epäonnistuu (esim. 401 tai 500 -virheet)
