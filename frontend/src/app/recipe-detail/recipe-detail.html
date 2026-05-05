@@ -1,0 +1,62 @@
+<app-navbar></app-navbar>
+
+<div class="recipe-detail-container">
+  @if (recipe) {
+    <div class="image-wrapper">
+      <img [src]="recipe.image || '/taustakuva_cooked.png'" [alt]="recipe.name" />
+    </div>
+    <div class="recipe-hero">
+      <div class="header-content">
+        <h1>{{ recipe.name }}</h1>
+        <p class="description">{{ recipe.description }}</p>
+
+        <div class="meta-info">
+          <div class="info-item">
+            <span class="label">Duration:</span>
+            <span class="value">{{ recipe.duration }} minutes</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Servings:</span>
+            <span class="value">{{ recipe.servings }} servings</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Tags:</span>
+            @for (tag of recipe.tags; track tag) {
+              <span class="tag-badge">#{{ tag }}</span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="recipe-main-content">
+      <section class="ingredients-card">
+        <h2>Ingredients</h2>
+        <ul>
+          @for (ing of recipe.ingredients; track ing._id) {
+            <li>
+              <span class="amount-unit">{{ ing.amount }} {{ ing.unit }}</span>
+              <span class="ingredient-name">{{ ing.name }}</span>
+            </li>
+          }
+        </ul>
+      </section>
+
+      <section class="directions-card">
+        <h2>Directions</h2>
+        <div class="instruction-steps">
+          @for (step of recipe.directions; track $index; let i = $index) {
+            <div class="step">
+              <span class="step-num">{{ i + 1 }}</span>
+              <p>{{ step }}</p>
+            </div>
+          }
+        </div>
+      </section>
+    </div>
+  } @else {
+    <div class="loading">
+      <p>Loading recipe...</p>
+    </div>
+  }
+</div>

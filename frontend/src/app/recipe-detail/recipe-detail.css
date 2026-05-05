@@ -1,0 +1,133 @@
+.recipe-detail-container {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+
+/* Hero-osio (Kuva + Otsikko) */
+.recipe-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 50px;
+  align-items: center;
+}
+
+.image-wrapper img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.tag-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 15px 0;
+  color: #1a1a1a;
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.meta-info {
+  display: flex;
+  gap: 30px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.info-item .label {
+  display: block;
+  font-size: 0.8rem;
+  color: #999;
+  text-transform: uppercase;
+}
+
+.info-item .value {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Pääsisältö (Ainekset ja Ohjeet) */
+.recipe-main-content {
+  display: grid;
+  grid-template-columns: 350px 1fr;
+  gap: 60px;
+}
+
+h2 {
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  border-bottom: 3px solid #4caf50;
+  display: inline-block;
+  padding-bottom: 5px;
+}
+
+/* Ainekset */
+.ingredients-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.ingredients-card li {
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+}
+
+.amount-unit {
+  min-width: 90px;
+  font-weight: 700;
+  color: #4caf50;
+}
+
+/* Ohjeet */
+.step {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.step-num {
+  background: #4caf50;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: bold;
+}
+
+/* Mobiili */
+@media (max-width: 850px) {
+  .recipe-hero,
+  .recipe-main-content {
+    grid-template-columns: 1fr;
+  }
+  .recipe-hero {
+    text-align: center;
+  }
+  .meta-info {
+    justify-content: center;
+  }
+}
