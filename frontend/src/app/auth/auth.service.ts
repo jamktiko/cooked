@@ -4,7 +4,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { combineLatest } from 'rxjs';
-import { delay, take } from 'rxjs/operators';
+import { delay, map, take } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -52,7 +52,9 @@ export class AuthService {
   login() {
     this.oidcSecurityService.authorize();
   }
-
+  isLoggedIn$() {
+    return this.oidcSecurityService.isAuthenticated$.pipe(map((result) => result.isAuthenticated));
+  }
   // Logout funktio rakennettu näin koska cogniton vaatii ohjauksen sen omaan päätepisteeseen /logout?...
   // jos käyttää oidcSecurityService.logoff() metodia niin ohjausta ei toimi ja sessio ei kirjaudu ulos aws päädyssä
   logout() {

@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
   try {
     // req.user.sub tulee Cognitosta
     const recipes = await Recipe.find({ sub: req.user.sub })
-      .select('name image created description tags')
+      .select('name image created description tags duration servings')
       .sort({
         created: -1,
       });

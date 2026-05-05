@@ -32,7 +32,7 @@ export class RecipeDetail implements OnInit {
           this.loading = false;
         },
         error: (err) => {
-          console.error('Haku epäonnistui', err);
+          console.error('Error fetching recipe:', err);
           this.loading = false;
           this.error = true;
         },

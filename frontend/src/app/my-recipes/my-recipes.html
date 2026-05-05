@@ -1,0 +1,23 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div class="page-header">
+    <h1>My recipe collection</h1>
+    <p>{{ recipeStats }}</p>
+  </div>
+
+  @if (loading) {
+    <div class="loader">Loading your recipes...</div>
+  } @else {
+    <div class="recipe-grid">
+      @for (r of myRecipes; track r._id) {
+        <app-recipecard [recipe]="r" [isOwnRecipe]="true"></app-recipecard>
+      } @empty {
+        <div class="empty-state">
+          <h3>No recipes here yet...</h3>
+          <p>You haven't created any recipes yet.</p>
+        </div>
+      }
+    </div>
+  }
+</div>
