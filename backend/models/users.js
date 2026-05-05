@@ -20,14 +20,15 @@ const UserSchema = new mongoose.Schema({
     maxlength: [500, 'Kuvaus on liian pitkä'],
   },
 
-  first_name: {
+  username: {
     type: String,
-    trim: true,
+    unique: true,
+    sparse: true,
   },
 
-  last_name: {
-    type: String,
-    trim: true,
+  isProfileComplete: {
+    type: Boolean,
+    default: false,
   },
 
   email: {
