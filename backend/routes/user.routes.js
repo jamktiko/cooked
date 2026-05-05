@@ -33,7 +33,7 @@ router.post('/sync', async (req, res) => {
       },
     );
 
-    console.log(`User ${user.user_name} synced with database.`);
+    console.log(`User ${user.username} synced with database.`);
     res.status(200).json(user);
   } catch (error) {
     console.error('SYNC ERROR DETAILS:', error); // TÄMÄ ON LISÄTTY: logittaa koko virheen, ei vain viestiä
@@ -54,4 +54,30 @@ router.get('/me', async (req, res) => {
   }
 });
 
+// 3. Käyttäjän profiilin viimeistely
+router.patch('/complete-profile', async (req, res) => {
+  try {
+    const { username, info } = req.body;
+    const sub = req.user.sub;
+    const updatedUser = await User.findOneAndUpdate(
+      { sub: sub },
+      {
+        $set: {
+          username: username,
+          info: info,
+          isProfileComplete: true,
+        },
+      },
+      { new: true, runValidators: true },
+    );
+    if (!updatedUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(updatedUser);
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: 'error in updating profile', error: err.message });
+  }
+});
 module.exports = router;
