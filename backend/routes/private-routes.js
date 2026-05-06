@@ -123,4 +123,46 @@ router.delete('/delete/:id', async (req, res) => {
   }
 });
 
+// Omien yksityisten reseptien haku (Etsii omasta "valikoimasta")
+router.get('/search', async (req, res) => {
+  try {
+    const searchQuery = req.query.q;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    if (!searchQuery) {
+      return res.status(400).json({ error: 'Hakusana (q) on pakollinen' });
+    }
+
+    // Etsii vain tälle käyttäjälle (sub) kuuluvat reseptit
+    const recipes = await Recipe.find(
+      {
+        sub: req.user.sub,
+        $text: { $search: searchQuery },
+      },
+      { score: { $meta: 'textScore' } },
+    )
+      .select('name image created description tags duration servings')
+      .sort({ score: { $meta: 'textScore' } })
+      .skip(skip)
+      .limit(limit);
+
+    const totalCount = await Recipe.countDocuments({
+      sub: req.user.sub,
+      $text: { $search: searchQuery },
+    });
+
+    res.json({
+      recipes,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
+  } catch (err) {
+    console.error('Private search error:', err.message);
+    res.status(500).json({ error: 'Haku epäonnistui' });
+  }
+});
+
 module.exports = router;

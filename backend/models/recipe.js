@@ -44,5 +44,25 @@ const RecipeSchema = new mongoose.Schema({
     default: false,
   },
 });
+// Määritellään tekstihakuindeksi hakutoiminnallisuutta varten
+RecipeSchema.index(
+  {
+    name: 'text',
+    tags: 'text',
+    'ingredients.name': 'text',
+    description: 'text',
+  },
+  {
+    // Painoarvot: määrittää mikä kenttä on tärkein hakutuloksen osumatarkkuudessa
+    weights: {
+      name: 10, // Osuma nimessä on tärkein
+      tags: 5, // Tägit ovat vahvoja avainsanoja
+      'ingredients.name': 3, // Ainesosat ovat tärkeitä erityisesti "mitä jääkaapista löytyy" -hauissa
+      description: 1, // Kuvaus tuo lisäkontekstia, mutta on vähemmän painava
+    },
+    name: 'recipe_text_index', // Indeksin nimi tietokannassa
+    default_language: 'fi', // Suomen kielen tuki (jos sanot "porkkanoita", haku ymmärtää myös "porkkana")
+  },
+);
 
 module.exports = mongoose.model('Recipe', RecipeSchema, 'recipes');
