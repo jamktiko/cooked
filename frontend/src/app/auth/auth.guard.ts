@@ -14,7 +14,7 @@ export const authGuard: CanActivateFn = () => {
         return true;
       } else {
         // Jos ei olla kirjautuneita, ohjataan kirjautumissivulle (tai kutsutaan authorize())
-        router.navigate(['/frontpage']); // Tai minne haluatkin ohjata
+        router.navigate(['/frontpage']);
         return false;
       }
     }),
