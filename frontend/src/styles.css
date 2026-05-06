@@ -1,3 +1,15 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --color-cooked-bg: #fdf5e6;
+  --color-cooked-header: #e1f3f3;
+  --color-cooked-dark: #305252;
+  --color-cooked-orange: #fbc091;
+  --color-cooked-light: #fedabd;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 70px;
+  }
+}
