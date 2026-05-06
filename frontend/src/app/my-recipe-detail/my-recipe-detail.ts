@@ -38,17 +38,17 @@ export class MyRecipeDetail implements OnInit {
     const id = this.recipe?._id;
     if (!id) return;
 
-    if (confirm('Haluatko varmasti poistaa tämän reseptin?')) {
+    if (confirm('Are you sure you want to delete this recipe?')) {
       this.recipeService.deleteRecipe(id).subscribe({
         // Määritellään response tyypiksi 'any' tai luodaan sille interface
         next: (response: any) => {
-          console.log('Poisto onnistui:', response.message);
+          console.log('Delete successful:', response.message);
           this.router.navigate(['/my-recipes']);
         },
         // Määritellään err tyypiksi 'any'
         error: (err: any) => {
-          console.error('Poisto epäonnistui:', err);
-          alert('Reseptin poistaminen epäonnistui.');
+          console.error('Delete failed:', err);
+          alert('Failed to delete the recipe due to a server error.');
         },
       });
     }

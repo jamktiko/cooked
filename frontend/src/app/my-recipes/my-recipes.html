@@ -11,7 +11,12 @@
   } @else {
     <div class="recipe-grid">
       @for (r of myRecipes; track r._id) {
-        <app-recipecard [recipe]="r" [isOwnRecipe]="true"></app-recipecard>
+        <app-recipecard
+          [recipe]="r"
+          [canDelete]="true"
+          [isOwnRecipe]="true"
+          (deleteRequest)="onDeleteRecipe($event)"
+        ></app-recipecard>
       } @empty {
         <div class="empty-state">
           <h3>No recipes here yet...</h3>
