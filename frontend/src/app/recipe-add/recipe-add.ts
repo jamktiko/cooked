@@ -5,11 +5,12 @@ import { RecipeService } from '../services/recipe.service';
 import { Router } from '@angular/router';
 import { Uploadimg } from '../uploadimg/uploadimg';
 import { Uploadservice } from '../services/uploadservice';
+import { Navbar } from '../navbar/navbar';
 
 @Component({
   selector: 'app-recipe-add',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, Uploadimg],
+  imports: [CommonModule, ReactiveFormsModule, Uploadimg, Navbar],
   templateUrl: './recipe-add.html',
   styleUrl: './recipe-add.css',
 })
@@ -113,7 +114,7 @@ export class RecipeAdd {
   }
 
   private saveRecipe(imageKey?: string) {
-    console.log(imageKey + 'tässä image key')
+    console.log(imageKey + 'tässä image key');
     const rawData = this.recipeForm.value;
 
     const cleanedData = {
