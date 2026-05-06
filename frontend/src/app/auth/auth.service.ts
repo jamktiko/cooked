@@ -59,7 +59,11 @@ export class AuthService {
   // jos käyttää oidcSecurityService.logoff() metodia niin ohjausta ei toimi ja sessio ei kirjaudu ulos aws päädyssä
   logout() {
     this.oidcSecurityService.logoffLocal();
-    window.location.href = `${environment.cognitoDomain}/logout?client_id=${environment.clientId}&logout_uri=${encodeURIComponent(environment.logoutUri)}`;
+
+    // TÄRKEÄÄ: Tässä pitää lukea ...cognito.com/logout (eikä /login)
+    const logoutUrl = `${environment.cognitoDomain}/logout?client_id=${environment.clientId}&logout_uri=${encodeURIComponent(environment.logoutUri)}`;
+
+    window.location.href = logoutUrl;
   }
   //
   getAccessToken() {

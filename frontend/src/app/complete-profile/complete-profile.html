@@ -1,13 +1,23 @@
 <app-navbar></app-navbar>
 <div>
-    <h1>Viimeistele profiilisi</h1>
-    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-        <label for="username">Username: </label>
-        <input id="username" type="text" formControlName="username" />
-        <br>
-        <label for="info">Description</label>
-        <textarea id="info" type="text" formControlName="info" ></textarea>
-        <app-uploadimg folder="profiles" (fileSelected)="onImageSelected($event)"></app-uploadimg>
-        <button type="submit" [disabled]="!profileForm.valid">Submit</button>
-    </form>
+  <h1>Viimeistele profiilisi</h1>
+  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <label for="username">Username: </label>
+    <input id="username" type="text" formControlName="username" />
+    <br />
+    <label for="info">Description</label>
+    <textarea id="info" type="text" formControlName="info"></textarea>
+    <app-uploadimg folder="profiles" (fileSelected)="onImageSelected($event)"></app-uploadimg>
+    <button type="submit" [disabled]="!profileForm.valid">Submit</button>
+
+    <!-- Uusi Logout-nappi -->
+    <br />
+    <button
+      (click)="logout()"
+      type="button"
+      class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition"
+    >
+      Kirjaudu ulos
+    </button>
+  </form>
 </div>
