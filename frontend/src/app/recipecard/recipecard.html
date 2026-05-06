@@ -1,15 +1,27 @@
 @if (recipe) {
   <div class="recipe-card" [routerLink]="[isOwnRecipe ? '/my-recipe' : '/recipe', recipe._id]">
     <div class="card-image">
+      @if (canDelete) {
+        <div class="menu-container">
+          <button class="menu-dots" (click)="toggleMenu($event)">&#8942;</button>
+
+          @if (menuOpen) {
+            <div class="dropdown-menu">
+              <button (click)="requestDelete($event)">Poista resepti</button>
+            </div>
+          }
+        </div>
+      }
       <img [src]="recipe.image | s3Url" alt="Reseptin kuva" />
     </div>
+
     <div class="card-body">
       <h3 class="recipe-title">{{ recipe.name }}</h3>
       <p class="recipe-description">{{ recipe.description }}</p>
 
       <div class="recipe-meta">
-        <span class="meta-item">{{ recipe.duration }} minutes</span>
-        <span class="meta-item">{{ recipe.servings }} servings</span>
+        <span class="meta-item">{{ recipe.duration }} min</span>
+        <span class="meta-item">{{ recipe.servings }} annosta</span>
       </div>
     </div>
   </div>

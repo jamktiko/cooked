@@ -5,7 +5,6 @@ import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
 import { Recipecard } from '../recipecard/recipecard';
 import { Navbar } from '../navbar/navbar';
-import { S3UrlPipe } from '../pipes/s3-url-pipe';
 
 @Component({
   selector: 'app-my-recipes',
@@ -32,10 +31,28 @@ export class MyRecipes implements OnInit {
       },
     });
   }
+
+  // Reseptien määrä
   get recipeStats(): string {
     const count = this.myRecipes.length;
     if (count === 0) return '0 recipe';
     if (count === 1) return '1 recipe';
     return `${count} recipes`;
+  }
+
+  // Reseptin poisto
+  onDeleteRecipe(id: string): void {
+    if (confirm('Do you really want to delete this recipe?')) {
+      this.recipeService.deleteRecipe(id).subscribe({
+        next: (response: any) => {
+          console.log('Delete successful:', response.message);
+          this.myRecipes = this.myRecipes.filter((r) => r._id !== id);
+        },
+        error: (err: any) => {
+          console.error('Delete failed:', err);
+          alert('Failed to delete the recipe due to a server error.');
+        },
+      });
+    }
   }
 }

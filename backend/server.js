@@ -53,6 +53,4 @@ app.use('/api/aws', awsRoutes);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  console.log(`Test all public recipes at: http://localhost:${PORT}/recipes`);
-  console.log(`Test my recipes at: http://localhost:${PORT}/my-recipes`);
 });

@@ -37,4 +37,7 @@ export class RecipeService {
   createRecipe(recipeData: Recipe): Observable<Recipe> {
     return this.http.post<Recipe>(`${this.apiUrl}/create`, recipeData);
   }
+  deleteRecipe(id: string): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/delete/${id}`);
+  }
 }
