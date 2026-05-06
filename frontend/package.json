@@ -28,8 +28,11 @@
     "@angular/forms": "^21.2.10",
     "@angular/platform-browser": "^21.2.10",
     "@angular/router": "^21.2.10",
+    "@tailwindcss/postcss": "^4.2.4",
     "angular-auth-oidc-client": "^21.0.1",
+    "postcss": "^8.5.14",
     "rxjs": "~7.8.0",
+    "tailwindcss": "^4.2.4",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

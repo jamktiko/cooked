@@ -1,7 +1,61 @@
-<div>
-  <a class="link" href="/login">Login</a>
-  <a class="link" href="/frontpage">frontpage</a>
-  <a class="link" href="/new-recipe">Add Recipe</a>
-  <a class="link" href="/complete-profile">complete profile</a>
-  <a class="link" href="/my-recipes">my recipes</a>
-</div>
+<nav
+  class="fixed bottom-0 z-[100] flex h-[64px] w-full items-center justify-around border-t border-cooked-orange/30 bg-cooked-bg md:static md:top-0 md:h-[60px] md:justify-between md:border-none md:px-6 md:shadow-md"
+>
+  <!-- Logo (Vain desktop) -->
+  <div class="hidden items-center gap-2 text-xl font-bold tracking-wide text-cooked-dark md:flex">
+    <i class="fas fa-fire-alt text-cooked-orange"></i> Cooked
+  </div>
+
+  <!-- Linkit -->
+  <div class="flex h-full w-full items-center justify-around md:w-auto md:gap-2">
+    <a
+      href="/frontpage"
+      class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
+    >
+      <i
+        class="fas fa-fire-alt text-xl transition-transform group-hover:-translate-y-0.5 md:text-lg md:group-hover:translate-y-0 md:group-hover:scale-110"
+      ></i>
+      <span class="mt-1 md:mt-0 md:ml-2">Home</span>
+    </a>
+
+    <a
+      href="/my-recipes"
+      class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
+    >
+      <i
+        class="fas fa-book text-xl transition-transform group-hover:-translate-y-0.5 md:text-lg md:group-hover:translate-y-0 md:group-hover:scale-110"
+      ></i>
+      <span class="mt-1 md:mt-0 md:ml-2">Recipes</span>
+    </a>
+
+    <a
+      href="/new-recipe"
+      class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
+    >
+      <i
+        class="fas fa-plus text-xl transition-transform group-hover:-translate-y-0.5 md:text-lg md:group-hover:translate-y-0 md:group-hover:scale-110"
+      ></i>
+      <span class="mt-1 md:mt-0 md:ml-2">Add</span>
+    </a>
+
+    <a
+      href="/complete-profile"
+      class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
+    >
+      <i
+        class="fas fa-user-circle text-xl transition-transform group-hover:-translate-y-0.5 md:text-lg md:group-hover:translate-y-0 md:group-hover:scale-110"
+      ></i>
+      <span class="mt-1 md:mt-0 md:ml-2">Profile</span>
+    </a>
+
+    <a
+      href="/login"
+      class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
+    >
+      <i
+        class="fas fa-sign-in-alt text-xl transition-transform group-hover:-translate-y-0.5 md:text-lg md:group-hover:translate-y-0 md:group-hover:scale-110"
+      ></i>
+      <span class="mt-1 md:mt-0 md:ml-2">Login</span>
+    </a>
+  </div>
+</nav>
