@@ -3,7 +3,7 @@
 <div class="recipe-detail-container">
   @if (recipe) {
     <div class="image-wrapper">
-      <img [src]="recipe.image || '/taustakuva_cooked.png'" [alt]="recipe.name" />
+      <img [src]="recipe.image | s3Url" alt="{{ recipe.name }}" class="recipe-image" />
     </div>
     <div class="recipe-hero">
       <div class="header-content">

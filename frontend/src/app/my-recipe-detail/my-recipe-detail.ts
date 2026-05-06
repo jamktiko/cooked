@@ -5,6 +5,7 @@ import { Recipe } from '../models/recipe.model';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
 import { S3UrlPipe } from '../pipes/s3-url-pipe';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-recipe-detail',
@@ -15,6 +16,7 @@ import { S3UrlPipe } from '../pipes/s3-url-pipe';
 })
 export class MyRecipeDetail implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private recipeService = inject(RecipeService);
 
   recipe: Recipe | undefined;
@@ -28,6 +30,25 @@ export class MyRecipeDetail implements OnInit {
         },
         error: (err) => {
           console.error('Error fetching my recipe:', err);
+        },
+      });
+    }
+  }
+  onDeleteRecipe(): void {
+    const id = this.recipe?._id;
+    if (!id) return;
+
+    if (confirm('Haluatko varmasti poistaa tämän reseptin?')) {
+      this.recipeService.deleteRecipe(id).subscribe({
+        // Määritellään response tyypiksi 'any' tai luodaan sille interface
+        next: (response: any) => {
+          console.log('Poisto onnistui:', response.message);
+          this.router.navigate(['/my-recipes']);
+        },
+        // Määritellään err tyypiksi 'any'
+        error: (err: any) => {
+          console.error('Poisto epäonnistui:', err);
+          alert('Reseptin poistaminen epäonnistui.');
         },
       });
     }
