@@ -6,6 +6,6 @@ export const environment = {
   logoutUri: 'http://localhost:4200',
   cognitoDomain: 'https://eu-north-1hn9usnbwy.auth.eu-north-1.amazoncognito.com',
   clientId: '31r3baig5pejtegiqopu61pt3',
-  // TÄMÄ ON TÄRKEÄ: Ohjaa takaisin omalle koneelle
   redirectUrl: 'http://localhost:4200/login',
+  s3BaseUrl: 'https://cookedmedia.s3.eu-north-1.amazonaws.com',
 };

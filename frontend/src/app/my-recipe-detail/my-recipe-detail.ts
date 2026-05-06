@@ -4,11 +4,12 @@ import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
 import { CommonModule } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
+import { S3UrlPipe } from '../pipes/s3-url-pipe';
 
 @Component({
   selector: 'app-my-recipe-detail',
   standalone: true,
-  imports: [CommonModule, Navbar],
+  imports: [CommonModule, Navbar, S3UrlPipe],
   templateUrl: './my-recipe-detail.html',
   styleUrl: './my-recipe-detail.css',
 })
