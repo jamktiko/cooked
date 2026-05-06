@@ -1,7 +1,7 @@
 @if (recipe) {
   <div class="recipe-card" [routerLink]="[isOwnRecipe ? '/my-recipe' : '/recipe', recipe._id]">
     <div class="card-image">
-      <img [src]="recipe.image || '/taustakuva_cooked.png'" alt="{{ recipe.name }}" />
+      <img [src]="recipe.image | s3Url" alt="Reseptin kuva" />
     </div>
     <div class="card-body">
       <h3 class="recipe-title">{{ recipe.name }}</h3>

@@ -5,6 +5,7 @@ import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
 import { Recipecard } from '../recipecard/recipecard';
 import { Navbar } from '../navbar/navbar';
+import { S3UrlPipe } from '../pipes/s3-url-pipe';
 
 @Component({
   selector: 'app-my-recipes',
