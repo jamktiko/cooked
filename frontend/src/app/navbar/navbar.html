@@ -1,10 +1,8 @@
-<nav
-  class="fixed bottom-0 z-[100] flex h-[64px] w-full items-center justify-around border-t border-cooked-orange/30 bg-cooked-bg md:static md:top-0 md:h-[60px] md:justify-between md:border-none md:px-6 md:shadow-md"
->
-  <!-- Logo (Vain desktop) -->
-  <div class="hidden items-center gap-2 text-xl font-bold tracking-wide text-cooked-dark md:flex">
-    <i class="fas fa-fire-alt text-cooked-orange"></i> Cooked
-  </div>
+<div class="md:hidden sticky top-0 z-50 bg-cooked-light px-6 py-3 shadow-sm flex justify-center">
+  <a href="/frontpage" class="block">
+    <img src="cooked_logo.png" alt="Cooked" class="h-10 w-auto" />
+  </a>
+</div>
 
   <!-- Kaikki Linkit samassa paketissa -->
   <div class="flex h-full w-full items-center justify-around md:w-auto md:gap-2">
@@ -52,25 +50,94 @@
       ></i>
       <span class="mt-1 md:mt-0 md:ml-2">Profile</span>
     </a>
+<header class="hidden md:block sticky top-0 z-50 bg-cooked-light px-6 py-4 shadow-sm font-bebas">
+  <div class="mx-auto flex max-w-6xl items-center justify-between">
+    <a href="/frontpage" class="block">
+      <img src="cooked_logo.png" alt="Cooked" class="h-14 w-auto" />
+    </a>
 
-    @if (!(isUserLoggedIn$ | async)) {
-      <div class="flex flex-none md:gap-2">
+    <nav class="flex items-center gap-3">
+      <a
+        href="/frontpage"
+        class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
+        >Home</a
+      >
+
+      @if (isUserLoggedIn$ | async) {
+        <a
+          href="/my-recipes"
+          class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
+          >My Recipes</a
+        >
+        <a
+          href="/new-recipe"
+          class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
+          >Add Recipe</a
+        >
+        <a
+          href="/swipe"
+          class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 shadow-sm transition-all hover:bg-orange-600 hover:text-white"
+          ><i class="fa-solid fa-random"></i
+        ></a>
+        <a
+          href="/complete-profile"
+          class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 shadow-sm transition-all hover:bg-orange-600 hover:text-white"
+          ><i class="fas fa-user-circle"></i
+        ></a>
+      }
+
+      @if (!(isUserLoggedIn$ | async)) {
         <a
           (click)="login()"
-          class="cursor-pointer group flex flex-col items-center justify-center px-3 text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
+          class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm cursor-pointer transition-all hover:bg-orange-600 hover:text-white"
+          >Sign In</a
         >
-          <i class="fas fa-sign-in-alt text-xl md:text-lg"></i>
-          <span class="mt-1 md:mt-0 md:ml-2">Login</span>
-        </a>
-
         <a
           (click)="login()"
-          class="cursor-pointer group flex flex-col items-center justify-center px-3 text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
+          class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm cursor-pointer transition-all hover:bg-orange-600 hover:text-white"
+          >Sign Up</a
         >
-          <i class="fas fa-user-plus text-xl md:text-lg"></i>
-          <span class="mt-1 md:mt-0 md:ml-2 font-semibold">Sign Up</span>
-        </a>
-      </div>
-    }
+      }
+    </nav>
   </div>
+</header>
+
+<nav
+  class="fixed bottom-0 z-50 flex h-[80px] w-full border-t border-black/5 bg-cooked-orange font-bebas md:hidden"
+>
+  <a href="/frontpage" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+    <i class="fas fa-fire-alt text-xl opacity-70"></i>
+    <span class="mt-1 text-[13px] uppercase">Home</span>
+  </a>
+
+  @if (isUserLoggedIn$ | async) {
+    <a href="/my-recipes" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+      <i class="fas fa-book text-xl opacity-70"></i>
+      <span class="mt-1 text-[13px] uppercase">Recipes</span>
+    </a>
+    <a href="/new-recipe" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+      <i class="fas fa-plus text-xl opacity-70"></i>
+      <span class="mt-1 text-[13px] uppercase">Add recipe</span>
+    </a>
+    <a href="/swipe" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+      <i class="fas fa-random text-xl opacity-70"></i>
+      <span class="mt-1 text-[13px] uppercase">Swipe</span>
+    </a>
+    <a
+      href="/complete-profile"
+      class="flex flex-1 flex-col items-center justify-center text-zinc-800"
+    >
+      <i class="fas fa-user-circle text-xl opacity-70"></i>
+      <span class="mt-1 text-[13px] uppercase">Profile</span>
+    </a>
+  } @else {
+    <a (click)="login()" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+      <i class="fas fa-sign-in-alt text-xl opacity-70"></i>
+      <span class="mt-1 text-[13px] uppercase">Sign In</span>
+    </a>
+    <a (click)="login()" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+      <i class="fas fa-user-plus text-xl opacity-70"></i>
+      <span class="mt-1 text-[13px] uppercase">Sign Up</span>
+    </a>
+  }
 </nav>

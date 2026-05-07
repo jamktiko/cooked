@@ -7,6 +7,9 @@ import { CompleteProfile } from './complete-profile/complete-profile';
 import { authGuard } from './auth/auth.guard';
 import { MyRecipes } from './my-recipes/my-recipes';
 import { MyRecipeDetail } from './my-recipe-detail/my-recipe-detail';
+import { Swipe } from './swipe/swipe';
+import { RecipeEdit } from './recipe-edit/recipe-edit';
+
 import { Profile } from './profile/profile';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -31,6 +34,12 @@ export const routes: Routes = [
     component: RecipeAdd,
     canActivate: [authGuard],
   },
+  {
+    path: 'swipe',
+    component: Swipe,
+    canActivate: [authGuard],
+  },
+  { path: 'edit-recipe/:id', component: RecipeEdit, canActivate: [authGuard] },
   {
     path: 'profile',
     component: Profile,
