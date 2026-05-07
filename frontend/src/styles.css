@@ -8,6 +8,18 @@
   --color-cooked-light: #fedabd;
 }
 
+@layer base {
+  .font-roboto {
+    font-family: 'Roboto Condensed', sans-serif;
+  }
+  .font-sarabun {
+    font-family: 'Sarabun', sans-serif;
+  }
+  .font-bebas {
+    font-family: 'Bebas Neue', cursive;
+  }
+}
+
 @media (max-width: 768px) {
   body {
     padding-bottom: 70px;
