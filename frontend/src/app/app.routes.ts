@@ -10,6 +10,7 @@ import { MyRecipeDetail } from './my-recipe-detail/my-recipe-detail';
 import { Swipe } from './swipe/swipe';
 import { RecipeEdit } from './recipe-edit/recipe-edit';
 
+import { Profile } from './profile/profile';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'unauthorized', component: LoginComponent },
@@ -39,6 +40,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
   { path: 'edit-recipe/:id', component: RecipeEdit, canActivate: [authGuard] },
+  {
+    path: 'profile',
+    component: Profile,
+    canActivate: [authGuard],
+  },
 
   // Uudelleenohjaukset ja virhetilanteet
   { path: '', redirectTo: '/frontpage', pathMatch: 'full' },

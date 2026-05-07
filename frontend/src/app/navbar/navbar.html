@@ -1,41 +1,41 @@
 <div class="md:hidden sticky top-0 z-50 bg-cooked-light px-6 py-3 shadow-sm flex justify-center">
-  <a href="/frontpage" class="block">
+  <a routerLink="/frontpage" class="block">
     <img src="cooked_logo.png" alt="Cooked" class="h-10 w-auto" />
   </a>
 </div>
 
 <header class="hidden md:block sticky top-0 z-50 bg-cooked-light px-6 py-4 shadow-sm font-bebas">
   <div class="mx-auto flex max-w-6xl items-center justify-between">
-    <a href="/frontpage" class="block">
+    <a routerLink="/frontpage" class="block">
       <img src="cooked_logo.png" alt="Cooked" class="h-14 w-auto" />
     </a>
 
     <nav class="flex items-center gap-3">
       <a
-        href="/frontpage"
+        routerLink="/frontpage"
         class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
         >Home</a
       >
 
       @if (isUserLoggedIn$ | async) {
         <a
-          href="/my-recipes"
+          routerLink="/my-recipes"
           class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           >My Recipes</a
         >
         <a
-          href="/new-recipe"
+          routerLink="/new-recipe"
           class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           >Add Recipe</a
         >
         <a
-          href="/swipe"
+          routerLink="/swipe"
           class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           ><i class="fa-solid fa-random"></i
         ></a>
         <a
-          href="/complete-profile"
-          class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 shadow-sm transition-all hover:bg-orange-600 hover:text-white"
+          (click)="goToProfile($event)"
+          class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 cursor-pointer shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           ><i class="fas fa-user-circle"></i
         ></a>
       }
@@ -59,37 +59,37 @@
 <nav
   class="fixed bottom-0 z-50 flex h-[80px] w-full border-t border-black/5 bg-cooked-orange font-bebas md:hidden"
 >
-  <a href="/frontpage" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+  <a routerLink="/frontpage" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
     <i class="fas fa-fire-alt text-xl opacity-70"></i>
     <span class="mt-1 text-[13px] uppercase">Home</span>
   </a>
 
   @if (isUserLoggedIn$ | async) {
-    <a href="/my-recipes" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+    <a routerLink="/my-recipes" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
       <i class="fas fa-book text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Recipes</span>
     </a>
-    <a href="/new-recipe" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+    <a routerLink="/new-recipe" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
       <i class="fas fa-plus text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Add recipe</span>
     </a>
-    <a href="/swipe" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+    <a routerLink="/swipe" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
       <i class="fas fa-random text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Swipe</span>
     </a>
     <a
-      href="/complete-profile"
-      class="flex flex-1 flex-col items-center justify-center text-zinc-800"
+      (click)="goToProfile($event)"
+      class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800"
     >
       <i class="fas fa-user-circle text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Profile</span>
     </a>
   } @else {
-    <a (click)="login()" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+    <a (click)="login()" class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800">
       <i class="fas fa-sign-in-alt text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Sign In</span>
     </a>
-    <a (click)="login()" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+    <a (click)="login()" class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800">
       <i class="fas fa-user-plus text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Sign Up</span>
     </a>
