@@ -36,6 +36,7 @@ export const routes: Routes = [
   {
     path: 'swipe',
     component: Swipe,
+    canActivate: [authGuard],
   },
   { path: 'edit-recipe/:id', component: RecipeEdit, canActivate: [authGuard] },
 

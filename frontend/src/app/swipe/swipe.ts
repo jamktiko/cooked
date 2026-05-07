@@ -5,13 +5,11 @@ import { Navbar } from '../navbar/navbar';
 import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
 
-// HUOM: Varmista, että polku Recipecard-komponenttiin on oikea
 import { Recipecard } from '../recipecard/recipecard';
 
 @Component({
   selector: 'app-swipe',
   standalone: true,
-  // Lisää Recipecard tänne ja poista S3UrlPipe jos se oli
   imports: [CommonModule, Navbar, Recipecard],
   templateUrl: './swipe.html',
   styleUrl: './swipe.css',
