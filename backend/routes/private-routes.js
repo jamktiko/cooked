@@ -17,6 +17,116 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Recipes could not be retrieved' });
   }
 });
+// Omien yksityisten reseptien haku (Regex live-haku + tietoturva)
+router.get('/search', async (req, res) => {
+  try {
+    const searchQuery = req.query.q;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Turvaraja: Hakusanan maksimipituus 50 merkkiä
+    if (!searchQuery || searchQuery.length > 50) {
+      return res
+        .status(400)
+        .json({
+          error: 'Hakusana on virheellinen tai liian pitkä (max 50 merkkiä)',
+        });
+    }
+
+    // 1. Luodaan turvallinen regex-lauseke hakusanasta
+    const safeRegex = new RegExp(
+      searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+      'i',
+    );
+
+    // 2. Määritellään hakuehdot: etsi näistä kentistä, mutta VAIN käyttäjän omista resepteistä
+    const searchConditions = {
+      sub: req.user.sub,
+      $or: [
+        { name: safeRegex },
+        { description: safeRegex },
+        { 'ingredients.name': safeRegex },
+        { tags: safeRegex },
+      ],
+    };
+
+    // 3. Etsitään reseptit näillä ehdoilla
+    const recipes = await Recipe.find(searchConditions)
+      .select('name image created description tags duration servings')
+      .sort({ created: -1 })
+      .skip(skip)
+      .limit(limit)
+      .maxTimeMS(1000); // Turvamekanismi DOS-hyökkäyksiä vastaan
+
+    const totalCount = await Recipe.countDocuments(searchConditions);
+
+    res.json({
+      recipes,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
+  } catch (err) {
+    console.error('Private search error:', err.message);
+    res.status(500).json({ error: 'Haku epäonnistui' });
+  }
+});
+// Omien yksityisten reseptien haku (Regex live-haku + tietoturva)
+router.get('/search', async (req, res) => {
+  try {
+    const searchQuery = req.query.q;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Turvaraja: Hakusanan maksimipituus 50 merkkiä
+    if (!searchQuery || searchQuery.length > 50) {
+      return res
+        .status(400)
+        .json({
+          error: 'Hakusana on virheellinen tai liian pitkä (max 50 merkkiä)',
+        });
+    }
+
+    // 1. Luodaan turvallinen regex-lauseke hakusanasta
+    const safeRegex = new RegExp(
+      searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
+      'i',
+    );
+
+    // 2. Määritellään hakuehdot: etsi näistä kentistä, mutta VAIN käyttäjän omista resepteistä
+    const searchConditions = {
+      sub: req.user.sub,
+      $or: [
+        { name: safeRegex },
+        { description: safeRegex },
+        { 'ingredients.name': safeRegex },
+        { tags: safeRegex },
+      ],
+    };
+
+    // 3. Etsitään reseptit näillä ehdoilla
+    const recipes = await Recipe.find(searchConditions)
+      .select('name image created description tags duration servings')
+      .sort({ created: -1 })
+      .skip(skip)
+      .limit(limit)
+      .maxTimeMS(1000); // Turvamekanismi DOS-hyökkäyksiä vastaan
+
+    const totalCount = await Recipe.countDocuments(searchConditions);
+
+    res.json({
+      recipes,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
+  } catch (err) {
+    console.error('Private search error:', err.message);
+    res.status(500).json({ error: 'Haku epäonnistui' });
+  }
+});
 
 // Hae yksi tietty resepti ID:n perusteella
 router.get('/:id', async (req, res) => {
@@ -120,48 +230,6 @@ router.delete('/delete/:id', async (req, res) => {
   } catch (err) {
     console.error('Delete error:', err.message);
     res.status(500).json({ error: 'Failed to delete the recipe' });
-  }
-});
-
-// Omien yksityisten reseptien haku (Etsii omasta "valikoimasta")
-router.get('/search', async (req, res) => {
-  try {
-    const searchQuery = req.query.q;
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-
-    if (!searchQuery) {
-      return res.status(400).json({ error: 'Hakusana (q) on pakollinen' });
-    }
-
-    // Etsii vain tälle käyttäjälle (sub) kuuluvat reseptit
-    const recipes = await Recipe.find(
-      {
-        sub: req.user.sub,
-        $text: { $search: searchQuery },
-      },
-      { score: { $meta: 'textScore' } },
-    )
-      .select('name image created description tags duration servings')
-      .sort({ score: { $meta: 'textScore' } })
-      .skip(skip)
-      .limit(limit);
-
-    const totalCount = await Recipe.countDocuments({
-      sub: req.user.sub,
-      $text: { $search: searchQuery },
-    });
-
-    res.json({
-      recipes,
-      totalCount,
-      currentPage: page,
-      totalPages: Math.ceil(totalCount / limit),
-    });
-  } catch (err) {
-    console.error('Private search error:', err.message);
-    res.status(500).json({ error: 'Haku epäonnistui' });
   }
 });
 
