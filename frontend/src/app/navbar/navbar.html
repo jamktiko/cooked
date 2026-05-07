@@ -10,7 +10,7 @@
   <div class="flex h-full w-full items-center justify-around md:w-auto md:gap-2">
     <!-- Kotisivu -->
     <a
-      href="/frontpage"
+      routerLink="/frontpage"
       class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
     >
       <i
@@ -21,7 +21,7 @@
 
     <!-- Reseptit -->
     <a
-      href="/my-recipes"
+      routerLink="/my-recipes"
       class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
     >
       <i
@@ -32,7 +32,7 @@
 
     <!-- Lisää uusi -->
     <a
-      href="/new-recipe"
+      routerLink="/new-recipe"
       class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
     >
       <i
@@ -43,7 +43,8 @@
 
     <!-- Profiili -->
     <a
-      href="/complete-profile"
+      href="#"
+      (click)="goToProfile($event)"
       class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
     >
       <i
