@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { Uploadimg } from '../uploadimg/uploadimg';
 import { Uploadservice } from '../services/uploadservice';
 import { Navbar } from '../navbar/navbar';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-add',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, Uploadimg, Navbar],
+  imports: [CommonModule, ReactiveFormsModule, Uploadimg, Navbar, RouterLink],
   templateUrl: './recipe-add.html',
   styleUrl: './recipe-add.css',
 })

@@ -1,67 +1,82 @@
 <app-navbar></app-navbar>
+<h1>ADD NEW RECIPE</h1>
+<p>Share your culinary masterpiece with the Cooked community!</p>
 
 <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="recipe-form">
-  <h2>Lisää uusi resepti</h2>
-
   <div class="form-group">
-    <label for="recipeName">Reseptin nimi:</label>
-    <input id="recipeName" name="recipeName" formControlName="name" placeholder="esim. Bolognese" />
+    <div class="form-group checkbox-group">
+      <h2>Recipe Visibility</h2>
+      <label for="isPublic">
+        <input type="checkbox" id="isPublic" name="public" formControlName="public" />
+        Public recipe
+      </label>
+    </div>
+    <div class="uploadimg">
+      <h2>Recipe photo</h2>
+      <app-uploadimg folder="recipes" (fileSelected)="onImageSelected($event)"></app-uploadimg>
+    </div>
+    <label for="recipeName">Recipe Name:</label>
+    <input
+      id="recipeName"
+      name="recipeName"
+      formControlName="name"
+      placeholder="e.g., Juicy Hamburger"
+    />
   </div>
 
   <div class="form-group">
-    <label for="recipeDescription">Kuvaus:</label>
+    <label for="recipeDescription">Description:</label>
     <textarea
       id="recipeDescription"
       name="description"
       formControlName="description"
-      placeholder="Lyhyt kuvaus reseptistä"
+      placeholder="Tell us what makes your dish special..."
     ></textarea>
   </div>
-
   <div class="form-group">
-    <label for="recipeServings">Annokset:</label>
-    <input id="recipeServings" name="servings" formControlName="servings" type="number" min="1" />
-  </div>
-
-  <div class="form-group">
-    <label for="recipeDuration">Kesto (min):</label>
+    <label for="recipeDuration">Cooking Time</label>
     <input id="recipeDuration" name="duration" formControlName="duration" min="0" type="number" />
+  </div>
+  <div class="form-group">
+    <label for="recipeServings">Servings</label>
+    <input id="recipeServings" name="servings" formControlName="servings" type="number" min="1" />
   </div>
 
   <hr />
 
-  <h3>Ainesosat</h3>
+  <h3>Ingredients</h3>
   <div formArrayName="ingredients">
     @for (ing of ingredients.controls; track ing; let i = $index) {
       <div [formGroupName]="i" class="row">
-        <input
-          [id]="'ingName' + i"
-          name="ingredientName"
-          formControlName="name"
-          placeholder="raaka-aine"
-        />
         <input
           [id]="'ingAmount' + i"
           name="ingredientAmount"
           formControlName="amount"
           type="number"
-          placeholder="määrä"
+          placeholder="Amount"
         />
         <input
           [id]="'ingUnit' + i"
           name="ingredientUnit"
           formControlName="unit"
-          placeholder="yksikkö"
+          placeholder="unit"
         />
-        <button type="button" (click)="removeIngredient(i)" class="remove-btn">Poista</button>
+        <input
+          [id]="'ingName' + i"
+          name="ingredientName"
+          formControlName="name"
+          placeholder="Ingredient name"
+        />
+
+        <button type="button" (click)="removeIngredient(i)" class="remove-btn">Remove</button>
       </div>
     }
-    <button type="button" (click)="addIngredient()" class="add-btn">+ Lisää ainesosa</button>
+    <button type="button" (click)="addIngredient()" class="add-btn">+ Add Ingredient</button>
   </div>
 
   <hr />
 
-  <h3>Työvaiheet</h3>
+  <h3>Instructions</h3>
   <div formArrayName="directions">
     @for (dir of directions.controls; track dir; let i = $index) {
       <div class="row">
@@ -69,17 +84,18 @@
           [id]="'dir' + i"
           [name]="'direction' + i"
           [formControlName]="i"
-          placeholder="Vaihe {{ i + 1 }}"
+          placeholder="Describe the {{ i + 1 }}. step"
         />
-        <button type="button" (click)="removeDirection(i)" class="remove-btn">Poista</button>
+        <button type="button" (click)="removeDirection(i)" class="remove-btn">Remove</button>
       </div>
     }
-    <button type="button" (click)="addDirection()" class="add-btn">+ Lisää vaihe</button>
+    <button type="button" (click)="addDirection()" class="add-btn">+ Add Step</button>
   </div>
 
   <hr />
 
-  <h3>Tagit (avainsanat)</h3>
+  <h3>Tags</h3>
+  <p>Add tags to help others find your recipe (e.g., Lactose-free, Gluten-free, Vegan)</p>
   <div formArrayName="tags" class="tags-container">
     @for (tag of tags.controls; track tag; let i = $index) {
       <div class="tag-row">
@@ -87,24 +103,17 @@
           [id]="'tag' + i"
           [name]="'tag' + i"
           [formControlName]="i"
-          placeholder="esim. vegaani"
+          placeholder="Type tag name..."
         />
         <button type="button" (click)="removeTag(i)" class="remove-tag-btn">×</button>
       </div>
     }
-    <button type="button" (click)="addTag()" class="add-btn">+ Lisää tagi</button>
+    <button type="button" (click)="addTag()" class="add-btn">Add</button>
   </div>
 
   <hr />
 
-  <div class="form-group checkbox-group">
-    <label for="isPublic">
-      <input type="checkbox" id="isPublic" name="public" formControlName="public" />
-      Julkinen resepti
-    </label>
-  </div>
-  <div class="uploadimg">
-    <app-uploadimg folder="recipes" (fileSelected)="onImageSelected($event)"></app-uploadimg>
-  </div>
-  <button type="submit" [disabled]="recipeForm.invalid" class="submit-btn">Tallenna resepti</button>
+  <button type="submit" [disabled]="recipeForm.invalid" class="submit-btn">Save Recipe</button>
+
+  <button routerLink="/my-recipes" class="btn-back">Cancel</button>
 </form>
