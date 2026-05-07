@@ -6,11 +6,12 @@ import { Router } from '@angular/router';
 import { Uploadimg } from '../uploadimg/uploadimg';
 import { Uploadservice } from '../services/uploadservice';
 import { Navbar } from '../navbar/navbar';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-recipe-add',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, Uploadimg, Navbar],
+  imports: [CommonModule, ReactiveFormsModule, Uploadimg, Navbar, RouterLink],
   templateUrl: './recipe-add.html',
   styleUrl: './recipe-add.css',
 })
@@ -20,33 +21,28 @@ export class RecipeAdd {
   private router = inject(Router);
   private uploadService = inject(Uploadservice);
 
-  // Lomakkeen pääryhmä
   recipeForm: FormGroup;
   selectedFile: File | null = null;
 
   constructor() {
-    // Alustetaan lomakerakenne ja sen validointisäännöt
     this.recipeForm = this.fb.group({
-      name: ['', [Validators.required]], // Pakollinen kenttä
+      name: ['', [Validators.required]],
       description: [''],
       servings: [1, [Validators.min(1)]],
       duration: [0, [Validators.min(0)]],
       image: [''],
       public: [false],
-      // FormArrayt dynaamisille listoille (ainesosat, vaiheet, tägit)
       ingredients: this.fb.array([]),
       directions: this.fb.array([]),
       tags: this.fb.array([]),
     });
 
-    // Lisätään lomakkeelle heti kättelyssä yhdet tyhjät rivit käyttäjää varten
     this.addIngredient();
     this.addDirection();
     this.addTag();
   }
 
   // --- GETTERIT ---
-  // Getterit helpottavat FormArray-kenttien käsittelyä HTML-templatessa
   get ingredients() {
     return this.recipeForm.get('ingredients') as FormArray;
   }
@@ -59,7 +55,6 @@ export class RecipeAdd {
 
   // --- METODIT RIVIEN LISÄÄMISEEN ---
 
-  // Lisää uuden ainesosaryhmän (nimi, määrä, yksikkö) listaan
   addIngredient() {
     const ingredientForm = this.fb.group({
       name: ['', Validators.required],
@@ -69,18 +64,16 @@ export class RecipeAdd {
     this.ingredients.push(ingredientForm);
   }
 
-  // Lisää uuden tekstikentän valmistusohjeille
   addDirection() {
     this.directions.push(this.fb.control('', Validators.required));
   }
 
-  // Lisää uuden tekstikentän tägeille
   addTag() {
     this.tags.push(this.fb.control(''));
   }
 
   // --- METODIT RIVIEN POISTAMISEEN ---
-  // Poistavat valitun rivin indeksin perusteella
+
   removeIngredient(index: number) {
     this.ingredients.removeAt(index);
   }
@@ -96,11 +89,11 @@ export class RecipeAdd {
   }
 
   // --- LÄHETYS ---
+
   onSubmit() {
     if (this.recipeForm.invalid) return;
 
     if (this.selectedFile) {
-      // 1. Lataa kuva S3:een ensin
       this.uploadService.uploadProcess(this.selectedFile, 'recipes').subscribe({
         next: (res) => {
           this.saveRecipe(res.key);
@@ -108,7 +101,6 @@ export class RecipeAdd {
         error: (err) => console.error('Kuvan lataus epäonnistui', err),
       });
     } else {
-      // Jos ei kuvaa, tallennetaan suoraan
       this.saveRecipe();
     }
   }
@@ -119,7 +111,7 @@ export class RecipeAdd {
 
     const cleanedData = {
       ...rawData,
-      image: imageKey || '', // Tallennetaan vain key image-kenttään
+      image: imageKey || '',
       tags: rawData.tags.filter((tag: string) => tag.trim() !== ''),
       directions: rawData.directions.filter((dir: string) => dir.trim() !== ''),
       ingredients: rawData.ingredients.filter((ing: any) => ing.name.trim() !== ''),

@@ -8,6 +8,7 @@ import { authGuard } from './auth/auth.guard';
 import { MyRecipes } from './my-recipes/my-recipes';
 import { MyRecipeDetail } from './my-recipe-detail/my-recipe-detail';
 import { Swipe } from './swipe/swipe';
+import { RecipeEdit } from './recipe-edit/recipe-edit';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -36,6 +37,7 @@ export const routes: Routes = [
     path: 'swipe',
     component: Swipe,
   },
+  { path: 'edit-recipe/:id', component: RecipeEdit, canActivate: [authGuard] },
 
   // Uudelleenohjaukset ja virhetilanteet
   { path: '', redirectTo: '/frontpage', pathMatch: 'full' },

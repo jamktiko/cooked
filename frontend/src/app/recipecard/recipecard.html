@@ -7,7 +7,9 @@
 
           @if (menuOpen) {
             <div class="dropdown-menu">
-              <button (click)="requestDelete($event)">Poista resepti</button>
+              <button (click)="goToEdit($event)">Edit</button>
+
+              <button (click)="requestDelete($event)" class="delete-text">Delete</button>
             </div>
           }
         </div>
@@ -21,7 +23,7 @@
 
       <div class="recipe-meta">
         <span class="meta-item">{{ recipe.duration }} min</span>
-        <span class="meta-item">{{ recipe.servings }} annosta</span>
+        <span class="meta-item">{{ recipe.servings }} servings</span>
       </div>
     </div>
   </div>
