@@ -1,71 +1,71 @@
 <app-navbar></app-navbar>
 
 <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="recipe-form">
-  <h2>Muokkaa reseptiä</h2>
+  <h2>Edit Recipe</h2>
 
   <div class="form-group">
-    <label for="recipeName">Reseptin nimi:</label>
-    <input id="recipeName" formControlName="name" placeholder="esim. Bolognese" />
+    <label for="recipeName">Recipe Name:</label>
+    <input id="recipeName" formControlName="name" placeholder="e.g., Bolognese" />
   </div>
 
   <div class="form-group">
-    <label for="recipeDescription">Kuvaus:</label>
+    <label for="recipeDescription">Description:</label>
     <textarea
       id="recipeDescription"
       formControlName="description"
-      placeholder="Lyhyt kuvaus reseptistä"
+      placeholder="Short description of the recipe"
     ></textarea>
   </div>
 
   <div class="form-group">
-    <label for="recipeServings">Annokset:</label>
+    <label for="recipeServings">Servings:</label>
     <input id="recipeServings" formControlName="servings" type="number" min="1" />
   </div>
 
   <div class="form-group">
-    <label for="recipeDuration">Kesto (min):</label>
+    <label for="recipeDuration">Duration (min):</label>
     <input id="recipeDuration" formControlName="duration" min="0" type="number" />
   </div>
 
   <hr />
 
-  <h3>Ainesosat</h3>
+  <h3>Ingredients</h3>
   <div formArrayName="ingredients">
     @for (ing of ingredients.controls; track ing; let i = $index) {
       <div [formGroupName]="i" class="row">
-        <input formControlName="name" placeholder="raaka-aine" />
-        <input formControlName="amount" type="number" placeholder="määrä" />
-        <input formControlName="unit" placeholder="yksikkö" />
-        <button type="button" (click)="removeIngredient(i)" class="remove-btn">Poista</button>
+        <input formControlName="name" placeholder="ingredient" />
+        <input formControlName="amount" type="number" placeholder="amount" />
+        <input formControlName="unit" placeholder="unit" />
+        <button type="button" (click)="removeIngredient(i)" class="remove-btn">Remove</button>
       </div>
     }
-    <button type="button" (click)="addIngredient()" class="add-btn">+ Lisää ainesosa</button>
+    <button type="button" (click)="addIngredient()" class="add-btn">+ Add Ingredient</button>
   </div>
 
   <hr />
 
-  <h3>Työvaiheet</h3>
+  <h3>Directions</h3>
   <div formArrayName="directions">
     @for (dir of directions.controls; track dir; let i = $index) {
       <div class="row">
-        <input [formControlName]="i" placeholder="Vaihe {{ i + 1 }}" />
-        <button type="button" (click)="removeDirection(i)" class="remove-btn">Poista</button>
+        <input [formControlName]="i" placeholder="Step {{ i + 1 }}" />
+        <button type="button" (click)="removeDirection(i)" class="remove-btn">Remove</button>
       </div>
     }
-    <button type="button" (click)="addDirection()" class="add-btn">+ Lisää vaihe</button>
+    <button type="button" (click)="addDirection()" class="add-btn">+ Add Step</button>
   </div>
 
   <hr />
 
-  <h3>Tagit (avainsanat)</h3>
+  <h3>Tags (keywords)</h3>
   <div formArrayName="tags" class="tags-container">
     @for (tag of tags.controls; track tag; let i = $index) {
       <div class="tag-row">
-        <input [formControlName]="i" placeholder="esim. vegaani" />
+        <input [formControlName]="i" placeholder="e.g., vegan" />
         <button type="button" (click)="removeTag(i)" class="remove-tag-btn">×</button>
       </div>
     }
-    <button type="button" (click)="addTag()" class="add-btn">+ Lisää tagi</button>
+    <button type="button" (click)="addTag()" class="add-btn">+ Add Tag</button>
   </div>
 
   <hr />
@@ -73,15 +73,23 @@
   <div class="form-group checkbox-group">
     <label for="isPublic">
       <input type="checkbox" id="isPublic" formControlName="public" />
-      Julkinen resepti
+      Public recipe (visible to others)
     </label>
   </div>
 
   <div class="image-section">
     @if (currentImageKey && !selectedFile) {
-      <div class="current-image">
-        <p>Nykyinen kuva:</p>
-        <small>{{ currentImageKey }}</small>
+      <div class="current-image-preview">
+        <p>Current image:</p>
+        <img [src]="currentImageKey | s3Url" alt="Reseptin kuva" class="preview-img" />
+      </div>
+    }
+
+    @if (selectedFile) {
+      <div class="new-image-selected">
+        <p>
+          New image selected: <strong>{{ selectedFile.name }}</strong>
+        </p>
       </div>
     }
 
@@ -91,9 +99,7 @@
   </div>
 
   <div class="actions">
-    <button type="submit" [disabled]="recipeForm.invalid" class="submit-btn">
-      Tallenna muutokset
-    </button>
-    <button type="button" (click)="cancel()" class="cancel-btn">Peruuta</button>
+    <button type="submit" [disabled]="recipeForm.invalid" class="submit-btn">Save Changes</button>
+    <button type="button" (click)="cancel()" class="cancel-btn">Cancel</button>
   </div>
 </form>

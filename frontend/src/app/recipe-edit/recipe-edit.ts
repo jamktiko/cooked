@@ -6,10 +6,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Uploadimg } from '../uploadimg/uploadimg';
 import { Uploadservice } from '../services/uploadservice';
 import { Navbar } from '../navbar/navbar';
+import { S3UrlPipe } from '../pipes/s3-url-pipe';
 @Component({
   selector: 'app-recipe-edit',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, Uploadimg, Navbar],
+  imports: [CommonModule, ReactiveFormsModule, Uploadimg, Navbar, S3UrlPipe],
   templateUrl: './recipe-edit.html',
   styleUrl: './recipe-edit.css',
 })
@@ -23,7 +24,7 @@ export class RecipeEdit implements OnInit {
   recipeForm: FormGroup;
   recipeId: string | null = null;
   selectedFile: File | null = null;
-  currentImageKey: string = ''; // Säilytetään vanha kuva, jos uutta ei ladata
+  currentImageKey: string = '';
 
   constructor() {
     this.recipeForm = this.fb.group({
