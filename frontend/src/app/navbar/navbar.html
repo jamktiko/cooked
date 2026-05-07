@@ -6,8 +6,9 @@
     <i class="fas fa-fire-alt text-cooked-orange"></i> Cooked
   </div>
 
-  <!-- Linkit -->
+  <!-- Kaikki Linkit samassa paketissa -->
   <div class="flex h-full w-full items-center justify-around md:w-auto md:gap-2">
+    <!-- Kotisivu -->
     <a
       href="/frontpage"
       class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
@@ -18,6 +19,7 @@
       <span class="mt-1 md:mt-0 md:ml-2">Home</span>
     </a>
 
+    <!-- Reseptit -->
     <a
       href="/my-recipes"
       class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
@@ -28,6 +30,7 @@
       <span class="mt-1 md:mt-0 md:ml-2">Recipes</span>
     </a>
 
+    <!-- Lisää uusi -->
     <a
       href="/new-recipe"
       class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
@@ -38,6 +41,7 @@
       <span class="mt-1 md:mt-0 md:ml-2">Add</span>
     </a>
 
+    <!-- Profiili -->
     <a
       href="/complete-profile"
       class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
@@ -48,14 +52,24 @@
       <span class="mt-1 md:mt-0 md:ml-2">Profile</span>
     </a>
 
-    <a
-      href="/login"
-      class="group flex flex-1 flex-col items-center justify-center text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:flex-none md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
-    >
-      <i
-        class="fas fa-sign-in-alt text-xl transition-transform group-hover:-translate-y-0.5 md:text-lg md:group-hover:translate-y-0 md:group-hover:scale-110"
-      ></i>
-      <span class="mt-1 md:mt-0 md:ml-2">Login</span>
-    </a>
+    @if (!(isUserLoggedIn$ | async)) {
+      <div class="flex flex-none md:gap-2">
+        <a
+          (click)="login()"
+          class="cursor-pointer group flex flex-col items-center justify-center px-3 text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
+        >
+          <i class="fas fa-sign-in-alt text-xl md:text-lg"></i>
+          <span class="mt-1 md:mt-0 md:ml-2">Login</span>
+        </a>
+
+        <a
+          (click)="login()"
+          class="cursor-pointer group flex flex-col items-center justify-center px-3 text-[0.7rem] text-cooked-dark no-underline transition-all hover:bg-cooked-light md:flex-row md:rounded-lg md:px-4 md:py-2 md:text-[0.9rem] md:hover:bg-cooked-orange"
+        >
+          <i class="fas fa-user-plus text-xl md:text-lg"></i>
+          <span class="mt-1 md:mt-0 md:ml-2 font-semibold">Sign Up</span>
+        </a>
+      </div>
+    }
   </div>
 </nav>

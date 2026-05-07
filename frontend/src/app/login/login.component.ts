@@ -1,28 +1,26 @@
-// src/app/login/login.component.ts
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Tärkeä!
-import { AuthService } from '../auth/auth.service';
+import { Router } from '@angular/router';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Navbar } from '../navbar/navbar';
+
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, Navbar],
+  imports: [Navbar],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
-  private authService = inject(AuthService);
-  private oidcSecurityService = inject(OidcSecurityService); // Säilytetään nämä täällä UI:ta varten toistaiseksi
+  constructor() {
+    const oidcSecurityService = inject(OidcSecurityService);
+    const router = inject(Router);
 
-  isAuthenticated$ = this.oidcSecurityService.isAuthenticated$;
-  userData$ = this.oidcSecurityService.userData$;
-
-  login() {
-    console.log('Nappia painettu! Pyydetään redirectiä AWS:ään...');
-    this.authService.login();
-  }
-
-  logout() {
-    this.authService.logout();
+    oidcSecurityService.isAuthenticated$
+      .pipe(takeUntilDestroyed())
+      .subscribe(({ isAuthenticated }) => {
+        if (isAuthenticated) {
+          router.navigate(['/frontpage'], { replaceUrl: true });
+        }
+      });
   }
 }

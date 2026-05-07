@@ -37,6 +37,8 @@ export class MyRecipes implements OnInit {
       },
     });
   }
+
+  // Reseptien määrä
   get recipeStats(): string {
     const count = this.myRecipes.length;
     if (count === 0) return '0 recipe';
@@ -56,4 +58,20 @@ export class MyRecipes implements OnInit {
     this.myRecipes = response.recipes; 
   });
 }
+
+  // Reseptin poisto
+  onDeleteRecipe(id: string): void {
+    if (confirm('Do you really want to delete this recipe?')) {
+      this.recipeService.deleteRecipe(id).subscribe({
+        next: (response: any) => {
+          console.log('Delete successful:', response.message);
+          this.myRecipes = this.myRecipes.filter((r) => r._id !== id);
+        },
+        error: (err: any) => {
+          console.error('Delete failed:', err);
+          alert('Failed to delete the recipe due to a server error.');
+        },
+      });
+    }
+  }
 }
