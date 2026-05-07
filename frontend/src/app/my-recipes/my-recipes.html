@@ -1,9 +1,10 @@
 <app-navbar></app-navbar>
-<app-search (searchQuery)="onPrivateSearch($event)"></app-search>
+<h1>My recipe collection</h1>
+
 <div class="container">
   <div class="page-header">
-    <h1>My recipe collection</h1>
     <p>{{ recipeStats }}</p>
+    <app-search (searchQuery)="onPrivateSearch($event)"></app-search>
   </div>
 
   @if (loading) {

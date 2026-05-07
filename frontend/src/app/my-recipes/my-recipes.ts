@@ -18,15 +18,15 @@ import { SearchService } from '../services/search.service';
 })
 export class MyRecipes implements OnInit {
   private recipeService = inject(RecipeService);
-  private searchService = inject(SearchService)
+  private searchService = inject(SearchService);
   myRecipes: Recipe[] = [];
   loading = true;
 
   ngOnInit(): void {
-    this.loadRecipes()
+    this.loadRecipes();
   }
-  loadRecipes(){
-        this.recipeService.getMyRecipes().subscribe({
+  loadRecipes() {
+    this.recipeService.getMyRecipes().subscribe({
       next: (data) => {
         this.myRecipes = data;
         this.loading = false;
@@ -41,23 +41,23 @@ export class MyRecipes implements OnInit {
   // Reseptien määrä
   get recipeStats(): string {
     const count = this.myRecipes.length;
-    if (count === 0) return '0 recipe';
-    if (count === 1) return '1 recipe';
-    return `${count} recipes`;
+    if (count === 0) return `You dont have any recipes in your personal collection yet!`;
+    if (count === 1) return `You have currently ${count} recipe in your personal collection.`;
+    return `You have currently ${count} recipes in your personal collection.`;
   }
-    onPrivateSearch(term: string) {
-  if (term.length < 2) {
-     // Jos hakukenttä on tyhjä, lataa käyttäjän kaikki reseptit normaalisti takaisin näkyviin
-     this.loadRecipes(); 
-     return;
+  onPrivateSearch(term: string) {
+    if (term.length < 2) {
+      // Jos hakukenttä on tyhjä, lataa käyttäjän kaikki reseptit normaalisti takaisin näkyviin
+      this.loadRecipes();
+      return;
+    }
+
+    // Nyt kutsutaan julkista hakua, ei privaattia!
+    this.searchService.searchPrivateRecipes(term).subscribe((response) => {
+      // Korvataan näkymässä olevat "recipes" hauista löytyneillä
+      this.myRecipes = response.recipes;
+    });
   }
-  
-  // Nyt kutsutaan julkista hakua, ei privaattia!
-  this.searchService.searchPrivateRecipes(term).subscribe(response => {
-    // Korvataan näkymässä olevat "recipes" hauista löytyneillä
-    this.myRecipes = response.recipes; 
-  });
-}
 
   // Reseptin poisto
   onDeleteRecipe(id: string): void {
