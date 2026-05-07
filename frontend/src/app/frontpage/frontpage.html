@@ -1,15 +1,39 @@
-<div class="navbar">
+<div class="frontpage-wrapper">
   <app-navbar></app-navbar>
-  <app-search (searchQuery)="onPublicSearch($event)"></app-search>
-  <div class="container">
-    <h2>Explore Recipes</h2>
 
-    <div class="recipe-grid">
-      @for (r of recipes; track r._id) {
-        <app-recipecard [recipe]="r"></app-recipecard>
-      } @empty {
-        <p>No recipes to display.</p>
-      }
-    </div>
+  <div class="container">
+    @if (isUserLoggedIn$ | async) {
+      <div class="welcome-header">
+        <h1>WELCOME TO COOKED!</h1>
+        <p>
+          Your personal digital cookbook is ready. Explore new culinary inspirations from other
+          chefs or start creating your next signature dish. What's on your menu today?
+        </p>
+      </div>
+    } @else {
+      <div class="guest-header">
+        <h1>THIS IS COOKED!</h1>
+        <p>
+          An recipe app, where you can add and share recipes, scroll others delicious recipes,
+          raffle the food of the day and pick your favorite recipes by swiping. Register to get a
+          full access of all the features of the app! It’s free!
+        </p>
+        <button (click)="authService.login()" class="btn-primary">Get Started</button>
+      </div>
+    }
+
+    <section class="recipe-section">
+      <h2>EXPLORE THE RECIPES</h2>
+      <app-search (searchQuery)="onPublicSearch($event)"></app-search>
+      <div class="recipe-grid">
+        @for (r of recipes; track r._id) {
+          <app-recipecard [recipe]="r"></app-recipecard>
+        } @empty {
+          <div class="no-results">
+            <p>No recipes found matching your criteria. Try something else!</p>
+          </div>
+        }
+      </div>
+    </section>
   </div>
 </div>

@@ -1,50 +1,135 @@
-/* Koko sivun taustaväri ja fontti */
-:host {
-  display: block;
-  background-color: #f8f9fa;
+/* Pääkääre ja tausta */
+.frontpage-wrapper {
   min-height: 100vh;
+  background-color: #fcfaf7; /* Erittäin vaalea "luonnonvalkoinen" tausta */
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Container pitää sisällön keskellä ja rajoittaa leveyden */
+/* Kontti ja asettelu */
 .container {
-  max-width: 1200px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px 20px;
 }
 
-h2 {
-  color: #333;
-  margin-bottom: 30px;
-  font-weight: 600;
+/* --- HEADERIT --- */
+
+/* Kirjautuneen käyttäjän tervetuloa-osio */
+.welcome-header {
   text-align: center;
+  padding: 60px 40px;
+  margin-bottom: 50px;
 }
 
-/* TÄRKEIN: Ruudukko-asettelu */
+.welcome-header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+.welcome-header p {
+  font-size: 1.1rem;
+  max-width: 650px;
+  margin: 0 auto 30px;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+/* Vierailijan (guest) osio */
+.guest-header {
+  text-align: center;
+  padding: 60px 40px;
+  margin-bottom: 50px;
+}
+
+.guest-header h1 {
+  font-size: 2.8rem;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+.guest-header p {
+  font-size: 1.1rem;
+  max-width: 650px;
+  margin: 0 auto 30px;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+/* --- PAINIKKEET --- */
+
+.btn-primary {
+  background-color: #ffffff;
+  color: #344e4d;
+  border: none;
+  padding: 14px 32px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border-radius: 50px;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  background-color: #f8f9fa;
+}
+
+/* --- RESEPTIOSIO JA GRIDI --- */
+
+.recipe-section {
+  margin-top: 20px;
+}
+
+.recipe-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 800;
+}
+
+/* Hakupalkin väli */
+app-search {
+  display: block;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Grid-asettelu korteille */
 .recipe-grid {
   display: grid;
-  /* Luodaan sarakkeita automaattisesti: vähintään 280px leveitä */
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px; /* Korttien välinen rako */
-  justify-content: center;
+  gap: 25px;
+  padding-bottom: 40px;
 }
 
-/* Tyhjä ilmoitus */
-.recipe-grid p {
-  grid-column: 1 / -1;
+/* Tyhjä tila / Ei tuloksia */
+.no-results {
+  grid-column: 1 / -1; /* Vie koko rivin leveys */
   text-align: center;
-  color: #666;
+  padding: 50px;
+  background: #eee;
+  border-radius: 12px;
+  color: #777;
   font-style: italic;
-  margin-top: 50px;
 }
 
-/* Mobiilioptimointi: pienemmillä näytöillä vähennetään paddingia */
-@media (max-width: 600px) {
-  .container {
-    padding: 10px;
+/* Responsiivisuus pienille näytöille */
+@media (max-width: 768px) {
+  .guest-header {
+    padding: 40px 20px;
   }
 
-  .recipe-grid {
-    gap: 15px;
+  .guest-header h1 {
+    font-size: 2rem;
+  }
+
+  .welcome-header {
+    padding: 20px;
   }
 }
