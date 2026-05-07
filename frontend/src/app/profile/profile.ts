@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
 import { ProfileupdateService } from '../services/profileupdate.service';
 import { UserModel } from '../models/user.model';
@@ -6,7 +7,7 @@ import { S3UrlPipe } from '../pipes/s3-url-pipe';
 import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-profile',
-  imports: [Navbar, S3UrlPipe],
+  imports: [Navbar, S3UrlPipe, DatePipe],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
