@@ -1,18 +1,23 @@
-<div class="upload-card">
-  <h3>Lataa kuva S3-palveluun</h3>
+<div class="upload-container">
+  <div
+    (click)="fileInput.click()"
+    class="group relative flex h-56 w-full flex-col items-center justify-center rounded-[2.5rem] border-4 border-dotted border-zinc-300 bg-white/50 text-zinc-500 transition-all hover:bg-white hover:border-[#305252] cursor-pointer overflow-hidden"
+  >
+    @if (!previewUrl()) {
+      <i
+        class="fa-solid fa-camera-rotate mb-2 text-4xl group-hover:scale-110 transition-transform"
+      ></i>
+      <span class="font-bebas text-xl font-bold tracking-wide uppercase">Click to upload</span>
+    } @else {
+      <img [src]="previewUrl()" alt="Esikatselu" class="h-full w-full object-cover" />
 
-  <div class="file-input-wrapper">
-    <input 
-      type="file" 
-      (change)="onFileSelected($event)" 
-      accept="image/*"
-      #fileInput
-    />
+      <div
+        class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity"
+      >
+        <span class="font-bebas text-white text-xl uppercase">Change Photo</span>
+      </div>
+    }
   </div>
 
-  @if (previewUrl()) {
-    <div class="preview-container">
-      <img [src]="previewUrl()" alt="Esikatselu" class="preview-img" />
-    </div>
-  }
+  <input type="file" (change)="onFileSelected($event)" accept="image/*" #fileInput class="hidden" />
 </div>
