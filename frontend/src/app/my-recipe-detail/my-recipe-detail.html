@@ -26,6 +26,8 @@
             }
           </div>
           <div class="actions">
+            <a [routerLink]="['/edit-recipe', recipe._id]" class="btn-edit"> Muokkaa reseptiä </a>
+
             <button (click)="onDeleteRecipe()" class="btn-delete">Poista resepti</button>
           </div>
         </div>

@@ -1,0 +1,99 @@
+<app-navbar></app-navbar>
+
+<form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="recipe-form">
+  <h2>Muokkaa reseptiä</h2>
+
+  <div class="form-group">
+    <label for="recipeName">Reseptin nimi:</label>
+    <input id="recipeName" formControlName="name" placeholder="esim. Bolognese" />
+  </div>
+
+  <div class="form-group">
+    <label for="recipeDescription">Kuvaus:</label>
+    <textarea
+      id="recipeDescription"
+      formControlName="description"
+      placeholder="Lyhyt kuvaus reseptistä"
+    ></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="recipeServings">Annokset:</label>
+    <input id="recipeServings" formControlName="servings" type="number" min="1" />
+  </div>
+
+  <div class="form-group">
+    <label for="recipeDuration">Kesto (min):</label>
+    <input id="recipeDuration" formControlName="duration" min="0" type="number" />
+  </div>
+
+  <hr />
+
+  <h3>Ainesosat</h3>
+  <div formArrayName="ingredients">
+    @for (ing of ingredients.controls; track ing; let i = $index) {
+      <div [formGroupName]="i" class="row">
+        <input formControlName="name" placeholder="raaka-aine" />
+        <input formControlName="amount" type="number" placeholder="määrä" />
+        <input formControlName="unit" placeholder="yksikkö" />
+        <button type="button" (click)="removeIngredient(i)" class="remove-btn">Poista</button>
+      </div>
+    }
+    <button type="button" (click)="addIngredient()" class="add-btn">+ Lisää ainesosa</button>
+  </div>
+
+  <hr />
+
+  <h3>Työvaiheet</h3>
+  <div formArrayName="directions">
+    @for (dir of directions.controls; track dir; let i = $index) {
+      <div class="row">
+        <input [formControlName]="i" placeholder="Vaihe {{ i + 1 }}" />
+        <button type="button" (click)="removeDirection(i)" class="remove-btn">Poista</button>
+      </div>
+    }
+    <button type="button" (click)="addDirection()" class="add-btn">+ Lisää vaihe</button>
+  </div>
+
+  <hr />
+
+  <h3>Tagit (avainsanat)</h3>
+  <div formArrayName="tags" class="tags-container">
+    @for (tag of tags.controls; track tag; let i = $index) {
+      <div class="tag-row">
+        <input [formControlName]="i" placeholder="esim. vegaani" />
+        <button type="button" (click)="removeTag(i)" class="remove-tag-btn">×</button>
+      </div>
+    }
+    <button type="button" (click)="addTag()" class="add-btn">+ Lisää tagi</button>
+  </div>
+
+  <hr />
+
+  <div class="form-group checkbox-group">
+    <label for="isPublic">
+      <input type="checkbox" id="isPublic" formControlName="public" />
+      Julkinen resepti
+    </label>
+  </div>
+
+  <div class="image-section">
+    @if (currentImageKey && !selectedFile) {
+      <div class="current-image">
+        <p>Nykyinen kuva:</p>
+        <small>{{ currentImageKey }}</small>
+      </div>
+    }
+
+    <div class="uploadimg">
+      <app-uploadimg folder="recipes" (fileSelected)="onImageSelected($event)"></app-uploadimg>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button type="submit" [disabled]="recipeForm.invalid" class="submit-btn">
+      Tallenna muutokset
+    </button>
+    <button type="button" (click)="cancel()" class="cancel-btn">Peruuta</button>
+  </div>
+</form>
