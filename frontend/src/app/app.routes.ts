@@ -7,6 +7,7 @@ import { CompleteProfile } from './complete-profile/complete-profile';
 import { authGuard } from './auth/auth.guard';
 import { MyRecipes } from './my-recipes/my-recipes';
 import { MyRecipeDetail } from './my-recipe-detail/my-recipe-detail';
+import { RecipeEdit } from './recipe-edit/recipe-edit';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -31,6 +32,7 @@ export const routes: Routes = [
     component: RecipeAdd,
     canActivate: [authGuard],
   },
+  { path: 'edit-recipe/:id', component: RecipeEdit, canActivate: [authGuard] },
 
   // Uudelleenohjaukset ja virhetilanteet
   { path: '', redirectTo: '/frontpage', pathMatch: 'full' },
