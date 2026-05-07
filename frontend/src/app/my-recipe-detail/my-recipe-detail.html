@@ -1,6 +1,11 @@
 <app-navbar></app-navbar>
 
 <div class="recipe-detail-container">
+  <div class="back-navigation">
+    <button routerLink="/frontpage" class="btn-back">
+      <span class="arrow">←</span> Back to recipes
+    </button>
+  </div>
   @if (recipe) {
     <div class="image-wrapper">
       <img [src]="recipe.image | s3Url" alt="{{ recipe.name }}" class="recipe-image" />
@@ -26,9 +31,9 @@
             }
           </div>
           <div class="actions">
-            <a [routerLink]="['/edit-recipe', recipe._id]" class="btn-edit"> Muokkaa reseptiä </a>
+            <a [routerLink]="['/edit-recipe', recipe._id]" class="btn-edit">Edit Recipe</a>
 
-            <button (click)="onDeleteRecipe()" class="btn-delete">Poista resepti</button>
+            <button (click)="onDeleteRecipe()" class="btn-delete">Delete Recipe</button>
           </div>
         </div>
       </div>
