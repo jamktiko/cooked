@@ -1,0 +1,68 @@
+<app-navbar></app-navbar>
+
+<div
+  class="relative flex h-[calc(100vh-64px)] w-full flex-col items-center justify-center overflow-hidden bg-cooked-bg"
+  (touchstart)="onTouchStart($event)"
+  (touchmove)="onTouchMove($event)"
+  (touchend)="endDrag()"
+  (mousedown)="onMouseDown($event)"
+  (mousemove)="onMouseMove($event)"
+  (mouseup)="endDrag()"
+  (mouseleave)="endDrag()"
+>
+  @if (isLoading) {
+    <div class="flex flex-col items-center text-cooked-orange">
+      <i class="fas fa-circle-notch fa-spin text-5xl mb-4"></i>
+      <p class="font-bold">Fetching recipes...</p>
+    </div>
+  } @else if (currentRecipe) {
+    <div
+      class="swipe-card absolute flex h-[450px] w-[320px] flex-col overflow-hidden rounded-2xl bg-white shadow-xl cursor-grab active:cursor-grabbing z-10"
+      [style.transform]="transformString"
+      [style.transition]="
+        isDragging ? 'none' : 'transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+      "
+    >
+      @if (currentX > 30) {
+        <div
+          class="absolute top-10 left-6 border-4 border-green-500 text-green-500 font-bold uppercase p-2 rotate-[-15deg] rounded-xl opacity-90 text-4xl pointer-events-none z-20 bg-white/90"
+        >
+          LIKE
+        </div>
+      }
+      @if (currentX < -30) {
+        <div
+          class="absolute top-10 right-6 border-4 border-red-500 text-red-500 font-bold uppercase p-2 rotate-[15deg] rounded-xl opacity-90 text-4xl pointer-events-none z-20 bg-white/90"
+        >
+          NOPE
+        </div>
+      }
+
+      <div class="h-full w-full pointer-events-none">
+        <app-recipecard [recipe]="currentRecipe"></app-recipecard>
+      </div>
+    </div>
+
+    <div class="absolute bottom-[8%] z-20 flex w-[320px] justify-between px-6">
+      <button
+        (click)="handleSkip()"
+        class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-red-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
+      >
+        <i class="fas fa-times text-3xl"></i>
+      </button>
+
+      <button
+        (click)="handleMatch()"
+        class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-green-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
+      >
+        <i class="fas fa-heart text-3xl"></i>
+      </button>
+    </div>
+  } @else {
+    <div class="flex flex-col items-center text-center text-cooked-dark animate-bounce">
+      <i class="fas fa-check-circle mb-4 text-6xl text-green-500"></i>
+      <h2 class="text-2xl font-bold">All caught up!</h2>
+      <p class="mt-2 text-gray-600">Come back later for more recipes.</p>
+    </div>
+  }
+</div>
