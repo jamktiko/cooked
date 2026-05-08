@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { ProfileupdateService } from '../services/profileupdate.service';
 
@@ -26,6 +26,10 @@ export class Navbar {
     this.authService.login();
   }
 
+  signup() {
+    this.authService.signup();
+  }
+
   goToProfile(event: Event) {
     event.preventDefault();
     this.profileService.getUser().subscribe({
@@ -40,7 +44,7 @@ export class Navbar {
         console.error('Virhe profiilin tarkistuksessa:', err);
         // Jos tulee virhe, ohjataan silti profiiliin ettei navigointi mene täysin jumiin
         this.router.navigate(['/profile']);
-      }
+      },
     });
   }
 }
