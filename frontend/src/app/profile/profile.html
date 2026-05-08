@@ -1,9 +1,13 @@
 <app-navbar></app-navbar>
+
+@if(!this.editStatus){
 <img class="rounded-full size-25 border-2 border-cooked-bg" [src]="this.user?.prof_picture| s3Url" alt="Reseptin kuva" />
-<p>Sähköposti: {{this.user?.email}}</p>
 <p>Käyttäjänimi: {{this.user?.username}}</p>
-<p>Viimeksi kirjauduttu: {{this.user?.last_login | date:'dd.MM.yyyy HH:mm'}}</p>
+<p>About me: {{this.user?.info}}</p>
+<h2>Account details</h2>
+<p>Sähköposti: {{this.user?.email}}</p>
 <p>Profiili luotu: {{this.user?.prof_created | date:'dd.MM.yyyy HH:mm'}}</p>
+<button (click)="edit()">muokkaa profiilia</button>
     <button
       (click)="logout()"
       type="button"
@@ -11,3 +15,18 @@
     >
       Kirjaudu ulos
     </button>
+}@else {
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+    <label for="username">Username: </label>
+    <input id="username" type="text" formControlName="username" />
+    <br />
+    <label for="info">Description</label>
+    <textarea id="info" type="text" formControlName="info"></textarea>
+    <h2>Profile photo</h2>
+    <button type="button" (click)="removeImage()">poista kuva</button>
+    <img class="rounded-full size-25 border-2 border-cooked-bg" [src]="this.user?.prof_picture| s3Url" alt="Reseptin kuva" />
+    <app-uploadimg folder="profiles" (fileSelected)="onImageSelected($event)"></app-uploadimg>
+  <button (click)="onSubmit()">Submit</button>
+  </form>
+}
+

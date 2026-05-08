@@ -18,4 +18,8 @@ export class ProfileupdateService {
   getUser(): Observable<UserModel> {
     return this.http.get<UserModel>(`${this.apiUrl}/me`);
   }
+
+  deleteProfileImage(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/profile/image`);
+  }
 }
