@@ -17,6 +17,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Recipes could not be retrieved' });
   }
 });
+
 // Omien yksityisten reseptien haku (Regex live-haku + tietoturva)
 router.get('/search', async (req, res) => {
   try {
@@ -27,11 +28,9 @@ router.get('/search', async (req, res) => {
 
     // Turvaraja: Hakusanan maksimipituus 50 merkkiä
     if (!searchQuery || searchQuery.length > 50) {
-      return res
-        .status(400)
-        .json({
-          error: 'Hakusana on virheellinen tai liian pitkä (max 50 merkkiä)',
-        });
+      return res.status(400).json({
+        error: 'Hakusana on virheellinen tai liian pitkä (max 50 merkkiä)',
+      });
     }
 
     // 1. Luodaan turvallinen regex-lauseke hakusanasta
@@ -82,11 +81,9 @@ router.get('/search', async (req, res) => {
 
     // Turvaraja: Hakusanan maksimipituus 50 merkkiä
     if (!searchQuery || searchQuery.length > 50) {
-      return res
-        .status(400)
-        .json({
-          error: 'Hakusana on virheellinen tai liian pitkä (max 50 merkkiä)',
-        });
+      return res.status(400).json({
+        error: 'Hakusana on virheellinen tai liian pitkä (max 50 merkkiä)',
+      });
     }
 
     // 1. Luodaan turvallinen regex-lauseke hakusanasta
