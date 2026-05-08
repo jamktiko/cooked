@@ -1,0 +1,24 @@
+<app-navbar></app-navbar>
+
+<div class="favorites-container">
+  <h1>MY FAVORITE RECIPES</h1>
+  <p class="favorite-count">
+    You have currently {{ favorites.length === 1 ? '1 recipe' : favorites.length + ' recipes' }} in
+    your favorites
+  </p>
+
+  @if (loading) {
+    <p>Loading favorites...</p>
+  } @else if (favorites.length === 0) {
+    <div class="empty-msg">
+      <p>You haven't added any favorites yet.</p>
+      <a routerLink="/frontpage">Browse recipes here!</a>
+    </div>
+  } @else {
+    <div class="recipe-grid">
+      @for (fav of favorites; track fav._id) {
+        <app-recipecard [recipe]="fav.recipe_id" [canDelete]="false"> </app-recipecard>
+      }
+    </div>
+  }
+</div>

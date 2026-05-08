@@ -19,11 +19,17 @@
 
     <div class="card-body">
       <h3 class="recipe-title">{{ recipe.name }}</h3>
+
       <p class="recipe-description">{{ recipe.description }}</p>
 
       <div class="recipe-meta">
         <span class="meta-item">{{ recipe.duration }} min</span>
         <span class="meta-item">{{ recipe.servings }} servings</span>
+        <span>
+          @if (recipe && recipe._id) {
+            <app-favorite-button [recipeId]="recipe._id"></app-favorite-button>
+          }
+        </span>
       </div>
     </div>
   </div>

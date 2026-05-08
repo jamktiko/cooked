@@ -29,6 +29,11 @@
               <span class="tag-badge">#{{ tag }}</span>
             }
           </div>
+          <div class="info-item">
+            @if (recipe && recipe._id) {
+              <app-favorite-button [recipeId]="recipe._id"></app-favorite-button>
+            }
+          </div>
         </div>
       </div>
     </div>

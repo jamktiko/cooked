@@ -5,7 +5,6 @@ import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
 import { Recipecard } from '../recipecard/recipecard';
 import { Navbar } from '../navbar/navbar';
-import { S3UrlPipe } from '../pipes/s3-url-pipe';
 import { Search } from '../search/search';
 import { SearchService } from '../services/search.service';
 
@@ -38,13 +37,6 @@ export class MyRecipes implements OnInit {
     });
   }
 
-  // Reseptien määrä
-  get recipeStats(): string {
-    const count = this.myRecipes.length;
-    if (count === 0) return `You dont have any recipes in your personal collection yet!`;
-    if (count === 1) return `You have currently ${count} recipe in your personal collection.`;
-    return `You have currently ${count} recipes in your personal collection.`;
-  }
   onPrivateSearch(term: string) {
     if (term.length < 2) {
       // Jos hakukenttä on tyhjä, lataa käyttäjän kaikki reseptit normaalisti takaisin näkyviin

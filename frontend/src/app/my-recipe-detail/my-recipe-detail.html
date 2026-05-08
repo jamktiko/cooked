@@ -31,8 +31,12 @@
             }
           </div>
           <div class="actions">
+            <div>
+              @if (recipe && recipe._id) {
+                <app-favorite-button [recipeId]="recipe._id"></app-favorite-button>
+              }
+            </div>
             <a [routerLink]="['/edit-recipe', recipe._id]" class="btn-edit">Edit Recipe</a>
-
             <button (click)="onDeleteRecipe()" class="btn-delete">Delete Recipe</button>
           </div>
         </div>
