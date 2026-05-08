@@ -52,6 +52,19 @@ export class AuthService {
   login() {
     this.oidcSecurityService.authorize();
   }
+
+  // Lisää tämä login() metodin alle!
+  signup() {
+    this.oidcSecurityService.authorize(undefined, {
+      urlHandler: (url: string) => {
+        // OIDC luo oletuksena turvallisen osoitteen: https://<cognito-domain>/oauth2/authorize?client_id=...&state=...
+        // Vaihdetaan authorize-polku suoraan signup-poluksi, jotta päästään rekisteröitymään
+        const finalSignupUrl = url.replace('/oauth2/authorize', '/signup');
+        window.location.href = finalSignupUrl;
+      },
+    });
+  }
+
   isLoggedIn$() {
     return this.oidcSecurityService.isAuthenticated$.pipe(map((result) => result.isAuthenticated));
   }

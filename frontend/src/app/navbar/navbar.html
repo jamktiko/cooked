@@ -47,7 +47,7 @@
           >Sign In</a
         >
         <a
-          (click)="login()"
+          (click)="signup()"
           class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm cursor-pointer transition-all hover:bg-orange-600 hover:text-white"
           >Sign Up</a
         >
@@ -65,11 +65,17 @@
   </a>
 
   @if (isUserLoggedIn$ | async) {
-    <a routerLink="/my-recipes" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+    <a
+      routerLink="/my-recipes"
+      class="flex flex-1 flex-col items-center justify-center text-zinc-800"
+    >
       <i class="fas fa-book text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Recipes</span>
     </a>
-    <a routerLink="/new-recipe" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+    <a
+      routerLink="/new-recipe"
+      class="flex flex-1 flex-col items-center justify-center text-zinc-800"
+    >
       <i class="fas fa-plus text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Add recipe</span>
     </a>
@@ -85,11 +91,17 @@
       <span class="mt-1 text-[13px] uppercase">Profile</span>
     </a>
   } @else {
-    <a (click)="login()" class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800">
+    <a
+      (click)="login()"
+      class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800"
+    >
       <i class="fas fa-sign-in-alt text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Sign In</span>
     </a>
-    <a (click)="login()" class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800">
+    <a
+      (click)="signup()"
+      class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800"
+    >
       <i class="fas fa-user-plus text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Sign Up</span>
     </a>
