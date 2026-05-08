@@ -30,4 +30,7 @@ export class FavoritesPage implements OnInit {
       },
     });
   }
+  get favoriteCount(): number {
+    return this.favorites.length;
+  }
 }

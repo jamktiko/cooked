@@ -1,7 +1,11 @@
 <app-navbar></app-navbar>
 
 <div class="favorites-container">
-  <h1>YOUR FAVORITES</h1>
+  <h1>MY FAVORITE RECIPES</h1>
+  <p class="favorite-count">
+    You have currently {{ favorites.length === 1 ? '1 recipe' : favorites.length + ' recipes' }} in
+    your favorites
+  </p>
 
   @if (loading) {
     <p>Loading favorites...</p>

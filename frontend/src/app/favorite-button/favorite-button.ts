@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { FavoriteService } from '../services/favorite.service';
+import { AuthService } from '../auth/auth.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -12,15 +13,23 @@ import { CommonModule } from '@angular/common';
 export class FavoriteButtonComponent implements OnInit {
   @Input() recipeId!: string;
 
+  private favoriteService = inject(FavoriteService);
+  private authService = inject(AuthService);
+
   isFavorite: boolean = false;
   loading: boolean = false;
-
-  constructor(private favoriteService: FavoriteService) {}
+  isLoggedIn: boolean = false;
 
   ngOnInit(): void {
-    if (this.recipeId) {
-      this.checkStatus();
-    }
+    // Tarkistetaan kirjautumisen tila
+    this.authService.isLoggedIn$().subscribe((status) => {
+      this.isLoggedIn = status;
+
+      // Tarkistetaan suosikki-status vain, jos käyttäjä on sisällä
+      if (this.isLoggedIn && this.recipeId) {
+        this.checkStatus();
+      }
+    });
   }
 
   checkStatus() {
@@ -31,7 +40,7 @@ export class FavoriteButtonComponent implements OnInit {
   }
 
   toggle(event: Event) {
-    event.stopPropagation(); // Estää kortin klikkaamisen, jos nappi on kortin sisällä
+    event.stopPropagation();
 
     if (this.loading || !this.recipeId) return;
 

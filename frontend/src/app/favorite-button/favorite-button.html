@@ -1,11 +1,7 @@
-<button
-  type="button"
-  (click)="toggle($event)"
-  [disabled]="loading"
-  class="fav-btn"
-  [class.is-loading]="loading"
->
-  <span class="heart-icon" [class.filled]="isFavorite">
-    {{ isFavorite ? '❤️' : '🤍' }}
-  </span>
-</button>
+@if (isLoggedIn) {
+  <button type="button" (click)="toggle($event)" [disabled]="loading" class="fav-btn">
+    <span [class.filled]="isFavorite">
+      {{ isFavorite ? '❤️' : '🤍' }}
+    </span>
+  </button>
+}

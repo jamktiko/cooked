@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Recipe } from '../models/recipe.model';
 import { RouterModule, Router } from '@angular/router';
 import { S3UrlPipe } from '../pipes/s3-url-pipe';
+import { FavoriteButtonComponent } from '../favorite-button/favorite-button';
 
 @Component({
   selector: 'app-recipecard',
   standalone: true,
-  imports: [CommonModule, RouterModule, S3UrlPipe],
+  imports: [CommonModule, RouterModule, S3UrlPipe, FavoriteButtonComponent],
   templateUrl: './recipecard.html',
   styleUrl: './recipecard.css',
 })
