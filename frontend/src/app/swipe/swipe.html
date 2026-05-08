@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 <div
-  class="relative flex h-[calc(100vh-64px)] w-full flex-col items-center justify-center overflow-hidden bg-cooked-bg"
+  class="relative flex h-[calc(100dvh-85px)] w-full flex-col items-center justify-center pb-24 overflow-hidden bg-cooked-bg"
   (touchstart)="onTouchStart($event)"
   (touchmove)="onTouchMove($event)"
   (touchend)="endDrag()"
@@ -25,9 +25,9 @@
     >
       @if (currentX > 30) {
         <div
-          class="absolute top-10 left-6 border-4 border-green-500 text-green-500 font-bold uppercase p-2 rotate-[-15deg] rounded-xl opacity-90 text-4xl pointer-events-none z-20 bg-white/90"
+          class="absolute top-10 left-6 flex items-center gap-2 border-4 border-green-500 text-green-500 font-bold uppercase p-2 rotate-[-15deg] rounded-xl opacity-90 text-4xl pointer-events-none z-20 bg-white/90"
         >
-          LIKE
+          COOK <i class="fa-solid fa-fire text-orange-500"></i>
         </div>
       }
       @if (currentX < -30) {
@@ -43,7 +43,7 @@
       </div>
     </div>
 
-    <div class="absolute bottom-[8%] z-20 flex w-[320px] justify-between px-6">
+    <div class="absolute bottom-4 z-20 flex w-full justify-center gap-20">
       <button
         (click)="handleSkip()"
         class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-red-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
@@ -55,7 +55,7 @@
         (click)="handleMatch()"
         class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-green-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
       >
-        <i class="fas fa-heart text-3xl"></i>
+        <i class="fa-solid fa-fire text-3xl"></i>
       </button>
     </div>
   } @else {
