@@ -9,6 +9,9 @@
     <div class="image-wrapper">
       <img [src]="recipe.image | s3Url" alt="{{ recipe.name }}" class="recipe-image" />
     </div>
+    @if (recipe && recipe._id) {
+      <app-favorite-button [recipeId]="recipe._id"></app-favorite-button>
+    }
     <div class="recipe-hero">
       <div class="header-content">
         <h1>{{ recipe.name }}</h1>

@@ -9,6 +9,7 @@ import { MyRecipes } from './my-recipes/my-recipes';
 import { MyRecipeDetail } from './my-recipe-detail/my-recipe-detail';
 import { Swipe } from './swipe/swipe';
 import { RecipeEdit } from './recipe-edit/recipe-edit';
+import { FavoritesPage } from './favorites-page/favorites-page';
 
 import { Profile } from './profile/profile';
 export const routes: Routes = [
@@ -43,6 +44,11 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: Profile,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'favorites',
+    component: FavoritesPage,
     canActivate: [authGuard],
   },
 

@@ -1,0 +1,25 @@
+.fav-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+  padding: 5px;
+}
+
+.fav-btn:hover {
+  transform: scale(1.2);
+}
+
+.fav-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.heart {
+  color: #ccc;
+}
+
+.heart.filled {
+  color: red;
+}
