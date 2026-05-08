@@ -23,12 +23,21 @@
           raffle the food of the day and pick your favorite recipes by swiping. Register to get a
           full access of all the features of the app! It’s free!
         </p>
-        <button
-          (click)="authService.login()"
-          class="font-bebas rounded-full bg-[#305252] px-8 py-3 text-xl text-white uppercase shadow-lg transition-all hover:scale-105 active:scale-95"
-        >
-          Get Started
-        </button>
+        <div class="flex flex-wrap justify-center gap-4">
+          <button
+            (click)="authService.signup()"
+            class="font-bebas rounded-full bg-cooked-dark px-8 py-3 text-xl text-white uppercase shadow-lg transition-all hover:bg-zinc-500 hover:scale-105 active:scale-95"
+          >
+            Get Started
+          </button>
+
+          <button
+            (click)="authService.login()"
+            class="font-bebas rounded-full bg-cooked-orange px-8 py-3 text-xl text-black uppercase shadow-sm transition-all hover:bg-orange-600 hover:scale-105 active:scale-95 hover:text-white"
+          >
+            Sign in
+          </button>
+        </div>
       }
     </div>
 
@@ -41,8 +50,11 @@
         </h2>
       </div>
 
-      <div class="flex w-full flex-col items-center gap-3 md:w-auto md:flex-row">
-        <app-search (searchQuery)="onPublicSearch($event)" class="w-full md:w-auto"></app-search>
+      <div class="flex w-full flex-col items-center h-2.5 pb-10 md:w-auto md:flex-row md:pb-0">
+        <app-search
+          (searchQuery)="onPublicSearch($event)"
+          class="block w-full md:w-auto"
+        ></app-search>
       </div>
     </div>
 
