@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Navbar } from '../navbar/navbar';
 import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
-
 import { Recipecard } from '../recipecard/recipecard';
 
 @Component({
@@ -34,7 +33,8 @@ export class Swipe implements OnInit {
     this.isLoading = true;
     this.recipeService.getPublicRecipes().subscribe({
       next: (data) => {
-        this.recipes = data;
+        // Sekoitetaan data heti kun se saapuu
+        this.recipes = data.sort(() => Math.random() - 0.5);
         this.isLoading = false;
       },
       error: (err) => {
