@@ -19,7 +19,7 @@ export class Uploadimg {
     if (!input.files?.length) return;
 
     const file = input.files[0];
-    
+
     // Luodaan esikatselu
     const reader = new FileReader();
     reader.onload = () => {
