@@ -1,7 +1,6 @@
 /* Pääkääre ja tausta */
 .frontpage-wrapper {
   min-height: 100vh;
-  background-color: #fcfaf7; /* Erittäin vaalea "luonnonvalkoinen" tausta */
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 

@@ -1,7 +1,6 @@
 /* Koko sivun taustaväri ja fontti */
 :host {
   display: block;
-  background-color: #f8f9fa;
   min-height: 100vh;
   font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
