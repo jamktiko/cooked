@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 <div
-  class="relative flex h-[calc(100dvh-85px)] w-full flex-col items-center justify-center pb-24 overflow-hidden bg-cooked-bg"
+  class="relative flex h-[calc(100dvh-85px)] w-full flex-col items-center justify-center pb-24 overflow-hidden"
   (touchstart)="onTouchStart($event)"
   (touchmove)="onTouchMove($event)"
   (touchend)="endDrag()"
@@ -17,7 +17,7 @@
     </div>
   } @else if (currentRecipe) {
     <div
-      class="swipe-card absolute flex h-[450px] w-[320px] flex-col overflow-hidden rounded-2xl bg-white shadow-xl cursor-grab active:cursor-grabbing z-10"
+      class="swipe-card absolute -mt-16 sm:mt-0 flex h-[380px] w-[300px] sm:h-[450px] sm:w-[320px] flex-col overflow-hidden rounded-2xl bg-white shadow-xl cursor-grab active:cursor-grabbing z-10"
       [style.transform]="transformString"
       [style.transition]="
         isDragging ? 'none' : 'transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
@@ -43,19 +43,19 @@
       </div>
     </div>
 
-    <div class="absolute bottom-4 z-20 flex w-full justify-center gap-20">
+    <div class="absolute bottom-24 md:bottom-12 z-20 flex w-full justify-center gap-20">
       <button
         (click)="handleSkip()"
-        class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-red-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
+        class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-red-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
       >
-        <i class="fas fa-times text-3xl"></i>
+        <i class="fas fa-times text-3xl md:text-4xl"></i>
       </button>
 
       <button
         (click)="handleMatch()"
-        class="flex h-16 w-16 items-center justify-center rounded-full bg-white text-green-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
+        class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-green-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
       >
-        <i class="fa-solid fa-fire text-3xl"></i>
+        <i class="fa-solid fa-fire text-3xl md:text-4xl"></i>
       </button>
     </div>
   } @else {
