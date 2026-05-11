@@ -1,76 +1,161 @@
-<app-navbar></app-navbar>
+<div class="overflow-x-hidden min-h-screen w-full">
+  <app-navbar></app-navbar>
 
-<div class="recipe-detail-container">
-  <div class="back-navigation">
-    <button routerLink="/frontpage" class="btn-back">
-      <span class="arrow">←</span> Back to recipes
-    </button>
-  </div>
-  @if (recipe) {
-    <div class="image-wrapper">
-      <img [src]="recipe.image | s3Url" alt="{{ recipe.name }}" class="recipe-image" />
-    </div>
-    <div class="recipe-hero">
-      <div class="header-content">
-        <h1>{{ recipe.name }}</h1>
-        <p class="description">{{ recipe.description }}</p>
+  <div class="max-w-[1100px] mx-auto px-4 sm:px-6 py-6 md:py-10 font-sans text-gray-800">
+    @if (recipe) {
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-8 md:mb-12 items-start text-center md:text-left"
+      >
+        <div class="flex flex-col w-full">
+          <div class="flex justify-between items-center mb-3">
+            <button
+              routerLink="/frontpage"
+              class="flex items-center justify-center w-10 h-10 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors shadow-sm"
+              title="Back to recipes"
+            >
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
 
-        <div class="meta-info">
-          <div class="info-item">
-            <span class="label">Duration:</span>
-            <span class="value">{{ recipe.duration }} minutes</span>
-          </div>
-          <div class="info-item">
-            <span class="label">Servings:</span>
-            <span class="value">{{ recipe.servings }} servings</span>
-          </div>
-          <div class="info-item">
-            <span class="label">Tags:</span>
-            @for (tag of recipe.tags; track tag) {
-              <span class="tag-badge">#{{ tag }}</span>
-            }
-          </div>
-          <div class="actions">
-            <div>
+            <div class="flex gap-3">
               @if (recipe && recipe._id) {
                 <app-favorite-button [recipeId]="recipe._id"></app-favorite-button>
+
+                <a
+                  [routerLink]="['/edit-recipe', recipe._id]"
+                  class="flex items-center justify-center w-10 h-10 bg-blue-50 text-blue-600 rounded-full hover:bg-blue-100 transition-colors shadow-sm"
+                  title="Edit Recipe"
+                >
+                  <i class="fa-solid fa-pen"></i>
+                </a>
+
+                <button
+                  (click)="onDeleteRecipe()"
+                  class="flex items-center justify-center w-10 h-10 bg-red-50 text-red-600 rounded-full hover:bg-red-100 transition-colors shadow-sm"
+                  title="Delete Recipe"
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
               }
             </div>
-            <a [routerLink]="['/edit-recipe', recipe._id]" class="btn-edit">Edit Recipe</a>
-            <button (click)="onDeleteRecipe()" class="btn-delete">Delete Recipe</button>
+          </div>
+
+          <img
+            [src]="recipe.image | s3Url"
+            alt="{{ recipe.name }}"
+            class="w-full h-[250px] md:h-[400px] object-cover rounded-2xl md:rounded-3xl shadow-lg"
+          />
+        </div>
+
+        <div class="md:pt-12">
+          <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-3 md:mb-4 break-words">
+            {{ recipe.name }}
+          </h1>
+          <p class="text-base md:text-lg text-gray-600 leading-relaxed">{{ recipe.description }}</p>
+
+          <div class="mt-8 pt-0 md:pt-6 border-t-0 md:border-t border-gray-100">
+            <div class="flex justify-center md:justify-start gap-12 md:gap-10 mb-6">
+              <div class="text-center md:text-left">
+                <span
+                  class="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider mb-1"
+                  >Duration:</span
+                >
+                <span class="font-bold text-base md:text-lg">{{ recipe.duration }} min</span>
+              </div>
+              <div class="text-center md:text-left">
+                <span
+                  class="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider mb-1"
+                  >Servings:</span
+                >
+                <span class="font-bold text-base md:text-lg">{{ recipe.servings }}</span>
+              </div>
+            </div>
+
+            <div class="text-center md:text-left">
+              <span class="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider mb-2"
+                >Tags:</span
+              >
+              <div class="flex flex-wrap justify-center md:justify-start gap-2">
+                @for (tag of recipe.tags; track tag) {
+                  <span
+                    class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-semibold"
+                  >
+                    #{{ tag }}
+                  </span>
+                }
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="recipe-main-content">
-      <section class="ingredients-card">
-        <h2>Ingredients</h2>
-        <ul>
-          @for (ing of recipe.ingredients; track ing._id) {
-            <li>
-              <span class="amount-unit">{{ ing.amount }} {{ ing.unit }}</span>
-              <span class="ingredient-name">{{ ing.name }}</span>
-            </li>
-          }
-        </ul>
-      </section>
+      <div class="grid grid-cols-1 md:grid-cols-[350px_1fr] gap-8 md:gap-16">
+        <section>
+          <h2
+            class="text-xl md:text-2xl font-bold mb-4 md:mb-6 border-b-4 border-orange-500 inline-block pb-1 text-gray-900"
+          >
+            Ingredients
+          </h2>
+          <ul class="flex flex-col">
+            @for (ing of recipe.ingredients; track ing._id) {
+              <li
+                class="py-2 md:py-3 border-b border-gray-100 flex last:border-0 text-sm md:text-base"
+              >
+                <span class="min-w-[70px] md:min-w-[90px] font-bold text-orange-500"
+                  >{{ ing.amount }} {{ ing.unit }}</span
+                >
+                <span class="text-gray-700">{{ ing.name }}</span>
+              </li>
+            }
+          </ul>
+        </section>
 
-      <section class="directions-card">
-        <h2>Directions</h2>
-        <div class="instruction-steps">
-          @for (step of recipe.directions; track $index; let i = $index) {
-            <div class="step">
-              <span class="step-num">{{ i + 1 }}</span>
-              <p>{{ step }}</p>
-            </div>
-          }
-        </div>
-      </section>
-    </div>
-  } @else {
-    <div class="loading">
-      <p>Loading recipe...</p>
-    </div>
-  }
+        <section>
+          <h2
+            class="text-xl md:text-2xl font-bold mb-4 md:mb-6 border-b-4 border-orange-500 inline-block pb-1 text-gray-900"
+          >
+            Directions
+          </h2>
+          <div class="flex flex-col">
+            @for (step of recipe.directions; track $index; let i = $index) {
+              <div
+                class="group flex items-start gap-3 md:gap-4 py-3 md:py-4 cursor-pointer border-b border-gray-100 last:border-0"
+                (click)="toggleStep(i)"
+              >
+                <div
+                  class="flex-shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center rounded-full transition-all duration-200"
+                  [class]="
+                    completedSteps.has(i)
+                      ? 'bg-green-100'
+                      : 'bg-orange-100 group-hover:bg-orange-200'
+                  "
+                >
+                  @if (completedSteps.has(i)) {
+                    <i
+                      class="fa-solid fa-check text-green-600 scale-110 transition-transform text-xs md:text-sm"
+                    ></i>
+                  } @else {
+                    <span class="text-xs md:text-sm font-semibold text-orange-600">{{
+                      i + 1
+                    }}</span>
+                  }
+                </div>
+
+                <p
+                  class="flex-grow pt-0.5 md:pt-1 text-sm md:text-base transition-colors duration-200"
+                  [class.text-gray-400]="completedSteps.has(i)"
+                  [class.text-gray-800]="!completedSteps.has(i)"
+                >
+                  {{ step }}
+                </p>
+              </div>
+            }
+          </div>
+        </section>
+      </div>
+    } @else {
+      <div class="text-center py-20 text-gray-500">
+        <p>Loading recipe...</p>
+      </div>
+    }
+  </div>
 </div>

@@ -3,16 +3,9 @@
     type="button"
     (click)="toggle($event)"
     [disabled]="loading"
-    class="p-2 transition-all hover:scale-110 active:scale-90"
+    class="flex items-center justify-center w-10 h-10 rounded-full transition-colors shadow-sm"
+    [class]="isFavorite ? 'bg-red-50 text-red-600' : 'bg-gray-50 text-gray-400 hover:bg-gray-100'"
   >
-    <i
-      class="fa-solid fa-heart text-2xl transition-colors duration-300"
-      [ngClass]="{
-        'text-red-500': isFavorite,
-        'text-gray-400': !isFavorite,
-        'animate-pulse': loading,
-      }"
-    >
-    </i>
+    <i [class]="isFavorite ? 'fa-solid fa-heart' : 'fa-regular fa-heart'"></i>
   </button>
 }

@@ -22,12 +22,13 @@ export class RecipeDetail implements OnInit {
   loading = true;
   error = false;
 
+  // 1. Lisätään muuttuja klikattujen vaiheiden tallentamiseen
+  completedSteps = new Set<number>();
+
   ngOnInit() {
-    // 1. Haetaan ID URL-osoitteesta (esim. /recipe/65f123...)
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
-      // 2. Kutsutaan serviceä
       this.recipeService.getRecipeById(id).subscribe({
         next: (data) => {
           this.recipe = data;
@@ -39,6 +40,15 @@ export class RecipeDetail implements OnInit {
           this.error = true;
         },
       });
+    }
+  }
+
+  // 2. Lisätään funktio, joka hoitaa klikkauksen
+  toggleStep(index: number) {
+    if (this.completedSteps.has(index)) {
+      this.completedSteps.delete(index);
+    } else {
+      this.completedSteps.add(index);
     }
   }
 }
