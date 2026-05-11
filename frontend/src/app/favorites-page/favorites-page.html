@@ -1,21 +1,47 @@
 <app-navbar></app-navbar>
 
-<div class="favorites-container">
-  <h1>MY FAVORITE RECIPES</h1>
-  <p class="favorite-count">
-    You have currently {{ favorites.length === 1 ? '1 recipe' : favorites.length + ' recipes' }} in
-    your favorites
-  </p>
+<main class="mx-auto w-full max-w-6xl flex-1 px-6 pb-24 pt-8 md:pb-12">
+  <div class="mb-8 flex flex-col items-start text-left">
+    <h2
+      class="font-bebas text-4xl font-bold tracking-tight text-zinc-800 uppercase leading-none md:text-5xl"
+    >
+      My favorite recipes
+    </h2>
+    <p class="font-sarabun mt-0 text-zinc-600 leading-tight">
+      You have currently
+      <span class="font-bold text-[#E67E22]">
+        {{ favorites.length === 1 ? '1 recipe' : favorites.length + ' recipes' }}
+      </span>
+      in your favorites.
+    </p>
+  </div>
 
   @if (loading) {
-    <p>Loading favorites...</p>
+    <div class="flex justify-center items-center py-20">
+      <div class="loader text-zinc-600 font-bebas text-2xl animate-pulse">Loading favorites...</div>
+    </div>
   } @else if (favorites.length === 0) {
-    <div class="empty-msg">
-      <p>You haven't added any favorites yet.</p>
-      <a routerLink="/frontpage">Browse recipes here!</a>
+    <div
+      class="col-span-full flex flex-col items-center justify-center py-24 bg-white/50 rounded-[2.5rem] border-2 border-dashed border-zinc-300"
+    >
+      <div
+        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 text-[#E67E22]"
+      >
+        <i class="fas fa-heart text-2xl"></i>
+      </div>
+      <h3 class="font-bebas text-3xl text-zinc-800 uppercase tracking-wide">No favorites yet...</h3>
+      <p class="font-sarabun text-zinc-600 mt-1 mb-6">
+        You haven't added any recipes to your favorites yet.
+      </p>
+      <a
+        routerLink="/frontpage"
+        class="rounded-full bg-[#305252] px-8 py-3 font-bebas text-lg text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
+      >
+        Browse recipes
+      </a>
     </div>
   } @else {
-    <div class="recipe-grid">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
       @for (fav of favorites; track fav._id) {
         <app-recipecard
           [recipe]="fav.recipe_id"
@@ -26,4 +52,4 @@
       }
     </div>
   }
-</div>
+</main>
