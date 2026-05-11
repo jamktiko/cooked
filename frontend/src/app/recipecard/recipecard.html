@@ -54,7 +54,7 @@
 
         @if (recipe._id && showFavoriteButton) {
           <div (click)="$event.stopPropagation()" class="shrink-0">
-            <app-favorite-button [recipeId]="recipe._id">
+            <app-favorite-button [recipeId]="recipe._id" (toggled)="onToggle($event)">
               <i
                 class="fa-solid fa-heart text-xl text-[#E67E22] hover:scale-110 transition-transform cursor-pointer"
               ></i>
