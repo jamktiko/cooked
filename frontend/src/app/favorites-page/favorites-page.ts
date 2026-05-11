@@ -34,6 +34,14 @@ export class FavoritesPage implements OnInit {
     return this.favorites.length;
   }
   handleRemoved(recipeId: string) {
-    this.favorites = this.favorites.filter((fav) => fav.recipe_id._id !== recipeId);
+    // 1. Suodatetaan lista: poistetaan se, jonka ID täsmää
+    this.favorites = this.favorites.filter((fav) => {
+      // Varmista, onko vertailukohde fav.recipe_id._id vai fav.recipe_id
+      const currentRecipeId = fav.recipe_id?._id || fav.recipe_id;
+      return currentRecipeId !== recipeId;
+    });
+
+    // 2. Nyt favorites.length on päivittynyt automaattisesti!
+    console.log('Uusi suosikkien määrä:', this.favorites.length);
   }
 }

@@ -40,6 +40,12 @@ export class Recipecard {
   }
 
   onToggle(isFavorite: boolean) {
-    this.favoriteRemoved.emit(this.recipe._id!);
+    console.log('Kortti vastaanotti togglen:', isFavorite);
+
+    // Jos sydän muuttuu tyhjäksi (isFavorite === false)
+    if (!isFavorite) {
+      console.log('Lähetetään favoriteRemoved-tapahtuma yläkerran komponentille...');
+      this.favoriteRemoved.emit(this.recipe._id);
+    }
   }
 }
