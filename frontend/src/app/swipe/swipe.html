@@ -11,13 +11,13 @@
   (mouseleave)="endDrag()"
 >
   @if (isLoading) {
-    <div class="flex flex-col items-center text-cooked-orange">
+    <div class="flex flex-col items-center text-[#E67E22]">
       <i class="fas fa-circle-notch fa-spin text-5xl mb-4"></i>
       <p class="font-bold">Fetching recipes...</p>
     </div>
   } @else if (currentRecipe) {
     <div
-      class="swipe-card absolute -mt-16 sm:mt-0 flex h-[380px] w-[300px] sm:h-[450px] sm:w-[320px] flex-col overflow-hidden rounded-2xl bg-white shadow-xl cursor-grab active:cursor-grabbing z-10"
+      class="swipe-card absolute -mt-12 sm:mt-0 flex w-[320px] sm:w-[380px] flex-col overflow-hidden rounded-3xl bg-white shadow-2xl cursor-grab active:cursor-grabbing z-10"
       [style.transform]="transformString"
       [style.transition]="
         isDragging ? 'none' : 'transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
@@ -25,44 +25,67 @@
     >
       @if (currentX > 30) {
         <div
-          class="absolute top-10 left-6 flex items-center gap-2 border-4 border-green-500 text-green-500 font-bold uppercase p-2 rotate-[-15deg] rounded-xl opacity-90 text-4xl pointer-events-none z-20 bg-white/90"
+          class="absolute top-12 left-8 flex items-center gap-2 border-4 border-green-500 text-green-500 font-bold uppercase p-3 rotate-[-15deg] rounded-xl opacity-90 text-5xl pointer-events-none z-30 bg-white/90"
         >
           COOK <i class="fa-solid fa-fire text-orange-500"></i>
         </div>
       }
       @if (currentX < -30) {
         <div
-          class="absolute top-10 right-6 border-4 border-red-500 text-red-500 font-bold uppercase p-2 rotate-[15deg] rounded-xl opacity-90 text-4xl pointer-events-none z-20 bg-white/90"
+          class="absolute top-12 right-8 border-4 border-red-500 text-red-500 font-bold uppercase p-3 rotate-[15deg] rounded-xl opacity-90 text-5xl pointer-events-none z-30 bg-white/90"
         >
           NOPE
         </div>
       }
 
-      <div class="h-full w-full pointer-events-none">
-        <app-recipecard [recipe]="currentRecipe"></app-recipecard>
+      <div class="w-full pointer-events-none">
+        <app-recipecard
+          [recipe]="currentRecipe"
+          class="[&_.h-48]:h-64 [&_.h-48]:sm:h-72"
+        ></app-recipecard>
       </div>
     </div>
 
-    <div class="absolute bottom-24 md:bottom-12 z-20 flex w-full justify-center gap-20">
+    <div class="absolute bottom-12 md:bottom-8 z-20 flex w-full justify-center gap-12 md:gap-16">
       <button
         (click)="handleSkip()"
-        class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-red-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
+        class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-red-500 shadow-xl transition-transform hover:scale-110 active:scale-95 border border-zinc-100"
       >
         <i class="fas fa-times text-3xl md:text-4xl"></i>
       </button>
 
       <button
         (click)="handleMatch()"
-        class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-green-500 shadow-lg transition-transform hover:scale-110 active:scale-95"
+        class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-green-500 shadow-xl transition-transform hover:scale-110 active:scale-95 border border-zinc-100"
       >
         <i class="fa-solid fa-fire text-3xl md:text-4xl"></i>
       </button>
     </div>
   } @else {
-    <div class="flex flex-col items-center text-center text-cooked-dark animate-bounce">
-      <i class="fas fa-check-circle mb-4 text-6xl text-green-500"></i>
-      <h2 class="text-2xl font-bold">All caught up!</h2>
-      <p class="mt-2 text-gray-600">Come back later for more recipes.</p>
+    <div
+      class="mx-auto flex flex-col items-center rounded-[3rem] border border-black/5 bg-white p-10 shadow-xl md:max-w-md text-center"
+    >
+      <div
+        class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#D6E5E5] text-[#305252]"
+      >
+        <i class="fa-solid fa-arrow-right-arrow-left text-3xl"></i>
+      </div>
+
+      <h3 class="font-bebas text-5xl font-bold tracking-tight text-zinc-900 uppercase leading-none">
+        That's all!
+      </h3>
+
+      <p class="font-sarabun mt-4 text-lg font-medium text-zinc-600">
+        You've gone through all recipes
+      </p>
+
+      <button
+        onclick="window.location.reload()"
+        class="font-bebas mt-10 flex items-center gap-3 rounded-full bg-[#305252] px-10 py-4 text-2xl font-bold tracking-wide text-white shadow-lg transition-transform hover:scale-105 active:scale-95 uppercase"
+      >
+        <i class="fa-solid fa-rotate-left text-xl"></i>
+        Start Again
+      </button>
     </div>
   }
 </div>
