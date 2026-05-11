@@ -10,7 +10,6 @@ import { FavoriteButtonComponent } from '../favorite-button/favorite-button';
   standalone: true,
   imports: [CommonModule, RouterModule, S3UrlPipe, FavoriteButtonComponent],
   templateUrl: './recipecard.html',
-  styleUrl: './recipecard.css',
 })
 export class Recipecard {
   private router = inject(Router);

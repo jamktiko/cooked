@@ -1,18 +1,39 @@
 <app-navbar></app-navbar>
-<h1>My recipe collection</h1>
 
-<div class="container">
-  <div class="page-header">
-    You have currently
-    {{ myRecipes.length === 1 ? '1 recipe' : myRecipes.length + ' recipes' }} in your personal
-    collection.
-    <app-search (searchQuery)="onPrivateSearch($event)"></app-search>
+<main class="mx-auto w-full max-w-6xl flex-1 px-6 pb-24 pt-8 md:pb-12">
+  <div class="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+    <div class="flex flex-col items-start text-left">
+      <h2
+        class="font-bebas text-4xl font-bold tracking-tight text-zinc-800 uppercase leading-none md:text-5xl"
+      >
+        My recipe collection
+      </h2>
+      <p class="font-sarabun mt-0 text-zinc-600 leading-tight">
+        You have currently
+        <span class="font-bold text-[#E67E22]">
+          {{ myRecipes.length === 1 ? '1 recipe' : myRecipes.length + ' recipes' }}
+        </span>
+        in your personal collection.
+      </p>
+    </div>
+
+    <div class="w-full md:w-auto">
+      <div
+        class="relative w-full overflow-hidden rounded-full border border-black/5 bg-white shadow-md md:w-64 lg:w-80"
+      >
+        <app-search (searchQuery)="onPrivateSearch($event)"></app-search>
+      </div>
+    </div>
   </div>
 
   @if (loading) {
-    <div class="loader">Loading your recipes...</div>
+    <div class="flex justify-center items-center py-20">
+      <div class="loader text-zinc-600 font-bebas text-2xl animate-pulse">
+        Loading your recipes...
+      </div>
+    </div>
   } @else {
-    <div class="recipe-grid">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
       @for (r of myRecipes; track r._id) {
         <app-recipecard
           [recipe]="r"
@@ -21,11 +42,20 @@
           (deleteRequest)="onDeleteRecipe($event)"
         ></app-recipecard>
       } @empty {
-        <div class="empty-state">
-          <h3>No recipes here yet...</h3>
-          <p>You haven't created any recipes yet.</p>
+        <div
+          class="col-span-full flex flex-col items-center justify-center py-24 bg-white/50 rounded-[2.5rem] border-2 border-dashed border-zinc-300"
+        >
+          <div
+            class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 text-zinc-400"
+          >
+            <i class="fas fa-utensils text-2xl"></i>
+          </div>
+          <h3 class="font-bebas text-3xl text-zinc-800 uppercase tracking-wide">
+            No recipes here yet...
+          </h3>
+          <p class="font-sarabun text-zinc-600 mt-1">You haven't created any recipes yet.</p>
         </div>
       }
     </div>
   }
-</div>
+</main>
