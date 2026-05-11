@@ -2,20 +2,27 @@
   <app-navbar></app-navbar>
 
   <div class="max-w-[1100px] mx-auto px-4 sm:px-6 py-6 md:py-10 font-sans text-gray-800">
-    <div class="mb-4 md:mb-6">
-      <button
-        routerLink="/frontpage"
-        class="text-gray-500 hover:text-gray-800 transition-colors flex items-center gap-2"
-      >
-        <span>←</span> Back to recipes
-      </button>
-    </div>
-
     @if (recipe) {
       <div
-        class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-8 md:mb-12 items-center text-center md:text-left"
+        class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-8 md:mb-12 items-start text-center md:text-left"
       >
-        <div class="w-full">
+        <div class="flex flex-col w-full">
+          <div class="flex justify-between items-center mb-3">
+            <button
+              routerLink="/frontpage"
+              class="flex items-center justify-center w-10 h-10 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors shadow-sm"
+              title="Back to recipes"
+            >
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
+
+            <div class="flex gap-3">
+              @if (recipe && recipe._id) {
+                <app-favorite-button [recipeId]="recipe._id"></app-favorite-button>
+              }
+            </div>
+          </div>
+
           <img
             [src]="recipe.image | s3Url"
             alt="{{ recipe.name }}"
@@ -23,44 +30,43 @@
           />
         </div>
 
-        <div>
+        <div class="md:pt-12">
           <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-3 md:mb-4 break-words">
             {{ recipe.name }}
           </h1>
           <p class="text-base md:text-lg text-gray-600 leading-relaxed">{{ recipe.description }}</p>
 
-          <div
-            class="flex flex-wrap justify-center md:justify-start gap-4 md:gap-8 mt-5 md:mt-6 pt-4 md:pt-5 border-t border-gray-200"
-          >
-            <div>
-              <span class="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider mb-1"
-                >Duration:</span
-              >
-              <span class="font-bold text-base md:text-lg">{{ recipe.duration }} min</span>
-            </div>
-            <div>
-              <span class="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider mb-1"
-                >Servings:</span
-              >
-              <span class="font-bold text-base md:text-lg">{{ recipe.servings }}</span>
-            </div>
-            <div>
-              <span class="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider mb-1"
-                >Tags:</span
-              >
-              <div class="flex flex-wrap gap-2 justify-center md:justify-start">
-                @for (tag of recipe.tags; track tag) {
-                  <span
-                    class="bg-orange-100 text-orange-800 px-2 py-1 md:px-3 md:py-1 rounded-full text-xs md:text-sm font-semibold"
-                    >#{{ tag }}</span
-                  >
-                }
+          <div class="mt-8 pt-0 md:pt-6 border-t-0 md:border-t border-gray-100">
+            <div class="flex justify-center md:justify-start gap-12 md:gap-10 mb-6">
+              <div class="text-center md:text-left">
+                <span
+                  class="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider mb-1"
+                  >Duration:</span
+                >
+                <span class="font-bold text-base md:text-lg">{{ recipe.duration }} min</span>
+              </div>
+              <div class="text-center md:text-left">
+                <span
+                  class="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider mb-1"
+                  >Servings:</span
+                >
+                <span class="font-bold text-base md:text-lg">{{ recipe.servings }}</span>
               </div>
             </div>
-            <div class="flex items-center ml-2">
-              @if (recipe && recipe._id) {
-                <app-favorite-button [recipeId]="recipe._id"></app-favorite-button>
-              }
+
+            <div class="text-center md:text-left">
+              <span class="block text-[10px] md:text-xs text-gray-400 uppercase tracking-wider mb-2"
+                >Tags:</span
+              >
+              <div class="flex flex-wrap justify-center md:justify-start gap-2">
+                @for (tag of recipe.tags; track tag) {
+                  <span
+                    class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-semibold"
+                  >
+                    #{{ tag }}
+                  </span>
+                }
+              </div>
             </div>
           </div>
         </div>
