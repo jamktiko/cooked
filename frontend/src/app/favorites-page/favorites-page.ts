@@ -33,4 +33,7 @@ export class FavoritesPage implements OnInit {
   get favoriteCount(): number {
     return this.favorites.length;
   }
+  handleRemoved(recipeId: string) {
+    this.favorites = this.favorites.filter((fav) => fav.recipe_id._id !== recipeId);
+  }
 }
