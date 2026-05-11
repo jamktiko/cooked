@@ -1,4 +1,3 @@
-// services/favorite.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
@@ -11,7 +10,6 @@ export class FavoriteService {
   private authService = inject(AuthService);
   private apiUrl = `${environment.backendApi}/favorites`;
 
-  // Apumetodi headereiden luontiin, jotta koodia ei tarvitse toistaa
   private getHeaders(): HttpHeaders {
     const token = this.authService.getAccessToken() || '';
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
@@ -32,7 +30,6 @@ export class FavoriteService {
   }
 
   getFavorites(): Observable<any[]> {
-    // TÄRKEÄÄ: Lisätty headers myös tähän
     return this.http.get<any[]>(this.apiUrl, { headers: this.getHeaders() });
   }
 }

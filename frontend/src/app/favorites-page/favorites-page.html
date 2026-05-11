@@ -17,7 +17,12 @@
   } @else {
     <div class="recipe-grid">
       @for (fav of favorites; track fav._id) {
-        <app-recipecard [recipe]="fav.recipe_id" [canDelete]="false"> </app-recipecard>
+        <app-recipecard
+          [recipe]="fav.recipe_id"
+          [canDelete]="false"
+          (favoriteRemoved)="handleRemoved($event)"
+        >
+        </app-recipecard>
       }
     </div>
   }
