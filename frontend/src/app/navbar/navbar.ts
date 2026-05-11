@@ -26,6 +26,10 @@ export class Navbar {
     this.authService.login();
   }
 
+  signup() {
+    this.authService.signup();
+  }
+
   goToProfile(event: Event) {
     event.preventDefault();
     this.profileService.getUser().subscribe({
@@ -40,7 +44,7 @@ export class Navbar {
         console.error('Virhe profiilin tarkistuksessa:', err);
         // Jos tulee virhe, ohjataan silti profiiliin ettei navigointi mene täysin jumiin
         this.router.navigate(['/profile']);
-      }
+      },
     });
   }
 }

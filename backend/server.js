@@ -4,12 +4,14 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const Recipe = require('./models/recipe');
+const Favorite = require('./models/favorites');
 
 // Tuodaan reittitiedostot
 const publicRoutes = require('./routes/public-routes');
 const privateRoutes = require('./routes/private-routes');
 const userRoutes = require('./routes/user.routes');
 const awsRoutes = require('./routes/aws-routes');
+
 // Express-sovellus
 const app = express();
 
@@ -22,6 +24,7 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization'],
   }),
 );
+
 // Middlewaret
 app.use(express.json());
 const { checkAuth } = require('./middleware/auth.middleware');
@@ -49,6 +52,9 @@ app.use('/api/user', checkAuth, userRoutes);
 
 // aws reitit
 app.use('/api/aws', awsRoutes);
+
+app.use('/api/favorites', checkAuth, require('./routes/favorite-routes'));
+
 // Palvelimen käynnistys
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

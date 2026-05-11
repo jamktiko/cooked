@@ -5,11 +5,12 @@ import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
 import { Navbar } from '../navbar/navbar';
 import { S3UrlPipe } from '../pipes/s3-url-pipe';
+import { FavoriteButtonComponent } from '../favorite-button/favorite-button';
 
 @Component({
   selector: 'app-recipe-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule, Navbar, S3UrlPipe],
+  imports: [CommonModule, RouterModule, Navbar, S3UrlPipe, FavoriteButtonComponent],
   templateUrl: './recipe-detail.html',
   styleUrl: './recipe-detail.css',
 })

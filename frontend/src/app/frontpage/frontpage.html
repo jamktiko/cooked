@@ -1,39 +1,78 @@
-<div class="frontpage-wrapper">
+<div
+  class="font-sarabun min-h-screen bg-fixed bg-center bg-no-repeat text-zinc-900"
+  style="
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+      url('assets/img/taustakuva.png');
+  "
+>
   <app-navbar></app-navbar>
 
-  <div class="container">
-    @if (isUserLoggedIn$ | async) {
-      <div class="welcome-header">
-        <h1>WELCOME TO COOKED!</h1>
-        <p>
+  <main class="mx-auto w-full max-w-6xl px-6 pb-24 md:pb-12">
+    <div class="mb-6 text-center">
+      @if (isUserLoggedIn$ | async) {
+        <h2 class="font-bebas mt-6 mb-3 text-5xl font-black md:text-8xl">WELCOME TO COOKED!</h2>
+        <p class="mx-auto mb-6 max-w-2xl md:text-lg">
           Your personal digital cookbook is ready. Explore new culinary inspirations from other
           chefs or start creating your next signature dish. What's on your menu today?
         </p>
-      </div>
-    } @else {
-      <div class="guest-header">
-        <h1>THIS IS COOKED!</h1>
-        <p>
+      } @else {
+        <h2 class="font-bebas mt-6 mb-3 text-5xl font-black md:text-8xl">THIS IS COOKED!</h2>
+        <p class="mx-auto mb-6 max-w-2xl md:text-lg">
           An recipe app, where you can add and share recipes, scroll others delicious recipes,
           raffle the food of the day and pick your favorite recipes by swiping. Register to get a
           full access of all the features of the app! It’s free!
         </p>
-        <button (click)="authService.login()" class="btn-primary">Get Started</button>
-      </div>
-    }
+        <div class="flex flex-wrap justify-center gap-4">
+          <button
+            (click)="authService.signup()"
+            class="font-bebas rounded-full bg-cooked-dark px-8 py-3 text-xl text-white uppercase shadow-lg transition-all hover:bg-zinc-500 hover:scale-105 active:scale-95"
+          >
+            Get Started
+          </button>
 
-    <section class="recipe-section">
-      <h2>EXPLORE THE RECIPES</h2>
-      <app-search (searchQuery)="onPublicSearch($event)"></app-search>
-      <div class="recipe-grid">
-        @for (r of recipes; track r._id) {
-          <app-recipecard [recipe]="r"></app-recipecard>
-        } @empty {
-          <div class="no-results">
-            <p>No recipes found matching your criteria. Try something else!</p>
-          </div>
-        }
+          <button
+            (click)="authService.login()"
+            class="font-bebas rounded-full bg-cooked-orange px-8 py-3 text-xl text-black uppercase shadow-sm transition-all hover:bg-orange-600 hover:scale-105 active:scale-95 hover:text-white"
+          >
+            Sign in
+          </button>
+        </div>
+      }
+    </div>
+
+    <div class="mb-5 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+      <div class="flex-1 text-left">
+        <h2
+          class="font-bebas text-4xl leading-none font-bold tracking-tight text-zinc-800 uppercase md:text-5xl"
+        >
+          Explore the recipes
+        </h2>
       </div>
-    </section>
-  </div>
+
+      <div class="flex w-full flex-col items-center h-2.5 pb-10 md:w-auto md:flex-row md:pb-0">
+        <app-search
+          (searchQuery)="onPublicSearch($event)"
+          class="block w-full md:w-auto"
+        ></app-search>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      @for (r of recipes; track r._id) {
+        <app-recipecard
+          [recipe]="r"
+          class="transform transition-transform hover:scale-[1.02]"
+        ></app-recipecard>
+      } @empty {
+        <div
+          class="col-span-full py-12 text-center bg-white/50 rounded-[2.5rem] border border-dashed border-zinc-400"
+        >
+          <p class="italic text-zinc-600">
+            No recipes found matching your criteria. Try something else!
+          </p>
+        </div>
+      }
+    </div>
+  </main>
 </div>

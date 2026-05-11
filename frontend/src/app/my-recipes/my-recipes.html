@@ -3,7 +3,9 @@
 
 <div class="container">
   <div class="page-header">
-    <p>{{ recipeStats }}</p>
+    You have currently
+    {{ myRecipes.length === 1 ? '1 recipe' : myRecipes.length + ' recipes' }} in your personal
+    collection.
     <app-search (searchQuery)="onPrivateSearch($event)"></app-search>
   </div>
 

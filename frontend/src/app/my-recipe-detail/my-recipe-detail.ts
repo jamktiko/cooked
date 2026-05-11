@@ -7,11 +7,12 @@ import { Navbar } from '../navbar/navbar';
 import { S3UrlPipe } from '../pipes/s3-url-pipe';
 import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
+import { FavoriteButtonComponent } from '../favorite-button/favorite-button';
 
 @Component({
   selector: 'app-my-recipe-detail',
   standalone: true,
-  imports: [CommonModule, Navbar, S3UrlPipe, RouterLink],
+  imports: [CommonModule, Navbar, S3UrlPipe, RouterLink, FavoriteButtonComponent],
   templateUrl: './my-recipe-detail.html',
   styleUrl: './my-recipe-detail.css',
 })

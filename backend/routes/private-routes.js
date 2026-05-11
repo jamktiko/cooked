@@ -26,6 +26,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Recipes could not be retrieved' });
   }
 });
+
 // Omien yksityisten reseptien haku (Regex live-haku + tietoturva)
 router.get('/search', async (req, res) => {
   try {
