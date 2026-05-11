@@ -21,8 +21,14 @@ export class FavoritesPage implements OnInit {
   ngOnInit() {
     this.favoriteService.getFavorites().subscribe({
       next: (data) => {
-        this.favorites = data;
+        // Suodatetaan heti kättelyssä pois "orvot" suosikit
+        // Pidetään vain ne, joilla on olemassa oleva recipe_id
+        this.favorites = data.filter(
+          (fav) => fav.recipe_id !== null && fav.recipe_id !== undefined,
+        );
         this.loading = false;
+
+        console.log('Suosikit ladattu, ehjiä reseptejä:', this.favorites.length);
       },
       error: (err) => {
         console.error('Error fetching favorites:', err);
@@ -34,14 +40,11 @@ export class FavoritesPage implements OnInit {
     return this.favorites.length;
   }
   handleRemoved(recipeId: string) {
-    // 1. Suodatetaan lista: poistetaan se, jonka ID täsmää
     this.favorites = this.favorites.filter((fav) => {
-      // Varmista, onko vertailukohde fav.recipe_id._id vai fav.recipe_id
+      // Haetaan ID turvallisesti
       const currentRecipeId = fav.recipe_id?._id || fav.recipe_id;
-      return currentRecipeId !== recipeId;
+      // Pidetään alkio vain jos se on olemassa JA se ei ole poistettava ID
+      return currentRecipeId && currentRecipeId !== recipeId;
     });
-
-    // 2. Nyt favorites.length on päivittynyt automaattisesti!
-    console.log('Uusi suosikkien määrä:', this.favorites.length);
   }
 }

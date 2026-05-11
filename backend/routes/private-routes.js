@@ -241,7 +241,10 @@ router.delete('/delete/:id', async (req, res) => {
 
     // 3. Poista vasta sitten dokumentti tietokannasta
     await Recipe.deleteOne({ _id: recipeId });
-
+    if (typeof Favorite !== 'undefined') {
+      // Varmista, että Favorite-malli on importattu
+      await Favorite.deleteMany({ recipe_id: recipeId });
+    }
     res.status(200).json({ message: 'Recipe and image deleted successfully' });
   } catch (err) {
     console.error('Delete error:', err.message);
