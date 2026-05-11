@@ -52,7 +52,8 @@ export class Profile implements OnInit{
         next: (res) => {
           // lisätään profileForm valueihin mukaan backendistä saatu kuvan key
           const profileData = {
-            ...this.profileForm.value,
+            username: this.profileForm.value.username?.trim() || this.user?.username,
+            info: this.profileForm.value.info?.trim() || this.user?.info,
             prof_picture: res.key,
           };
           this.sendToBackend(profileData);
@@ -60,8 +61,12 @@ export class Profile implements OnInit{
         error: (err) => console.error('Kuvan lataus epäonnistui', err),
       });
     } else {
-      // Jos kuvaa ei valittu, lähetetään vain lomakkeen tiedot
-      this.sendToBackend(this.profileForm.value);
+      // Jos kuvaa ei valittu, lähetetään vain lomakkeen tiedot ja estetään tyhjien arvojen ylikirjoitus
+      const profileData = {
+        username: this.profileForm.value.username?.trim() || this.user?.username,
+        info: this.profileForm.value.info?.trim() || this.user?.info,
+      };
+      this.sendToBackend(profileData);
     }
   }
   onImageSelected(file: File) {

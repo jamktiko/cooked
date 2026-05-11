@@ -1,22 +1,35 @@
 <app-navbar></app-navbar>
-<div>
-  <h1>Viimeistele profiilisi</h1>
-  <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
-    <label for="username">Username: </label>
-    <input id="username" type="text" formControlName="username" />
-    <br />
-    <label for="info">Description</label>
-    <textarea id="info" type="text" formControlName="info"></textarea>
-    <app-uploadimg folder="profiles" (fileSelected)="onImageSelected($event)"></app-uploadimg>
-    <button type="submit" [disabled]="!profileForm.valid">Submit</button>
 
-    <br />
-    <button
-      (click)="logout()"
-      type="button"
-      class="bg-red-500 text-white p-2 rounded hover:bg-red-600 transition"
-    >
-      Kirjaudu ulos
-    </button>
-  </form>
-</div>
+<main class="mx-auto w-full max-w-6xl flex-1 px-6 pt-8 pb-32 md:pb-12">
+  <div class="mx-auto w-full md:max-w-2xl mb-4 text-left">
+    <h2 class="font-bebas text-4xl font-bold tracking-tight text-zinc-800 uppercase leading-none md:text-5xl">Complete your profile</h2>
+  </div>
+  <div class="mx-auto w-full rounded-[3rem] border border-black/5 bg-[#FFF8E7] p-8 shadow-xl md:max-w-2xl">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" class="space-y-6">
+      
+      <div>
+        <label class="font-sarabun ml-4 block text-sm font-bold text-zinc-700" for="username">Username</label>
+        <input class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark" id="username" type="text" formControlName="username" [placeholder]="this.user?.username || 'Choose a username'" />
+      </div>
+
+      <div>
+        <label class="font-sarabun ml-4 block text-sm font-bold text-zinc-700" for="info">About You</label>
+        <textarea rows="4" class="mt-1 w-full resize-none rounded-4xl border-none bg-white px-6 py-4 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark placeholder:italic" id="info" type="text" formControlName="info" [placeholder]="this.user?.info || 'Share your cooking journey...'"></textarea>
+      </div>
+
+      <div class="pt-4 border-t border-black/5">
+        <label class="font-sarabun mb-4 ml-4 block text-sm font-bold text-zinc-700">Profile photo</label>
+        <div class="flex flex-col items-center gap-6 md:flex-row">
+          <div class="flex flex-1 flex-col gap-2 w-full">
+            <app-uploadimg folder="profiles" (fileSelected)="onImageSelected($event)"></app-uploadimg>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-4 pt-6 md:flex-row border-t border-black/5 mt-6">
+        <button class="font-bebas flex-1 rounded-full bg-cooked-dark py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed" type="submit" [disabled]="!profileForm.valid">Submit</button>
+        <button class="font-bebas flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold tracking-wide text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 active:scale-95" type="button" (click)="logout()">Log out</button>
+      </div>
+    </form>
+  </div>
+</main>
