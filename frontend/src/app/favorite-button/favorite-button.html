@@ -1,7 +1,18 @@
 @if (isLoggedIn) {
-  <button type="button" (click)="toggle($event)" [disabled]="loading" class="fav-btn">
-    <span [class.filled]="isFavorite">
-      {{ isFavorite ? '❤️' : '🤍' }}
-    </span>
+  <button
+    type="button"
+    (click)="toggle($event)"
+    [disabled]="loading"
+    class="p-2 transition-all hover:scale-110 active:scale-90"
+  >
+    <i
+      class="fa-solid fa-heart text-2xl transition-colors duration-300"
+      [ngClass]="{
+        'text-red-500': isFavorite,
+        'text-gray-400': !isFavorite,
+        'animate-pulse': loading,
+      }"
+    >
+    </i>
   </button>
 }
