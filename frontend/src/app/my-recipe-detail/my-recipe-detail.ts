@@ -14,7 +14,6 @@ import { FavoriteButtonComponent } from '../favorite-button/favorite-button';
   standalone: true,
   imports: [CommonModule, Navbar, S3UrlPipe, RouterLink, FavoriteButtonComponent],
   templateUrl: './my-recipe-detail.html',
-  styleUrl: './my-recipe-detail.css',
 })
 export class MyRecipeDetail implements OnInit {
   private route = inject(ActivatedRoute);
@@ -22,6 +21,9 @@ export class MyRecipeDetail implements OnInit {
   private recipeService = inject(RecipeService);
 
   recipe: Recipe | undefined;
+
+  // 1. Muuttuja klikattujen vaiheiden muistamiseen
+  completedSteps = new Set<number>();
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -36,18 +38,26 @@ export class MyRecipeDetail implements OnInit {
       });
     }
   }
+
+  // 2. Funktio joka hoitaa klikkauksen
+  toggleStep(index: number) {
+    if (this.completedSteps.has(index)) {
+      this.completedSteps.delete(index);
+    } else {
+      this.completedSteps.add(index);
+    }
+  }
+
   onDeleteRecipe(): void {
     const id = this.recipe?._id;
     if (!id) return;
 
     if (confirm('Are you sure you want to delete this recipe?')) {
       this.recipeService.deleteRecipe(id).subscribe({
-        // Määritellään response tyypiksi 'any' tai luodaan sille interface
         next: (response: any) => {
           console.log('Delete successful:', response.message);
           this.router.navigate(['/my-recipes']);
         },
-        // Määritellään err tyypiksi 'any'
         error: (err: any) => {
           console.error('Delete failed:', err);
           alert('Failed to delete the recipe due to a server error.');
