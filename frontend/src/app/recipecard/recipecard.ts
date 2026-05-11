@@ -18,7 +18,7 @@ export class Recipecard {
   @Input() canDelete: boolean = false;
   @Output() deleteRequest = new EventEmitter<string>();
   @Output() favoriteRemoved = new EventEmitter<string>();
-
+  @Input() showFavoriteButton: boolean = true;
   menuOpen = false;
 
   toggleMenu(event: Event) {

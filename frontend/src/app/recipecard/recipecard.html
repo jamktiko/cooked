@@ -52,7 +52,7 @@
           {{ recipe.name }}
         </h3>
 
-        @if (recipe._id) {
+        @if (recipe._id && showFavoriteButton) {
           <div (click)="$event.stopPropagation()" class="shrink-0">
             <app-favorite-button [recipeId]="recipe._id">
               <i
