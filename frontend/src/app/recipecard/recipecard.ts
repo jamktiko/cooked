@@ -10,7 +10,6 @@ import { FavoriteButtonComponent } from '../favorite-button/favorite-button';
   standalone: true,
   imports: [CommonModule, RouterModule, S3UrlPipe, FavoriteButtonComponent],
   templateUrl: './recipecard.html',
-  styleUrl: './recipecard.css',
 })
 export class Recipecard {
   private router = inject(Router);
@@ -18,6 +17,7 @@ export class Recipecard {
   @Input() isOwnRecipe: boolean = false;
   @Input() canDelete: boolean = false;
   @Output() deleteRequest = new EventEmitter<string>();
+  @Output() favoriteRemoved = new EventEmitter<string>();
 
   menuOpen = false;
 
@@ -37,5 +37,9 @@ export class Recipecard {
     this.menuOpen = false;
 
     this.router.navigate(['/edit-recipe', this.recipe._id]);
+  }
+
+  onToggle(isFavorite: boolean) {
+    this.favoriteRemoved.emit(this.recipe._id!);
   }
 }
