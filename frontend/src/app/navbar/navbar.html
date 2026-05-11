@@ -36,7 +36,9 @@
           routerLink="/favorites"
           routerLinkActive="!bg-orange-600 !text-white"
           class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
-          >Favorites</a
+          >
+          <i class="fa-solid fa-heart"></i>
+          </a
         >
         <a
           routerLink="/swipe"
@@ -46,6 +48,8 @@
         ></a>
         <a
           (click)="goToProfile($event)"
+          [class.!bg-orange-600]="isProfileActive"
+          [class.!text-white]="isProfileActive"
           class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 cursor-pointer shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           ><i class="fas fa-user-circle"></i
         ></a>
@@ -106,7 +110,9 @@
     </a>
     <a
       (click)="goToProfile($event)"
-      class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800"
+      [class.bg-orange-600]="isProfileActive"
+      [class.!text-white]="isProfileActive"
+      class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800 transition-colors"
     >
       <i class="fas fa-user-circle text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Profile</span>

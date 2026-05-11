@@ -30,6 +30,10 @@ export class Navbar {
     this.authService.signup();
   }
 
+  get isProfileActive(): boolean {
+    return this.router.url.startsWith('/profile') || this.router.url.startsWith('/complete-profile');
+  }
+
   goToProfile(event: Event) {
     event.preventDefault();
     this.profileService.getUser().subscribe({
