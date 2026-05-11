@@ -1,13 +1,13 @@
 @if (recipe) {
   <div
-    class="recipe-card group relative flex flex-col overflow-hidden rounded-[2.5rem] border-2 border-transparent hover:border-[#E67E22] bg-[#FFF8E7] shadow-lg transition-all hover:shadow-2xl hover:-translate-y-1"
+    class="recipe-card group relative flex flex-col overflow-hidden rounded-2xl border-2 border-transparent hover:border-[#E67E22] bg-white shadow-md transition-all hover:shadow-xl hover:-translate-y-1"
     [routerLink]="[isOwnRecipe ? '/my-recipe' : '/recipe', recipe._id]"
   >
     <div class="relative h-48 w-full overflow-hidden">
       @if (canDelete) {
         <div class="absolute right-4 top-4 z-20" (click)="$event.stopPropagation()">
           <button
-            class="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-zinc-800 shadow-md transition-all hover:bg-white active:scale-95"
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-zinc-800 shadow-sm transition-all hover:bg-white active:scale-95"
             (click)="toggleMenu($event)"
           >
             <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -15,12 +15,12 @@
 
           @if (menuOpen) {
             <div
-              class="absolute right-0 mt-2 w-48 overflow-hidden rounded-2xl bg-white shadow-xl border border-black/5 ring-1 ring-black/5 z-30"
+              class="absolute right-0 mt-2 w-48 overflow-hidden rounded-xl bg-white shadow-xl border border-black/5 ring-1 ring-black/5 z-30"
             >
               <div class="py-1">
                 <button
                   (click)="goToEdit($event)"
-                  class="flex w-full items-center px-4 py-3 text-sm font-bold text-zinc-700 hover:bg-[#D6E5E5] transition-colors text-left"
+                  class="flex w-full items-center px-4 py-3 text-sm font-bold text-zinc-700 hover:bg-[#FDF2E9] transition-colors text-left"
                 >
                   <i class="fa-solid fa-pen-to-square mr-3 text-[#305252]"></i>
                   Edit Recipe
@@ -46,9 +46,9 @@
       />
     </div>
 
-    <div class="flex flex-col p-6 pt-4 pb-5">
+    <div class="flex flex-col p-5 pt-4">
       <div class="flex items-center justify-between gap-4">
-        <h3 class="font-roboto text-xl font-bold leading-tight text-zinc-900 line-clamp-1">
+        <h3 class="font-roboto text-lg font-bold leading-tight text-zinc-900 line-clamp-1">
           {{ recipe.name }}
         </h3>
 
@@ -56,7 +56,7 @@
           <div (click)="$event.stopPropagation()" class="shrink-0">
             <app-favorite-button [recipeId]="recipe._id">
               <i
-                class="fa-solid fa-heart text-xl text-[#E67E22] hover:scale-125 transition-transform cursor-pointer"
+                class="fa-solid fa-heart text-xl text-[#E67E22] hover:scale-110 transition-transform cursor-pointer"
               ></i>
             </app-favorite-button>
           </div>
@@ -68,14 +68,14 @@
       </p>
 
       <div
-        class="mt-3 flex items-center gap-4 text-[11px] font-bold tracking-wide text-zinc-700 uppercase"
+        class="mt-3 flex items-center gap-4 text-[10px] font-bold tracking-wider text-zinc-500 uppercase"
       >
         <span class="flex items-center">
-          <i class="far fa-clock mr-2 text-[#E67E22]"></i>
+          <i class="far fa-clock mr-1.5 text-[#E67E22]"></i>
           {{ recipe.duration }} min
         </span>
         <span class="flex items-center">
-          <i class="fas fa-users mr-2 text-[#E67E22]"></i>
+          <i class="fas fa-users mr-1.5 text-[#E67E22]"></i>
           {{ recipe.servings }} servings
         </span>
       </div>
