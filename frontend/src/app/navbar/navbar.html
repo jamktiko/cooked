@@ -13,6 +13,8 @@
     <nav class="flex items-center gap-3">
       <a
         routerLink="/frontpage"
+        routerLinkActive="!bg-orange-600 !text-white"
+        [routerLinkActiveOptions]="{exact: true}"
         class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
         >Home</a
       >
@@ -20,21 +22,25 @@
       @if (isUserLoggedIn$ | async) {
         <a
           routerLink="/my-recipes"
+          routerLinkActive="!bg-orange-600 !text-white"
           class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           >My Recipes</a
         >
         <a
           routerLink="/new-recipe"
+          routerLinkActive="!bg-orange-600 !text-white"
           class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           >Add Recipe</a
         >
         <a
           routerLink="/favorites"
+          routerLinkActive="!bg-orange-600 !text-white"
           class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           >Favorites</a
         >
         <a
           routerLink="/swipe"
+          routerLinkActive="!bg-orange-600 !text-white"
           class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           ><i class="fa-solid fa-random"></i
         ></a>
@@ -64,7 +70,7 @@
 <nav
   class="fixed bottom-0 z-50 flex h-[80px] w-full border-t border-black/5 bg-cooked-orange font-bebas md:hidden"
 >
-  <a routerLink="/frontpage" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+  <a routerLink="/frontpage" routerLinkActive="bg-orange-600 !text-white" [routerLinkActiveOptions]="{exact: true}" class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors">
     <i class="fas fa-fire-alt text-xl opacity-70"></i>
     <span class="mt-1 text-[13px] uppercase">Home</span>
   </a>
@@ -72,26 +78,29 @@
   @if (isUserLoggedIn$ | async) {
     <a
       routerLink="/my-recipes"
-      class="flex flex-1 flex-col items-center justify-center text-zinc-800"
+      routerLinkActive="bg-orange-600 !text-white"
+      class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors"
     >
       <i class="fas fa-book text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Recipes</span>
     </a>
     <a
       routerLink="/new-recipe"
-      class="flex flex-1 flex-col items-center justify-center text-zinc-800"
+      routerLinkActive="bg-orange-600 !text-white"
+      class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors"
     >
       <i class="fas fa-plus text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Add recipe</span>
     </a>
     <a
       routerLink="/favorites"
-      class="flex flex-1 flex-col items-center justify-center text-zinc-800"
+      routerLinkActive="bg-orange-600 !text-white"
+      class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors"
     >
       <i class="fas fa-heart text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Favorites</span>
     </a>
-    <a routerLink="/swipe" class="flex flex-1 flex-col items-center justify-center text-zinc-800">
+    <a routerLink="/swipe" routerLinkActive="bg-orange-600 !text-white" class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors">
       <i class="fas fa-random text-xl opacity-70"></i>
       <span class="mt-1 text-[13px] uppercase">Swipe</span>
     </a>
