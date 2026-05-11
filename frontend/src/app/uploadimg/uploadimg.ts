@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 })
 export class Uploadimg {
   folder = input.required<string>();
+  initialImage = input<string | null>(null);
   fileSelected = output<File>();
 
   previewUrl = signal<string | null>(null);
