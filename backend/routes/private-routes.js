@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const Recipe = require('../models/recipe');
 const { validateRecipe } = require('../middleware/validation.middleware');
+const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
+
+const s3Client = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+});
 
 // Hae omat reseptit
 router.get('/', async (req, res) => {
@@ -211,22 +220,32 @@ router.delete('/delete/:id', async (req, res) => {
   try {
     const recipeId = req.params.id;
     const userSub = req.user.sub;
-    const deletedRecipe = await Recipe.findOneAndDelete({
-      _id: recipeId,
-      sub: userSub,
-    });
 
-    if (!deletedRecipe) {
-      return res.status(404).json({
-        error: 'Recipe not found or you do not have permission to delete it',
-      });
+    // 1. Etsi resepti ensin, jotta saat S3-avaimen (Key) talteen
+    const recipe = await Recipe.findOne({ _id: recipeId, sub: userSub });
+
+    if (!recipe) {
+      return res
+        .status(404)
+        .json({ error: 'Recipe not found or no permission' });
     }
 
-    console.log(`Recipe "${deletedRecipe.name}" deleted.`);
-    res.status(200).json({ message: 'Recipe deleted successfully' });
+    // 2. Poista kuva S3:sta (jos reseptillä on kuva)
+    if (recipe.image) {
+      const deleteParams = {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: recipe.image,
+      };
+      await s3Client.send(new DeleteObjectCommand(deleteParams));
+    }
+
+    // 3. Poista vasta sitten dokumentti tietokannasta
+    await Recipe.deleteOne({ _id: recipeId });
+
+    res.status(200).json({ message: 'Recipe and image deleted successfully' });
   } catch (err) {
     console.error('Delete error:', err.message);
-    res.status(500).json({ error: 'Failed to delete the recipe' });
+    res.status(500).json({ error: 'Failed to delete' });
   }
 });
 
