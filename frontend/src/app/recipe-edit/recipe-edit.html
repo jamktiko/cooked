@@ -37,18 +37,7 @@
 
       <div class="space-y-4">
         <label class="font-sarabun ml-4 block text-sm font-bold text-zinc-700">Recipe photo</label>
-        @if (currentImageKey && !selectedFile) {
-          <div
-            class="relative group mx-auto w-full h-48 overflow-hidden rounded-[2rem] shadow-md border-4 border-white"
-          >
-            <img
-              [src]="currentImageKey | s3Url"
-              alt="Current recipe photo"
-              class="h-full w-full object-cover"
-            />
-          </div>
-        }
-        <app-uploadimg folder="recipes" (fileSelected)="onImageSelected($event)"></app-uploadimg>
+        <app-uploadimg folder="recipes" [initialImage]="currentImageKey ? (currentImageKey | s3Url) : null" (fileSelected)="onImageSelected($event)"></app-uploadimg>
       </div>
 
       <div class="space-y-4">
