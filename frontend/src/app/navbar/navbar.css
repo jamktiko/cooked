@@ -1,5 +1,5 @@
-@media (max-width: 600px) {
-  :host {
-    display: block;
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 100px;
   }
 }

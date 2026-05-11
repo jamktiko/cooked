@@ -42,18 +42,32 @@
           (deleteRequest)="onDeleteRecipe($event)"
         ></app-recipecard>
       } @empty {
-        <div
-          class="col-span-full flex flex-col items-center justify-center py-24 bg-white/50 rounded-[2.5rem] border-2 border-dashed border-zinc-300"
-        >
+        <div class="col-span-full mx-auto w-full md:max-w-md">
           <div
-            class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 text-zinc-400"
+            class="flex flex-col items-center rounded-[3rem] border border-black/5 bg-white/40 p-10 shadow-xl text-center"
           >
-            <i class="fas fa-utensils text-2xl"></i>
+            <div
+              class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-cooked-header text-cooked-dark"
+            >
+              <i class="fa-solid fa-book-open text-3xl"></i>
+            </div>
+
+            <h3 class="font-bebas mb-4 text-3xl font-bold tracking-wide text-zinc-800 uppercase">
+              No recipes yet!
+            </h3>
+
+            <p class="font-sarabun mb-8 text-zinc-600 leading-relaxed">
+              Your kitchen is quiet... <br />
+              Start building your personal collection by adding your very first recipe!
+            </p>
+
+            <button
+              routerLink="/new-recipe"
+              class="font-bebas w-full rounded-full bg-cooked-dark py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95"
+            >
+              Add recipe
+            </button>
           </div>
-          <h3 class="font-bebas text-3xl text-zinc-800 uppercase tracking-wide">
-            No recipes here yet...
-          </h3>
-          <p class="font-sarabun text-zinc-600 mt-1">You haven't created any recipes yet.</p>
         </div>
       }
     </div>

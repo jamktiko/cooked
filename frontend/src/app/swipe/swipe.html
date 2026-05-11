@@ -54,7 +54,6 @@
       >
         <i class="fas fa-times text-3xl md:text-4xl"></i>
       </button>
-
       <button
         (click)="handleMatch()"
         class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-green-500 shadow-xl transition-transform hover:scale-110 active:scale-95 border border-zinc-100"
@@ -63,30 +62,35 @@
       </button>
     </div>
   } @else {
-    <div
-      class="mx-auto flex flex-col items-center rounded-[3rem] border border-black/5 bg-white p-10 shadow-xl md:max-w-md text-center"
-    >
+    <div class="col-span-full mx-auto w-full px-6 md:max-w-md">
       <div
-        class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#D6E5E5] text-[#305252]"
+        class="flex flex-col items-center rounded-[3rem] border border-black/5 bg-white/40 p-10 shadow-xl text-center"
       >
-        <i class="fa-solid fa-arrow-right-arrow-left text-3xl"></i>
+        <div
+          class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-[#D6E5E5] text-[#305252]"
+        >
+          <i class="fa-solid fa-arrow-right-arrow-left text-3xl"></i>
+        </div>
+
+        <h2
+          class="font-bebas mb-4 text-4xl font-bold tracking-tight text-zinc-800 uppercase leading-none md:text-5xl"
+        >
+          That's all!
+        </h2>
+
+        <p class="font-sarabun mb-8 text-lg text-zinc-600 leading-relaxed">
+          You've gone through all the recipes. <br />
+          Want to take another look?
+        </p>
+
+        <button
+          onclick="window.location.reload()"
+          class="font-bebas w-full rounded-full bg-[#305252] py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95 flex items-center justify-center gap-3"
+        >
+          <i class="fa-solid fa-rotate-left text-xl"></i>
+          Start Again
+        </button>
       </div>
-
-      <h3 class="font-bebas text-5xl font-bold tracking-tight text-zinc-900 uppercase leading-none">
-        That's all!
-      </h3>
-
-      <p class="font-sarabun mt-4 text-lg font-medium text-zinc-600">
-        You've gone through all recipes
-      </p>
-
-      <button
-        onclick="window.location.reload()"
-        class="font-bebas mt-10 flex items-center gap-3 rounded-full bg-[#305252] px-10 py-4 text-2xl font-bold tracking-wide text-white shadow-lg transition-transform hover:scale-105 active:scale-95 uppercase"
-      >
-        <i class="fa-solid fa-rotate-left text-xl"></i>
-        Start Again
-      </button>
     </div>
   }
 </div>

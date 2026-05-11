@@ -1,13 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { AsyncPipe } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { AuthService } from '../auth/auth.service';
 import { ProfileupdateService } from '../services/profileupdate.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [AsyncPipe, RouterLink],
+  imports: [AsyncPipe, RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
@@ -28,6 +28,10 @@ export class Navbar {
 
   signup() {
     this.authService.signup();
+  }
+
+  get isProfileActive(): boolean {
+    return this.router.url.startsWith('/profile') || this.router.url.startsWith('/complete-profile');
   }
 
   goToProfile(event: Event) {

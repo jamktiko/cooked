@@ -3,16 +3,16 @@
     (click)="fileInput.click()"
     class="group relative flex h-56 w-full flex-col items-center justify-center rounded-[2.5rem] border-4 border-dotted border-zinc-300 bg-white/50 text-zinc-500 transition-all hover:bg-white hover:border-[#305252] cursor-pointer overflow-hidden"
   >
-    @if (!previewUrl()) {
+    @if (!previewUrl() && !initialImage()) {
       <i
         class="fa-solid fa-camera-rotate mb-2 text-4xl group-hover:scale-110 transition-transform"
       ></i>
       <span class="font-bebas text-xl font-bold tracking-wide uppercase">Click to upload</span>
     } @else {
-      <img [src]="previewUrl()" alt="Esikatselu" class="h-full w-full object-cover" />
+      <img [src]="previewUrl() || initialImage()" alt="Photo preview" class="h-full w-full object-cover" />
 
       <div
-        class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity"
+        class="absolute inset-0 flex items-center justify-center bg-black/40 transition-opacity"
       >
         <span class="font-bebas text-white text-xl uppercase">Change Photo</span>
       </div>
