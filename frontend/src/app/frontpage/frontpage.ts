@@ -22,29 +22,43 @@ export class Frontpage implements OnInit {
   public authService = inject(AuthService);
 
   isUserLoggedIn$ = this.authService.isLoggedIn$();
+  
   // Muuttuja, johon reseptit tallennetaan
   recipes: Recipe[] = [];
+  
+  // Sivutuksen muuttujat
+  currentPage = 1;
+  totalPages = 1;
+  limit = 9;
 
   ngOnInit(): void {
     this.loadRecipes();
   }
-  loadRecipes(): void {
-    // Kutsutaan servicen metodia
-    this.recipeService.getPublicRecipes().subscribe({
-      next: (data) => {
-        this.recipes = data;
 
-        console.log('Recipes loaded:', this.recipes);
+  loadRecipes(page: number = 1): void {
+    this.currentPage = page;
+    // Kutsutaan servicen metodia
+    this.recipeService.getPublicRecipes(this.currentPage, this.limit).subscribe({
+      next: (data: any) => {
+        if (Array.isArray(data)) {
+          this.recipes = data;
+          this.totalPages = 1;
+        } else {
+          this.recipes = data.recipes || [];
+          this.totalPages = data.totalPages || 1;
+        }
+        console.log('Recipes loaded:', data);
       },
       error: (err) => {
         console.error('Error loading recipes:', err);
       },
     });
   }
+
   onPublicSearch(term: string) {
     if (term.length < 2) {
       // Jos hakukenttä on tyhjä, lataa käyttäjän kaikki reseptit normaalisti takaisin näkyviin
-      this.loadRecipes();
+      this.loadRecipes(1);
       return;
     }
 
@@ -52,6 +66,21 @@ export class Frontpage implements OnInit {
     this.searchService.searchPublicRecipes(term).subscribe((response) => {
       // Korvataan näkymässä olevat "recipes" hauista löytyneillä
       this.recipes = response.recipes;
+      // Search palauttaa myös sivutustietoja (jos valmiiksi toteutettu backendiin)
+      this.currentPage = response.currentPage || 1;
+      this.totalPages = response.totalPages || 1;
     });
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.loadRecipes(this.currentPage + 1);
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.loadRecipes(this.currentPage - 1);
+    }
   }
 }
