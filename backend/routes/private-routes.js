@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Recipe = require('../models/recipe');
+const Favorite = require('../models/favorites');
 const { validateRecipe } = require('../middleware/validation.middleware');
 const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
@@ -40,59 +41,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Omien yksityisten reseptien haku (Regex live-haku + tietoturva)
-router.get('/search', async (req, res) => {
-  try {
-    const searchQuery = req.query.q;
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
-
-    // Turvaraja: Hakusanan maksimipituus 50 merkkiä
-    if (!searchQuery || searchQuery.length > 50) {
-      return res.status(400).json({
-        error: 'Hakusana on virheellinen tai liian pitkä (max 50 merkkiä)',
-      });
-    }
-
-    // 1. Luodaan turvallinen regex-lauseke hakusanasta
-    const safeRegex = new RegExp(
-      searchQuery.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'),
-      'i',
-    );
-
-    // 2. Määritellään hakuehdot: etsi näistä kentistä, mutta VAIN käyttäjän omista resepteistä
-    const searchConditions = {
-      sub: req.user.sub,
-      $or: [
-        { name: safeRegex },
-        { description: safeRegex },
-        { 'ingredients.name': safeRegex },
-        { tags: safeRegex },
-      ],
-    };
-
-    // 3. Etsitään reseptit näillä ehdoilla
-    const recipes = await Recipe.find(searchConditions)
-      .select('name image created description tags duration servings')
-      .sort({ created: -1 })
-      .skip(skip)
-      .limit(limit)
-      .maxTimeMS(1000); // Turvamekanismi DOS-hyökkäyksiä vastaan
-
-    const totalCount = await Recipe.countDocuments(searchConditions);
-
-    res.json({
-      recipes,
-      totalCount,
-      currentPage: page,
-      totalPages: Math.ceil(totalCount / limit),
-    });
-  } catch (err) {
-    console.error('Private search error:', err.message);
-    res.status(500).json({ error: 'Haku epäonnistui' });
-  }
-});
 // Omien yksityisten reseptien haku (Regex live-haku + tietoturva)
 router.get('/search', async (req, res) => {
   try {
@@ -245,24 +193,31 @@ router.delete('/delete/:id', async (req, res) => {
 
     // 2. Poista kuva S3:sta (jos reseptillä on kuva)
     if (recipe.image) {
-      const deleteParams = {
-        Bucket: process.env.S3_BUCKET_NAME,
-        Key: recipe.image,
-      };
-      await s3Client.send(new DeleteObjectCommand(deleteParams));
+      try {
+        const deleteParams = {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: recipe.image,
+        };
+        await s3Client.send(new DeleteObjectCommand(deleteParams));
+      } catch (s3Err) {
+        console.error('S3 Delete error (continuing...):', s3Err.message);
+        // Jatkamme poistoa, vaikka kuvan poisto S3:sta epäonnistuisi
+      }
     }
 
-    // 3. Poista vasta sitten dokumentti tietokannasta
+    // 3. Poista suosikkimerkinnät, jotka viittaavat tähän reseptiin
+    // TÄMÄ ON TÄRKEÄ: Poistetaan vain tämän kyseisen reseptin suosittelut
+    await Favorite.deleteMany({ recipe_id: recipeId });
+
+    // 4. Poista lopuksi itse resepti tietokannasta
     await Recipe.deleteOne({ _id: recipeId });
-    if (typeof Favorite !== 'undefined') {
-      // Varmista, että Favorite-malli on importattu
-      await Favorite.deleteMany({ recipe_id: recipeId });
-    }
-    res.status(200).json({ message: 'Recipe and image deleted successfully' });
+
+    res.status(200).json({
+      message: 'Recipe, image and related favorites deleted successfully',
+    });
   } catch (err) {
     console.error('Delete error:', err.message);
     res.status(500).json({ error: 'Failed to delete' });
   }
 });
-
 module.exports = router;
