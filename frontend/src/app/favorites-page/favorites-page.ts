@@ -22,32 +22,43 @@ export class FavoritesPage implements OnInit {
   currentPage = 1;
   totalPages = 1;
   limit = 9;
-  totalCount = 0; // Kokonaismäärä suosikeille infotekstiä varten
+  totalCount = 0;
 
   ngOnInit() {
-    this.loadFavorites();
+    // Kutsutaan loadFavorites heti alussa, ei kirjoiteta logiikkaa kahdesti
+    this.loadFavorites(1);
   }
 
   loadFavorites(page: number = 1) {
     this.currentPage = page;
     this.loading = true;
-    
+
     this.favoriteService.getFavorites(this.currentPage, this.limit).subscribe({
       next: (data: any) => {
+        let rawList = [];
+
         if (Array.isArray(data)) {
-          // Vanha fallback taulukolle
-          this.favorites = data;
+          rawList = data;
           this.totalPages = 1;
           this.totalCount = data.length;
         } else {
-          // Uusi objektipohjainen muoto backendistä
-          this.favorites = data.favorites || [];
+          // backendin PaginatedRecipes rakenne: otetaan docs tai favorites -taulukko
+          rawList = data.docs || data.favorites || [];
           this.totalPages = data.totalPages || 1;
-          this.totalCount = data.totalCount || this.favorites.length;
+          this.totalCount = data.totalCount || data.totalDocs || rawList.length;
         }
-        this.loading = false;
 
-        console.log('Suosikit ladattu, ehjiä reseptejä:', this.favorites.length);
+        // --- TÄRKEÄ KORJAUS: Suodatus tehdään taulukolle, ei objektille ---
+        this.favorites = rawList.filter((fav: any) => fav.recipe_id && fav.recipe_id._id);
+
+        // Päivitetään totalCount vastaamaan vain ehjiä kortteja, jos haluat UI:n täsmäävän
+        if (this.favorites.length !== rawList.length) {
+          const diff = rawList.length - this.favorites.length;
+          this.totalCount -= diff;
+        }
+
+        this.loading = false;
+        console.log('Suosikit ladattu, ehjiä reseptejä tällä sivulla:', this.favorites.length);
       },
       error: (err) => {
         console.error('Error fetching favorites:', err);
@@ -68,20 +79,24 @@ export class FavoritesPage implements OnInit {
     }
   }
 
-  get favoriteCount(): number {
-    return this.totalCount; // Päivitetty palauttamaan tietokannan todellinen määrä, ei pelkän sivun!
-  }
-  
   handleRemoved(recipeId: string) {
-    this.favorites = this.favorites.filter((fav) => fav.recipe_id._id !== recipeId);
-    this.totalCount--; // Vähennetään suoraan lukumäärästä jotta UI pysyy ajan tasalla
-    
-    // Voit myös halutessasi hakea listan uusiksi tässä kohtaa,
-    // jos poistat viimeisen elementin sivulta, esim:
+    // Käytetään valinnaista ketjutusta (?.), jotta null-arvot eivät kaada koodia
+    this.favorites = this.favorites.filter((fav) => {
+      const currentId = fav.recipe_id?._id;
+      // Jos currentId on olemassa, verrataan sitä; jos ei, se suodattuu pois
+      return currentId && currentId !== recipeId;
+    });
+
+    // Vähennetään laskuria vain, jos se on yli nollan
+    if (this.totalCount > 0) {
+      this.totalCount--;
+    }
+
+    // Sivun täyttölogiikka
     if (this.favorites.length === 0 && this.currentPage > 1) {
       this.loadFavorites(this.currentPage - 1);
-    } else if (this.favorites.length < this.limit && this.totalPages > this.currentPage) {
-       // Haetaan data uusiksi jotta sivu täyttyy seuraavan sivun ensimmäisellä itemillä
+    } else if (this.favorites.length === 0 && this.totalPages > 1) {
+      // Jos sivu tyhjenee mutta sivuja on jäljellä, ladataan nykyinen sivu uudelleen
       this.loadFavorites(this.currentPage);
     }
   }
