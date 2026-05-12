@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<main class="mx-auto w-full max-w-6xl flex-1 px-6 pt-8 pb-32 md:pb-12">
+<main class="mx-auto w-full max-w-6xl flex-1 px-4 pt-8 pb-32 md:px-6 md:pb-12">
   <div class="mx-auto w-full md:max-w-2xl mb-6">
     <div class="flex flex-col gap-2 text-left">
       <h2
@@ -15,7 +15,7 @@
   </div>
 
   <div
-    class="mx-auto w-full rounded-[3rem] border border-black/5 bg-[#FFF8E7] p-8 shadow-xl md:max-w-2xl"
+    class="mx-auto w-full rounded-[2rem] md:rounded-[3rem] border border-black/5 bg-[#FFF8E7] p-5 md:p-8 shadow-xl md:max-w-2xl"
   >
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="space-y-8">
       <div class="flex items-center justify-between border-b border-black/5 pb-4">
@@ -108,24 +108,24 @@
         <h3 class="font-bebas mb-3 ml-2 text-2xl font-bold text-zinc-800 uppercase">Ingredients</h3>
         <div formArrayName="ingredients" class="space-y-3">
           @for (ing of ingredients.controls; track ing; let i = $index) {
-            <div [formGroupName]="i" class="flex items-center gap-2">
+            <div [formGroupName]="i" class="flex flex-wrap md:flex-nowrap items-center gap-2">
               <input
                 formControlName="amount"
                 type="number"
                 placeholder="Amt"
-                class="w-16 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:text-zinc-300"
+                class="w-20 md:w-16 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:text-zinc-300"
               />
               <input
                 formControlName="unit"
                 type="text"
                 placeholder="Unit"
-                class="w-20 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:text-zinc-300"
+                class="w-24 md:w-20 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:text-zinc-300"
               />
               <input
                 formControlName="name"
                 type="text"
                 placeholder="Ingredient name"
-                class="flex-1 rounded-full border-none bg-white px-6 py-2.5 text-sm shadow-inner outline-none placeholder:text-zinc-300"
+                class="flex-1 min-w-[150px] rounded-full border-none bg-white px-6 py-2.5 text-sm shadow-inner outline-none placeholder:text-zinc-300"
               />
               <button
                 type="button"
@@ -152,22 +152,31 @@
         </h3>
         <div formArrayName="directions" class="space-y-3">
           @for (dir of directions.controls; track dir; let i = $index) {
-            <div class="flex items-start gap-3">
-              <div
-                class="flex h-10 w-12 items-center justify-center rounded-full bg-white font-bebas text-xl font-bold text-[#305252] shadow-inner shrink-0"
-              >
-                {{ i + 1 }}.
+            <div class="flex flex-col sm:flex-row items-start gap-3">
+              <div class="flex w-full sm:w-auto items-center justify-between">
+                <div
+                  class="flex h-10 w-12 items-center justify-center rounded-full bg-white font-bebas text-xl font-bold text-[#305252] shadow-inner shrink-0"
+                >
+                  {{ i + 1 }}.
+                </div>
+                <button
+                  type="button"
+                  (click)="removeDirection(i)"
+                  class="sm:hidden p-2 text-zinc-400 hover:text-red-500 transition-colors"
+                >
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
               </div>
               <textarea
                 [formControlName]="i"
                 rows="2"
                 placeholder="Describe this step..."
-                class="flex-1 resize-none rounded-[1.5rem] border-none bg-white px-5 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-[#305252] placeholder:italic placeholder:text-zinc-300"
+                class="flex-1 w-full resize-none rounded-[1.5rem] border-none bg-white px-5 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-[#305252] placeholder:italic placeholder:text-zinc-300"
               ></textarea>
               <button
                 type="button"
                 (click)="removeDirection(i)"
-                class="mt-2 p-2 text-zinc-400 hover:text-red-500 transition-colors"
+                class="hidden sm:block mt-2 p-2 text-zinc-400 hover:text-red-500 transition-colors"
               >
                 <i class="fa-solid fa-trash-can"></i>
               </button>
@@ -226,14 +235,15 @@
         <button
           type="submit"
           [disabled]="recipeForm.invalid"
-          class="font-bebas flex-1 rounded-full bg-[#305252] py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="font-bebas order-1 flex-1 rounded-full bg-[#305252] py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Save Recipe
         </button>
+
         <button
           type="button"
           routerLink="/my-recipes"
-          class="font-bebas flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold tracking-wide text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 active:scale-95 text-center"
+          class="font-bebas order-2 flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold tracking-wide text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 active:scale-95 text-center"
         >
           Cancel
         </button>
