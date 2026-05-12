@@ -7,11 +7,12 @@ import { RecipeService } from '../services/recipe.service';
 import { Search } from '../search/search';
 import { SearchService } from '../services/search.service';
 import { AuthService } from '../auth/auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-frontpage',
   standalone: true,
-  imports: [CommonModule, Recipecard, Navbar, Search],
+  imports: [CommonModule, Recipecard, Navbar, Search, RouterLink],
   templateUrl: './frontpage.html',
   styleUrl: './frontpage.css',
 })
