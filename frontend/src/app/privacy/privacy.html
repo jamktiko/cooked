@@ -1,0 +1,94 @@
+<div
+  class="font-sarabun min-h-screen bg-fixed bg-center bg-no-repeat text-zinc-900"
+  style="
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)),
+      url('assets/img/taustakuva.png');
+  "
+>
+  <app-navbar></app-navbar>
+
+  <main class="mx-auto w-full max-w-4xl px-6 pb-24 pt-10">
+    <div class="mb-12 text-center">
+      <h2 class="font-bebas text-5xl font-black md:text-7xl uppercase tracking-tight">
+        Privacy & Terms
+      </h2>
+      <div class="mx-auto mt-2 h-1 w-24"></div>
+      <p class="mt-4 text-sm font-bold uppercase tracking-widest text-zinc-600">
+        Student Project / Academic Purposes
+      </p>
+    </div>
+
+    <div class="rounded-[2.5rem] bg-white/80 p-8 shadow-xl backdrop-blur-sm border border-white/20">
+      <div class="space-y-10 text-zinc-800">
+        <section>
+          <h3 class="font-bebas text-3xl mb-3 text-zinc-900 tracking-wide">1. Data Controller</h3>
+          <div class="rounded-2xl bg-zinc-100/50 p-4 border border-zinc-200">
+            <p class=""><strong>Application:</strong> Cooked</p>
+            <p>
+              <strong>Project Team:</strong> Eetu Auvinen, Mikael Makkonen, Essi Kaukometsä, Janika
+              Rahikainen
+            </p>
+            <p><strong>Institution:</strong> Jyväskylän ammattikorkeakoulu</p>
+          </div>
+        </section>
+
+        <section>
+          <h3 class="font-bebas text-3xl mb-3 text-zinc-900 tracking-wide">2. Data Collection</h3>
+          <p class="mb-3">For this school project, we collect:</p>
+          <ul class="list-disc pl-5 space-y-2 marker:text-cooked-orange">
+            <li><span class="font-bold">Account:</span> Email and username for authentication.</li>
+            <li><span class="font-bold">Content:</span> Your shared recipes and favorites.</li>
+            <li><span class="font-bold">Technical:</span> Debugging logs for development.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="font-bebas text-3xl mb-3 text-zinc-900 tracking-wide">
+            3. Purpose of Processing
+          </h3>
+          <p>
+            Data is processed exclusively for software development, testing and completing the
+            requirements of the study module. Data will not be used for marketing or sold to third
+            parties.
+          </p>
+        </section>
+
+        <section>
+          <h3 class="font-bebas text-3xl mb-3 text-zinc-900 tracking-wide">4. Data Retention</h3>
+          <p>
+            All user data and created recipes will be deleted when the course ends (estimated
+            <span class="font-bold text-cooked-orange">20.05.2026</span>).
+          </p>
+        </section>
+
+        <section>
+          <h3 class="font-bebas text-3xl mb-3 text-zinc-900 tracking-wide">5. User Rights</h3>
+          <p class="mb-3">As this is a testing environment, you have the following rights:</p>
+          <ul class="list-disc pl-5 space-y-2 marker:text-cooked-orange text-sm">
+            <li>To request access to the data stored about you.</li>
+            <li>To request the deletion of your account and data at any time.</li>
+            <li>To stop using the application without prior notice.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h3 class="font-bebas text-3xl mb-1 text-zinc-900 tracking-wide">6. Disclaimer</h3>
+          <p class="italic text-zinc-600">
+            This is a student project. The app is provided "as-is". Do not use this app to manage
+            critical medical information like severe life-threatening allergies.
+          </p>
+        </section>
+      </div>
+
+      <div class="mt-12 text-center">
+        <button
+          routerLink="/frontpage"
+          class="font-bebas rounded-full bg-cooked-dark px-10 py-3 text-xl text-white uppercase shadow-lg transition-all hover:bg-zinc-700 hover:scale-105 active:scale-95"
+        >
+          Back to Home
+        </button>
+      </div>
+    </div>
+  </main>
+</div>

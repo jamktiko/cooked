@@ -10,6 +10,7 @@ import { MyRecipeDetail } from './my-recipe-detail/my-recipe-detail';
 import { Swipe } from './swipe/swipe';
 import { RecipeEdit } from './recipe-edit/recipe-edit';
 import { FavoritesPage } from './favorites-page/favorites-page';
+import { Privacy } from './privacy/privacy';
 
 import { Profile } from './profile/profile';
 export const routes: Routes = [
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'frontpage', component: Frontpage },
   { path: 'complete-profile', component: CompleteProfile },
   { path: 'recipe/:id', component: RecipeDetail },
+  { path: 'privacy', component: Privacy },
 
   // Suojatut reitit (Vaativat kirjautumisen)
   {
