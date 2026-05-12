@@ -16,11 +16,12 @@
     </p>
   </div>
 
-  @if (loading) {
+  @if (loading && favorites.length === 0) {
     <div class="flex justify-center items-center py-20">
       <div class="loader text-zinc-600 font-bebas text-2xl animate-pulse">Loading favorites...</div>
     </div>
-  } @else if (favorites.length === 0) {
+
+  } @else if (totalCount === 0 && !loading) {
     <div class="col-span-full mx-auto w-full md:max-w-md">
       <div
         class="flex flex-col items-center rounded-[3rem] border border-black/5 bg-white/40 p-10 shadow-xl text-center"
@@ -30,16 +31,13 @@
         >
           <i class="fas fa-heart text-3xl"></i>
         </div>
-
         <h3 class="font-bebas mb-4 text-3xl font-bold tracking-wide text-zinc-800 uppercase">
           No favorites yet!
         </h3>
-
         <p class="font-sarabun mb-8 text-zinc-600 leading-relaxed">
           You haven't added any recipes to your favorites yet. <br />
           Start exploring and save the ones you love!
         </p>
-
         <button
           routerLink="/frontpage"
           class="font-bebas w-full rounded-full bg-[#305252] py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95"
@@ -48,8 +46,9 @@
         </button>
       </div>
     </div>
+
   } @else {
-    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 min-h-[400px]">
       @for (fav of favorites; track fav._id) {
         <app-recipecard
           [recipe]="fav.recipe_id"
@@ -60,21 +59,20 @@
       }
     </div>
 
-    <!-- Sivutus (Pagination) -->
     @if (totalPages > 1) {
       <div class="mt-12 flex items-center justify-center gap-4">
         <button
           (click)="prevPage()"
-          [disabled]="currentPage === 1"
-          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          [disabled]="currentPage === 1 || loading"
+          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50"
         >
           Previous
         </button>
         <span class="font-bold text-zinc-700"> Page {{ currentPage }} / {{ totalPages }} </span>
         <button
           (click)="nextPage()"
-          [disabled]="currentPage === totalPages"
-          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          [disabled]="currentPage === totalPages || loading"
+          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50"
         >
           Next
         </button>
