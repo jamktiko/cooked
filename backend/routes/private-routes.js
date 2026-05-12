@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Recipe = require('../models/recipe');
+const Favorite = require('../models/favorites');
 const { validateRecipe } = require('../middleware/validation.middleware');
 const { S3Client, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 
@@ -245,24 +246,33 @@ router.delete('/delete/:id', async (req, res) => {
 
     // 2. Poista kuva S3:sta (jos reseptillä on kuva)
     if (recipe.image) {
-      const deleteParams = {
-        Bucket: process.env.S3_BUCKET_NAME,
-        Key: recipe.image,
-      };
-      await s3Client.send(new DeleteObjectCommand(deleteParams));
+      try {
+        const deleteParams = {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: recipe.image,
+        };
+        await s3Client.send(new DeleteObjectCommand(deleteParams));
+      } catch (s3Err) {
+        console.error('S3 Delete error (continuing...):', s3Err.message);
+        // Jatkamme poistoa, vaikka kuvan poisto S3:sta epäonnistuisi
+      }
     }
 
-    // 3. Poista vasta sitten dokumentti tietokannasta
+    // 3. Poista suosikkimerkinnät, jotka viittaavat tähän reseptiin
+    // TÄMÄ ON TÄRKEÄ: Poistetaan vain tämän kyseisen reseptin suosittelut
+    await Favorite.deleteMany({ recipe_id: recipeId });
+
+    // 4. Poista lopuksi itse resepti tietokannasta
     await Recipe.deleteOne({ _id: recipeId });
-    if (typeof Favorite !== 'undefined') {
-      // Varmista, että Favorite-malli on importattu
-      await Favorite.deleteMany({ recipe_id: recipeId });
-    }
-    res.status(200).json({ message: 'Recipe and image deleted successfully' });
+
+    res
+      .status(200)
+      .json({
+        message: 'Recipe, image and related favorites deleted successfully',
+      });
   } catch (err) {
     console.error('Delete error:', err.message);
     res.status(500).json({ error: 'Failed to delete' });
   }
 });
-
 module.exports = router;

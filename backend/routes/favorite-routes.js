@@ -38,16 +38,20 @@ router.get('/', async (req, res) => {
 
     const query = { user_sub };
 
-    const favorites = await Favorite.find(query)
+    // Haetaan suosikit ja täytetään reseptin tiedot
+    const allFavorites = await Favorite.find(query)
       .populate('recipe_id')
-      .sort({ added_at: -1 })
-      .skip(skip)
-      .limit(limit);
+      .sort({ added_at: -1 });
 
-    const totalCount = await Favorite.countDocuments(query);
+    // SUODATUS: Poistetaan listalta merkinnät, joiden resepti on poistettu (haamut)
+    const validFavorites = allFavorites.filter((fav) => fav.recipe_id !== null);
+
+    // Lasketaan sivutus suodatetun listan perusteella
+    const totalCount = validFavorites.length;
+    const paginatedFavorites = validFavorites.slice(skip, skip + limit);
 
     res.json({
-      favorites,
+      favorites: paginatedFavorites,
       totalCount,
       currentPage: page,
       totalPages: Math.ceil(totalCount / limit),
