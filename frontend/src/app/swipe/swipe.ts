@@ -31,10 +31,20 @@ export class Swipe implements OnInit {
 
   fetchRecipes() {
     this.isLoading = true;
-    this.recipeService.getPublicRecipes().subscribe({
-      next: (data) => {
-        // Sekoitetaan data heti kun se saapuu
-        this.recipes = data.sort(() => Math.random() - 0.5);
+    // Oletuksena hakee valtavasti dataa swippailuun, esim. 50 reseptiä yhdelle sivulle
+    this.recipeService.getPublicRecipes(1, 50).subscribe({
+      next: (data: any) => {
+        let recipesArray: Recipe[] = [];
+        
+        // Tarkistetaan onko se taulukko vai uusi sivutusobjekti
+        if (Array.isArray(data)) {
+          recipesArray = data;
+        } else {
+          recipesArray = data.recipes || [];
+        }
+
+        // Sekoitetaan noudettu data (jotta saadaan satunnainen järjestys swipeen)
+        this.recipes = recipesArray.sort(() => Math.random() - 0.5);
         this.isLoading = false;
       },
       error: (err) => {

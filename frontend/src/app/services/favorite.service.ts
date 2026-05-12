@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
+import { PaginatedRecipes } from '../models/paginated-recipes';
 
 @Injectable({ providedIn: 'root' })
 export class FavoriteService {
@@ -29,7 +30,11 @@ export class FavoriteService {
     });
   }
 
-  getFavorites(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl, { headers: this.getHeaders() });
+  getFavorites(page: number = 1, limit: number = 9): Observable<PaginatedRecipes> {
+    const params = new HttpParams().set('page', page).set('limit', limit);
+    return this.http.get<PaginatedRecipes>(this.apiUrl, { 
+      headers: this.getHeaders(),
+      params 
+    });
   }
 }

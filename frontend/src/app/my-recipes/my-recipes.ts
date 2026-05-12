@@ -21,13 +21,33 @@ export class MyRecipes implements OnInit {
   myRecipes: Recipe[] = [];
   loading = true;
 
+  // Sivutuksen muuttujat
+  currentPage = 1;
+  totalPages = 1;
+  limit = 9;
+  totalCount = 0;
+
   ngOnInit(): void {
     this.loadRecipes();
   }
-  loadRecipes() {
-    this.recipeService.getMyRecipes().subscribe({
-      next: (data) => {
-        this.myRecipes = data;
+  
+  loadRecipes(page: number = 1) {
+    this.currentPage = page;
+    this.loading = true;
+    
+    this.recipeService.getMyRecipes(this.currentPage, this.limit).subscribe({
+      next: (data: any) => {
+        if (Array.isArray(data)) {
+           // Fallback jos backend palauttaa vielä taulukon
+           this.myRecipes = data;
+           this.totalPages = 1;
+           this.totalCount = data.length;
+        } else {
+           // Kun backend on päivitetty oikein
+           this.myRecipes = data.recipes || [];
+           this.totalPages = data.totalPages || 1;
+           this.totalCount = data.totalCount || this.myRecipes.length;
+        }
         this.loading = false;
       },
       error: (err) => {
@@ -40,15 +60,29 @@ export class MyRecipes implements OnInit {
   onPrivateSearch(term: string) {
     if (term.length < 2) {
       // Jos hakukenttä on tyhjä, lataa käyttäjän kaikki reseptit normaalisti takaisin näkyviin
-      this.loadRecipes();
+      this.loadRecipes(1);
       return;
     }
 
-    // Nyt kutsutaan julkista hakua, ei privaattia!
+    // Nyt kutsutaan privaattia hakua
     this.searchService.searchPrivateRecipes(term).subscribe((response) => {
       // Korvataan näkymässä olevat "recipes" hauista löytyneillä
       this.myRecipes = response.recipes;
+      this.currentPage = response.currentPage || 1;
+      this.totalPages = response.totalPages || 1;
     });
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.loadRecipes(this.currentPage + 1);
+    }
+  }
+
+  prevPage(): void {
+    if (this.currentPage > 1) {
+      this.loadRecipes(this.currentPage - 1);
+    }
   }
 
   // Reseptin poisto
@@ -58,6 +92,13 @@ export class MyRecipes implements OnInit {
         next: (response: any) => {
           console.log('Delete successful:', response.message);
           this.myRecipes = this.myRecipes.filter((r) => r._id !== id);
+          this.totalCount--; // Vähennetään jotta numero pysyy oikeana HTML:ssä
+          
+          if (this.myRecipes.length === 0 && this.currentPage > 1) {
+            this.loadRecipes(this.currentPage - 1);
+          } else if (this.myRecipes.length < this.limit && this.totalPages > this.currentPage) {
+            this.loadRecipes(this.currentPage);
+          }
         },
         error: (err: any) => {
           console.error('Delete failed:', err);
