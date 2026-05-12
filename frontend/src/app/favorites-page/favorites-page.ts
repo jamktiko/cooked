@@ -60,20 +60,24 @@ export class FavoritesPage implements OnInit {
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.loadFavorites(this.currentPage + 1);
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }, 50);
     }
   }
 
   prevPage(): void {
     if (this.currentPage > 1) {
       this.loadFavorites(this.currentPage - 1);
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }, 50);
     }
   }
 

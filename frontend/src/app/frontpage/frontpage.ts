@@ -75,20 +75,26 @@ export class Frontpage implements OnInit {
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.loadRecipes(this.currentPage + 1);
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
+      // Pieni viive varmistaa, että uudet hiet haut ehtivät latautua ja
+      // DOM päivittyä ennen kuin selain yrittää vierittää ylös.
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }, 50);
     }
   }
 
   prevPage(): void {
     if (this.currentPage > 1) {
       this.loadRecipes(this.currentPage - 1);
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      })
+      setTimeout(() => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      }, 50);
     }
   }
 }
