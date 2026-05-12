@@ -6,43 +6,43 @@
       <div
         class="bg-orange-50/80 backdrop-blur-md rounded-3xl p-6 md:p-10 shadow-sm border border-orange-100/50"
       >
-        <div class="flex flex-col w-full">
-          <div class="flex justify-between items-center mb-3">
-            <button
-              (click)="goBack()"
-              class="flex items-center justify-center w-10 h-10 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors shadow-sm"
-              title="Back to recipes"
+        <div class="flex justify-between items-center mb-6 w-full gap-2">
+          <button
+            (click)="goBack()"
+            class="flex items-center justify-center h-8 md:h-10 px-3 md:px-4 bg-white/80 text-stone-800 rounded-full hover:bg-orange-100 transition-colors shadow-sm border border-orange-100/50 shrink-0"
+            title="Back to recipes"
+          >
+            <i class="fa-solid fa-arrow-left text-sm md:text-base"></i>
+            <span class="ml-1.5 md:ml-2 text-sm md:text-base font-medium whitespace-nowrap"
+              >Back to recipes</span
             >
-              <i class="fa-solid fa-arrow-left"></i>
-            </button>
+          </button>
 
-          <div class="flex gap-2 md:gap-4">
+          <div class="flex gap-1 md:gap-2">
             @if (recipe && recipe._id) {
               <app-favorite-button
                 [recipeId]="recipe._id"
-                class="text-stone-800 hover:text-orange-600 transition-colors"
+                class="text-stone-800 hover:text-orange-600 transition-colors flex items-center justify-center w-8 h-8 md:w-10 md:h-10"
               ></app-favorite-button>
 
               <a
                 [routerLink]="['/edit-recipe', recipe._id]"
-                class="flex items-center justify-center w-10 h-10 text-stone-800 hover:text-blue-600 transition-colors"
+                class="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-stone-800 hover:text-blue-600 transition-colors"
                 title="Edit Recipe"
               >
-                <i class="fa-solid fa-pen text-xl"></i>
+                <i class="fa-solid fa-pen text-lg md:text-xl"></i>
               </a>
 
               <button
                 (click)="onDeleteRecipe()"
-                class="flex items-center justify-center w-10 h-10 text-stone-800 hover:text-red-600 transition-colors"
+                class="flex items-center justify-center w-8 h-8 md:w-10 md:h-10 text-stone-800 hover:text-red-600 transition-colors"
                 title="Delete Recipe"
               >
-                <i class="fa-solid fa-trash text-xl"></i>
+                <i class="fa-solid fa-trash text-lg md:text-xl"></i>
               </button>
             }
           </div>
         </div>
-        </div>
-
         <div
           class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 mb-8 md:mb-12 items-start text-center md:text-left"
         >
@@ -55,7 +55,7 @@
           </div>
 
           <div class="md:pt-6">
-            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-4 break-words">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-2 break-words">
               {{ recipe.name }}
             </h1>
             <p class="text-base md:text-lg text-gray-600 leading-relaxed">
@@ -125,7 +125,7 @@
               <h2
                 class="text-xl md:text-2xl font-bold border-b-4 border-orange-500 inline-block w-max pb-1 text-gray-900 mb-0"
               >
-                "Directions"
+                Instructions
               </h2>
               <span class="text-xs md:text-sm text-gray-500 flex items-center gap-1.5 font-medium">
                 <i class="fa-regular fa-lightbulb text-orange-400"></i>
