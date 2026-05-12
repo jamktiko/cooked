@@ -24,6 +24,7 @@ export class Swipe implements OnInit {
   isDragging = false;
   isAnimating = false;
   isLoading = true;
+  showFireAnimation = false; // Uusi muuttuja animaatiolle
 
   ngOnInit() {
     this.fetchRecipes();
@@ -87,11 +88,15 @@ export class Swipe implements OnInit {
   handleMatch() {
     this.isAnimating = true;
     this.currentX = 1000;
+    this.showFireAnimation = true; // Käynnistä animaatio
+
+    // Pidennetään viivettä 300 -> 800, jotta animaatio ehtii pyöriä
     setTimeout(() => {
       const matchedId = this.currentRecipe._id;
       this.nextCard();
+      this.showFireAnimation = false; // Piilota animaatio
       this.router.navigate(['/recipe', matchedId]);
-    }, 300);
+    }, 800);
   }
 
   handleSkip() {
