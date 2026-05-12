@@ -7,13 +7,16 @@
     >
       My favorite recipes
     </h2>
-    <p class="font-sarabun mt-0 text-zinc-600 leading-tight">
-      You have currently
-      <span class="font-bold text-[#E67E22]">
-        {{ favoriteCount === 1 ? '1 recipe' : favoriteCount + ' recipes' }}
-      </span>
-      in your favorites.
-    </p>
+
+    @if (favoriteCount > 0) {
+      <p class="font-sarabun mt-0 text-zinc-600 leading-tight">
+        You have currently
+        <span class="font-bold text-[#E67E22]">
+          {{ favoriteCount === 1 ? '1 recipe' : favoriteCount + ' recipes' }}
+        </span>
+        in your favorites.
+      </p>
+    }
   </div>
 
   @if (loading) {
@@ -70,9 +73,7 @@
         >
           Previous
         </button>
-        <span class="font-bold text-zinc-700">
-          Page {{ currentPage }} / {{ totalPages }}
-        </span>
+        <span class="font-bold text-zinc-700"> Page {{ currentPage }} / {{ totalPages }} </span>
         <button
           (click)="nextPage()"
           [disabled]="currentPage === totalPages"
