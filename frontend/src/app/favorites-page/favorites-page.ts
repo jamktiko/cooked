@@ -29,36 +29,26 @@ export class FavoritesPage implements OnInit {
     this.loadFavorites(1);
   }
 
-  loadFavorites(page: number = 1) {
+  loadFavorites(page: number = 1, silent: boolean = false) {
     this.currentPage = page;
-    this.loading = true;
+    if (!silent) this.loading = true;
 
     this.favoriteService.getFavorites(this.currentPage, this.limit).subscribe({
       next: (data: any) => {
-        let rawList = [];
+        let rawList = data.docs || data.favorites || [];
+        this.totalPages = data.totalPages || 1;
+        this.totalCount = data.totalCount || data.totalDocs || rawList.length;
 
-        if (Array.isArray(data)) {
-          rawList = data;
-          this.totalPages = 1;
-          this.totalCount = data.length;
-        } else {
-          // backendin PaginatedRecipes rakenne: otetaan docs tai favorites -taulukko
-          rawList = data.docs || data.favorites || [];
-          this.totalPages = data.totalPages || 1;
-          this.totalCount = data.totalCount || data.totalDocs || rawList.length;
-        }
-
-        // --- TÄRKEÄ KORJAUS: Suodatus tehdään taulukolle, ei objektille ---
+        // Suodatetaan haamut
         this.favorites = rawList.filter((fav: any) => fav.recipe_id && fav.recipe_id._id);
 
-        // Päivitetään totalCount vastaamaan vain ehjiä kortteja, jos haluat UI:n täsmäävän
+        // Jos haamuja löytyi, korjataan totalCount
         if (this.favorites.length !== rawList.length) {
           const diff = rawList.length - this.favorites.length;
           this.totalCount -= diff;
         }
 
         this.loading = false;
-        console.log('Suosikit ladattu, ehjiä reseptejä tällä sivulla:', this.favorites.length);
       },
       error: (err) => {
         console.error('Error fetching favorites:', err);
@@ -80,24 +70,14 @@ export class FavoritesPage implements OnInit {
   }
 
   handleRemoved(recipeId: string) {
-    // Käytetään valinnaista ketjutusta (?.), jotta null-arvot eivät kaada koodia
-    this.favorites = this.favorites.filter((fav) => {
-      const currentId = fav.recipe_id?._id;
-      // Jos currentId on olemassa, verrataan sitä; jos ei, se suodattuu pois
-      return currentId && currentId !== recipeId;
-    });
+    this.favorites = this.favorites.filter((fav) => fav.recipe_id?._id !== recipeId);
+    if (this.totalCount > 0) this.totalCount--;
 
-    // Vähennetään laskuria vain, jos se on yli nollan
-    if (this.totalCount > 0) {
-      this.totalCount--;
-    }
-
-    // Sivun täyttölogiikka
-    if (this.favorites.length === 0 && this.currentPage > 1) {
+    if (this.favorites.length < this.limit && this.totalCount >= this.limit) {
+      // Kutsutaan SILENT-latausta
+      this.loadFavorites(this.currentPage, true);
+    } else if (this.favorites.length === 0 && this.currentPage > 1) {
       this.loadFavorites(this.currentPage - 1);
-    } else if (this.favorites.length === 0 && this.totalPages > 1) {
-      // Jos sivu tyhjenee mutta sivuja on jäljellä, ladataan nykyinen sivu uudelleen
-      this.loadFavorites(this.currentPage);
     }
   }
 }

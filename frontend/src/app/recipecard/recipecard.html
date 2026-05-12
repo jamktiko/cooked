@@ -50,6 +50,15 @@
       <div class="flex items-center justify-between gap-4">
         <h3 class="font-roboto text-lg font-bold leading-tight text-zinc-900 line-clamp-1">
           {{ recipe.name }}
+          @if (isOwnRecipe) {
+            <span [title]="recipe.public ? 'Public recipe' : 'Private recipe'">
+              @if (recipe.public) {
+                <i class="ml-1 fa-solid fa-eye text-sm text-green-600 opacity-80"></i>
+              } @else {
+                <i class="ml-1 fa-solid fa-eye-slash text-sm text-zinc-400 opacity-80"></i>
+              }
+            </span>
+          }
         </h3>
 
         @if (recipe._id && showFavoriteButton) {
