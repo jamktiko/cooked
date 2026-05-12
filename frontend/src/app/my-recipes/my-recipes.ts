@@ -69,10 +69,20 @@ export class MyRecipes implements OnInit {
   }
 
   nextPage(): void {
-    if (this.currentPage < this.totalPages) this.loadRecipes(this.currentPage + 1);
+    if (this.currentPage < this.totalPages) {
+      this.loadRecipes(this.currentPage + 1);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 50);
+    }
   }
   prevPage(): void {
-    if (this.currentPage > 1) this.loadRecipes(this.currentPage - 1);
+    if (this.currentPage > 1) {
+      this.loadRecipes(this.currentPage - 1);
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 50);
+    }
   }
 
   onDeleteRecipe(id: string): void {

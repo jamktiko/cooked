@@ -1,12 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
 import { Navbar } from '../navbar/navbar';
 import { S3UrlPipe } from '../pipes/s3-url-pipe';
 import { FavoriteButtonComponent } from '../favorite-button/favorite-button';
-
 @Component({
   selector: 'app-recipe-detail',
   standalone: true,
@@ -17,7 +16,7 @@ import { FavoriteButtonComponent } from '../favorite-button/favorite-button';
 export class RecipeDetail implements OnInit {
   private route = inject(ActivatedRoute);
   private recipeService = inject(RecipeService);
-
+  private location = inject(Location)
   recipe: Recipe | undefined;
   loading = true;
   error = false;
@@ -42,7 +41,10 @@ export class RecipeDetail implements OnInit {
       });
     }
   }
-
+  // funktio jolla pääsee takaisin edelliselle sivulle 
+  goBack(): void {
+    this.location.back();
+  }
   // 2. Lisätään funktio, joka hoitaa klikkauksen
   toggleStep(index: number) {
     if (this.completedSteps.has(index)) {

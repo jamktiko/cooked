@@ -6,15 +6,15 @@
       <div
         class="bg-orange-50/80 backdrop-blur-md rounded-3xl p-6 md:p-10 shadow-sm border border-orange-100/50"
       >
-        <div class="flex justify-between items-center mb-6 w-full">
-          <button
-            routerLink="/frontpage"
-            class="flex items-center justify-center h-10 px-4 bg-white/80 text-stone-800 rounded-full hover:bg-orange-100 transition-colors shadow-sm border border-orange-100/50"
-            title="Back to recipes"
-          >
-            <i class="fa-solid fa-arrow-left"></i>
-            <span class="ml-2 font-medium">Back to recipes</span>
-          </button>
+        <div class="flex flex-col w-full">
+          <div class="flex justify-between items-center mb-3">
+            <button
+              (click)="goBack()"
+              class="flex items-center justify-center w-10 h-10 bg-gray-100 text-gray-600 rounded-full hover:bg-gray-200 transition-colors shadow-sm"
+              title="Back to recipes"
+            >
+              <i class="fa-solid fa-arrow-left"></i>
+            </button>
 
           <div class="flex gap-2">
             @if (recipe && recipe._id) {
@@ -24,6 +24,7 @@
               ></app-favorite-button>
             }
           </div>
+        </div>
         </div>
 
         <div
