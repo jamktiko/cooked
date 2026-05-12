@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Recipe } from '../models/recipe.model';
 import { environment } from '../../environments/environment';
-
+import { PaginatedRecipes } from '../models/paginated-recipes';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,8 +14,9 @@ export class RecipeService {
   private apiUrl = `${environment.backendApi}/my-recipes`;
 
   // Hakee kaikki julkiset reseptit
-  getPublicRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(`${this.publicUrl}/all`);
+  getPublicRecipes(page: number = 1, limit: number = 9): Observable<PaginatedRecipes> {
+    const params = new HttpParams().set('page', page).set('limit', limit);
+    return this.http.get<PaginatedRecipes>(`${this.publicUrl}/all`, { params });
   }
 
   // Hakee yhden julkisen reseptin ID:llä (
@@ -24,8 +25,9 @@ export class RecipeService {
   }
 
   // Hakee listan omina reseptejä
-  getMyRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(this.apiUrl);
+  getMyRecipes(page: number = 1, limit: number = 9): Observable<PaginatedRecipes> {
+    const params = new HttpParams().set('page', page).set('limit', limit);
+    return this.http.get<PaginatedRecipes>(this.apiUrl, { params });
   }
 
   // Hakee yhden oman reseptin kaikki tiedot

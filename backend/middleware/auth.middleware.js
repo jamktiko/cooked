@@ -27,7 +27,7 @@ const checkAuth = async (req, res, next) => {
     // - Onko se tarkoitettu juuri tälle sovellukselle (clientId)?
     const payload = await verifier.verify(token);
     req.user = payload;
-    console.log('COGNITO PAYLOAD SISÄLTÖ:', payload);
+    // console.log('COGNITO PAYLOAD SISÄLTÖ:', payload); // Poistettu väliaikaisesti loggaamasta jokaisessa requestissa
 
     // Kutsutaan next(), joka sallii pyynnön jatkamisen varsinaiseen koodiin (esim. hakuun tietokannasta).
     next();
