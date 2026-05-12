@@ -120,7 +120,7 @@ export class RecipeAdd {
     this.recipeService.createRecipe(cleanedData).subscribe({
       next: (response) => {
         console.log('Resepti luotu:', response);
-        this.router.navigate(['/frontpage']);
+        this.router.navigate(['/my-recipes']);
       },
       error: (err) => console.error('Tallennus epäonnistui', err),
     });

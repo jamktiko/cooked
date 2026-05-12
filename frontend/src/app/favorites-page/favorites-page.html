@@ -21,24 +21,32 @@
       <div class="loader text-zinc-600 font-bebas text-2xl animate-pulse">Loading favorites...</div>
     </div>
   } @else if (favorites.length === 0) {
-    <div
-      class="col-span-full flex flex-col items-center justify-center py-24 bg-white/50 rounded-[2.5rem] border-2 border-dashed border-zinc-300"
-    >
+    <div class="col-span-full mx-auto w-full md:max-w-md">
       <div
-        class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-zinc-100 text-[#E67E22]"
+        class="flex flex-col items-center rounded-[3rem] border border-black/5 bg-white/40 p-10 shadow-xl text-center"
       >
-        <i class="fas fa-heart text-2xl"></i>
+        <div
+          class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-cooked-header text-cooked-dark"
+        >
+          <i class="fas fa-heart text-3xl"></i>
+        </div>
+
+        <h3 class="font-bebas mb-4 text-3xl font-bold tracking-wide text-zinc-800 uppercase">
+          No favorites yet!
+        </h3>
+
+        <p class="font-sarabun mb-8 text-zinc-600 leading-relaxed">
+          You haven't added any recipes to your favorites yet. <br />
+          Start exploring and save the ones you love!
+        </p>
+
+        <button
+          routerLink="/frontpage"
+          class="font-bebas w-full rounded-full bg-[#305252] py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95"
+        >
+          Browse recipes
+        </button>
       </div>
-      <h3 class="font-bebas text-3xl text-zinc-800 uppercase tracking-wide">No favorites yet...</h3>
-      <p class="font-sarabun text-zinc-600 mt-1 mb-6">
-        You haven't added any recipes to your favorites yet.
-      </p>
-      <a
-        routerLink="/frontpage"
-        class="rounded-full bg-[#305252] px-8 py-3 font-bebas text-lg text-white shadow-lg transition-transform hover:scale-105 active:scale-95"
-      >
-        Browse recipes
-      </a>
     </div>
   } @else {
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">

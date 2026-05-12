@@ -46,6 +46,8 @@ export class FavoritesPage implements OnInit {
           this.totalCount = data.totalCount || this.favorites.length;
         }
         this.loading = false;
+
+        console.log('Suosikit ladattu, ehjiä reseptejä:', this.favorites.length);
       },
       error: (err) => {
         console.error('Error fetching favorites:', err);
