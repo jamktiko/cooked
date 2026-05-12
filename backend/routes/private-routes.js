@@ -15,13 +15,26 @@ const s3Client = new S3Client({
 // Hae omat reseptit
 router.get('/', async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const skip = (page - 1) * limit;
+
     // req.user.sub tulee Cognitosta
-    const recipes = await Recipe.find({ sub: req.user.sub })
+    const query = { sub: req.user.sub };
+    const recipes = await Recipe.find(query)
       .select('name image created description tags duration servings public')
-      .sort({
-        created: -1,
-      });
-    res.json(recipes);
+      .sort({ created: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalCount = await Recipe.countDocuments(query);
+
+    res.json({
+      recipes,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
   } catch (err) {
     res.status(500).json({ error: 'Recipes could not be retrieved' });
   }

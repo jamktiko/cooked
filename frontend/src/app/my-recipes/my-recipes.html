@@ -18,7 +18,7 @@
     </div>
 
     <div class="w-full md:w-auto">
-      @if (!loading && myRecipes.length > 0) {
+      @if (myRecipes.length > 0 || totalCount > 0) {
         <div
           class="relative w-full overflow-hidden rounded-full border border-black/5 bg-white shadow-md md:w-64 lg:w-80"
         >
