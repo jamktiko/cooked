@@ -13,7 +13,7 @@
     <nav class="flex items-center gap-3">
       <a
         routerLink="/frontpage"
-        routerLinkActive="!bg-orange-600 !text-white"
+        routerLinkActive="!bg-cooked-dark !text-white"
         [routerLinkActiveOptions]="{ exact: true }"
         class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
         >Home</a
@@ -22,32 +22,32 @@
       @if (isUserLoggedIn$ | async) {
         <a
           routerLink="/my-recipes"
-          routerLinkActive="!bg-orange-600 !text-white"
+          routerLinkActive="!bg-cooked-dark !text-white"
           class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           >My Recipes</a
         >
         <a
           routerLink="/new-recipe"
-          routerLinkActive="!bg-orange-600 !text-white"
+          routerLinkActive="!bg-cooked-dark !text-white"
           class="rounded-full bg-cooked-orange px-6 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           >Add Recipe</a
         >
         <a
           routerLink="/favorites"
-          routerLinkActive="!bg-orange-600 !text-white"
+          routerLinkActive="!bg-cooked-dark !text-white"
           class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 uppercase shadow-sm transition-all hover:bg-orange-600 hover:text-white"
         >
           <i class="fa-solid fa-heart"></i>
         </a>
         <a
           routerLink="/swipe"
-          routerLinkActive="!bg-orange-600 !text-white"
+          routerLinkActive="!bg-cooked-dark !text-white"
           class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           ><i class="fa-solid fa-random"></i
         ></a>
         <a
           (click)="goToProfile($event)"
-          [class.!bg-orange-600]="isProfileActive"
+          [class.!bg-cooked-dark]="isProfileActive"
           [class.!text-white]="isProfileActive"
           class="rounded-full bg-cooked-orange px-4 py-2 text-zinc-900 cursor-pointer shadow-sm transition-all hover:bg-orange-600 hover:text-white"
           ><i class="fas fa-user-circle"></i
@@ -75,7 +75,7 @@
 >
   <a
     routerLink="/frontpage"
-    routerLinkActive="bg-orange-600 !text-white"
+    routerLinkActive="bg-cooked-dark !text-white"
     [routerLinkActiveOptions]="{ exact: true }"
     class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors"
   >
@@ -86,7 +86,7 @@
   @if (isUserLoggedIn$ | async) {
     <a
       routerLink="/my-recipes"
-      routerLinkActive="bg-orange-600 !text-white"
+      routerLinkActive="bg-cooked-dark !text-white"
       class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors"
     >
       <i class="fas fa-book text-xl opacity-70"></i>
@@ -94,7 +94,7 @@
     </a>
     <a
       routerLink="/new-recipe"
-      routerLinkActive="bg-orange-600 !text-white"
+      routerLinkActive="bg-cooked-dark !text-white"
       class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors"
     >
       <i class="fas fa-plus text-xl opacity-70"></i>
@@ -102,7 +102,7 @@
     </a>
     <a
       routerLink="/favorites"
-      routerLinkActive="bg-orange-600 !text-white"
+      routerLinkActive="bg-cooked-dark !text-white"
       class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors"
     >
       <i class="fas fa-heart text-xl opacity-70"></i>
@@ -110,7 +110,7 @@
     </a>
     <a
       routerLink="/swipe"
-      routerLinkActive="bg-orange-600 !text-white"
+      routerLinkActive="bg-cooked-dark !text-white"
       class="flex flex-1 flex-col items-center justify-center text-zinc-800 transition-colors"
     >
       <i class="fas fa-random text-xl opacity-70"></i>
@@ -118,7 +118,7 @@
     </a>
     <a
       (click)="goToProfile($event)"
-      [class.bg-orange-600]="isProfileActive"
+      [class.bg-cooked-dark]="isProfileActive"
       [class.!text-white]="isProfileActive"
       class="flex flex-1 flex-col items-center justify-center cursor-pointer text-zinc-800 transition-colors"
     >
