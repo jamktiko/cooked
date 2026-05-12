@@ -63,7 +63,7 @@ export class FavoritesPage implements OnInit {
       setTimeout(() => {
         window.scrollTo({
           top: 0,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       }, 50);
     }
@@ -75,21 +75,30 @@ export class FavoritesPage implements OnInit {
       setTimeout(() => {
         window.scrollTo({
           top: 0,
-          behavior: 'smooth'
+          behavior: 'smooth',
         });
       }, 50);
     }
   }
-
   handleRemoved(recipeId: string) {
+    // 1. Poistetaan kortti paikallisesti
     this.favorites = this.favorites.filter((fav) => fav.recipe_id?._id !== recipeId);
+
+    // 2. Päivitetään laskuri
     if (this.totalCount > 0) this.totalCount--;
 
-    if (this.favorites.length < this.limit && this.totalCount >= this.limit) {
-      // Kutsutaan SILENT-latausta
-      this.loadFavorites(this.currentPage, true);
-    } else if (this.favorites.length === 0 && this.currentPage > 1) {
+    // 3. Lasketaan uusi sivumäärä
+    this.totalPages = Math.max(1, Math.ceil(this.totalCount / this.limit));
+
+    // 4. Jos sivu tyhjeni ja sivuja on vielä jäljellä (ollaan sivulla 2, 3...)
+    if (this.favorites.length === 0 && this.currentPage > 1) {
+      // Asetetaan loading päälle, jotta "No recipes" ei välmähdä ruudulla
+      this.loading = true;
       this.loadFavorites(this.currentPage - 1);
+    }
+    // 5. Jos sivu jäi vajaaksi ja tiedämme että tietokannassa on vielä tavaraa
+    else if (this.favorites.length < this.limit && this.totalCount >= this.limit) {
+      this.loadFavorites(this.currentPage, true); // Silent load täyttää tyhjän paikan
     }
   }
 }
