@@ -9,41 +9,41 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { Uploadservice } from '../services/uploadservice';
 import { HttpClient } from '@angular/common/http';
 import { Uploadimg } from '../uploadimg/uploadimg';
-
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-profile',
-  imports: [Navbar, S3UrlPipe, DatePipe, ReactiveFormsModule, Uploadimg],
+  imports: [Navbar, S3UrlPipe, DatePipe, ReactiveFormsModule, Uploadimg, RouterLink],
   templateUrl: './profile.html',
   styleUrl: './profile.css',
 })
-export class Profile implements OnInit{
-  private userService = inject(ProfileupdateService)
-  private authService = inject(AuthService)
-  editStatus = false
+export class Profile implements OnInit {
+  private userService = inject(ProfileupdateService);
+  private authService = inject(AuthService);
+  editStatus = false;
   user: UserModel | null = null;
-    profileForm = new FormGroup({
+  profileForm = new FormGroup({
     username: new FormControl(''),
     info: new FormControl(''),
   });
   selectedFile: File | null = null;
   private uploadService = inject(Uploadservice);
 
-  ngOnInit(){
-    console.log('runataan profile oninit')
-    this.getUser()
+  ngOnInit() {
+    console.log('runataan profile oninit');
+    this.getUser();
   }
-  getUser(){
+  getUser() {
     this.userService.getUser().subscribe((data) => {
-      this.user = data
-    })
+      this.user = data;
+    });
   }
-    logout() {
+  logout() {
     this.authService.logout();
   }
-  edit(){
-    this.editStatus = !this.editStatus
+  edit() {
+    this.editStatus = !this.editStatus;
   }
-    onSubmit() {
+  onSubmit() {
     if (this.profileForm.invalid) return;
 
     // Jos kuva on valittu, ladataan se ensin S3:een

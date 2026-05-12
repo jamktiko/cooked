@@ -8,17 +8,20 @@
       >
         My recipe collection
       </h2>
-      <p class="font-sarabun mt-0 text-zinc-600 leading-tight">
-        You have currently
-        <span class="font-bold text-[#E67E22]">
-          {{ totalCount === 1 ? '1 recipe' : totalCount + ' recipes' }}
-        </span>
-        in your personal collection.
-      </p>
+
+      @if (totalCount > 0 || searchQuery) {
+        <p class="font-sarabun mt-0 text-zinc-600 leading-tight">
+          You have currently
+          <span class="font-bold text-[#E67E22]">
+            {{ totalCount === 1 ? '1 recipe' : totalCount + ' recipes' }}
+          </span>
+          in your personal collection.
+        </p>
+      }
     </div>
 
     <div class="w-full md:w-auto">
-      @if (myRecipes.length > 0 || totalCount > 0) {
+      @if (totalCount > 0 || searchQuery) {
         <div
           class="relative w-full overflow-hidden rounded-full border border-black/5 bg-white shadow-md md:w-64 lg:w-80"
         >
@@ -30,9 +33,7 @@
 
   @if (loading) {
     <div class="flex justify-center items-center py-20">
-      <div class="loader text-zinc-600 font-bebas text-2xl animate-pulse">
-        Loading your recipes...
-      </div>
+      <div class="loader text-zinc-600 font-bebas text-2xl animate-pulse">Loading...</div>
     </div>
   } @else {
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
@@ -44,53 +45,58 @@
           (deleteRequest)="onDeleteRecipe($event)"
         ></app-recipecard>
       } @empty {
-        <div class="col-span-full mx-auto w-full md:max-w-md">
-          <div
-            class="flex flex-col items-center rounded-[3rem] border border-black/5 bg-white/40 p-10 shadow-xl text-center"
-          >
+        <div class="col-span-full">
+          @if (searchQuery) {
             <div
-              class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-cooked-header text-cooked-dark"
+              class="w-full py-12 text-center rounded-[2.5rem] border border-dashed border-zinc-400 bg-white/20"
             >
-              <i class="fa-solid fa-book-open text-3xl"></i>
+              <p class="italic text-zinc-500 font-sarabun">
+                No recipes found matching your criteria. Try something else!
+              </p>
             </div>
-
-            <h3 class="font-bebas mb-4 text-3xl font-bold tracking-wide text-zinc-800 uppercase">
-              No recipes yet!
-            </h3>
-
-            <p class="font-sarabun mb-8 text-zinc-600 leading-relaxed">
-              Your kitchen is quiet... <br />
-              Start building your personal collection by adding your very first recipe!
-            </p>
-
-            <button
-              routerLink="/new-recipe"
-              class="font-bebas w-full rounded-full bg-cooked-dark py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95"
-            >
-              Add recipe
-            </button>
-          </div>
+          } @else {
+            <div class="mx-auto w-full md:max-w-md">
+              <div
+                class="flex flex-col items-center rounded-[3rem] border border-black/5 bg-white/40 p-10 shadow-xl text-center"
+              >
+                <div
+                  class="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-cooked-header text-cooked-dark"
+                >
+                  <i class="fa-solid fa-book-open text-3xl"></i>
+                </div>
+                <h3 class="font-bebas mb-4 text-3xl font-bold text-zinc-800 uppercase">
+                  No recipes yet!
+                </h3>
+                <p class="font-sarabun mb-8 text-zinc-600">
+                  Your kitchen is quiet... Start building your collection!
+                </p>
+                <button
+                  routerLink="/new-recipe"
+                  class="font-bebas w-full rounded-full bg-cooked-dark py-4 text-2xl text-white uppercase shadow-lg"
+                >
+                  Add recipe
+                </button>
+              </div>
+            </div>
+          }
         </div>
       }
     </div>
 
-    <!-- Sivutus (Pagination) -->
-    @if (totalPages > 1) {
+    @if (totalPages > 1 && !searchQuery) {
       <div class="mt-12 flex items-center justify-center gap-4">
         <button
           (click)="prevPage()"
           [disabled]="currentPage === 1"
-          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm disabled:opacity-50"
         >
           Previous
         </button>
-        <span class="font-bold text-zinc-700">
-          Page {{ currentPage }} / {{ totalPages }}
-        </span>
+        <span class="font-bold text-zinc-700"> Page {{ currentPage }} / {{ totalPages }} </span>
         <button
           (click)="nextPage()"
           [disabled]="currentPage === totalPages"
-          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm disabled:opacity-50"
         >
           Next
         </button>

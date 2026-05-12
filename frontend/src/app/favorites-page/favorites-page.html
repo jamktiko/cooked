@@ -10,7 +10,7 @@
     <p class="font-sarabun mt-0 text-zinc-600 leading-tight">
       You have currently
       <span class="font-bold text-[#E67E22]">
-        {{ favoriteCount === 1 ? '1 recipe' : favoriteCount + ' recipes' }}
+        {{ totalCount === 1 ? '1 recipe' : totalCount + ' recipes' }}
       </span>
       in your favorites.
     </p>
@@ -70,9 +70,7 @@
         >
           Previous
         </button>
-        <span class="font-bold text-zinc-700">
-          Page {{ currentPage }} / {{ totalPages }}
-        </span>
+        <span class="font-bold text-zinc-700"> Page {{ currentPage }} / {{ totalPages }} </span>
         <button
           (click)="nextPage()"
           [disabled]="currentPage === totalPages"
