@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RecipeService } from '../services/recipe.service';
 import { Recipe } from '../models/recipe.model';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Navbar } from '../navbar/navbar';
 import { S3UrlPipe } from '../pipes/s3-url-pipe';
 import { Router } from '@angular/router';
@@ -19,7 +19,7 @@ export class MyRecipeDetail implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private recipeService = inject(RecipeService);
-
+  private location = inject(Location);
   recipe: Recipe | undefined;
 
   // 1. Muuttuja klikattujen vaiheiden muistamiseen
@@ -46,6 +46,10 @@ export class MyRecipeDetail implements OnInit {
     } else {
       this.completedSteps.add(index);
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   onDeleteRecipe(): void {

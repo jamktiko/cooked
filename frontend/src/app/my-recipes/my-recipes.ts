@@ -76,12 +76,20 @@ export class MyRecipes implements OnInit {
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.loadRecipes(this.currentPage + 1);
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
   }
 
   prevPage(): void {
     if (this.currentPage > 1) {
       this.loadRecipes(this.currentPage - 1);
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
   }
 
