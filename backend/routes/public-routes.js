@@ -5,11 +5,26 @@ const Recipe = require('../models/recipe');
 // Hakee kaikkien julkisten reseptien perustiedot
 router.get('/all', async (req, res) => {
   try {
-    const recipes = await Recipe.find({ public: true })
-      .select('name image created description tags duration servings')
-      .sort({ created: -1 });
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const skip = (page - 1) * limit;
 
-    res.json(recipes);
+    const query = { public: true };
+
+    const recipes = await Recipe.find(query)
+      .select('name image created description tags duration servings')
+      .sort({ created: -1 })
+      .skip(skip)
+      .limit(limit);
+
+    const totalCount = await Recipe.countDocuments(query);
+
+    res.json({
+      recipes,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

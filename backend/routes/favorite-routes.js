@@ -32,12 +32,26 @@ router.post('/toggle', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const user_sub = req.user?.sub || req.auth?.sub;
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 9;
+    const skip = (page - 1) * limit;
 
-    const favorites = await Favorite.find({ user_sub })
+    const query = { user_sub };
+
+    const favorites = await Favorite.find(query)
       .populate('recipe_id')
-      .sort({ added_at: -1 });
+      .sort({ added_at: -1 })
+      .skip(skip)
+      .limit(limit);
 
-    res.json(favorites);
+    const totalCount = await Favorite.countDocuments(query);
+
+    res.json({
+      favorites,
+      totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

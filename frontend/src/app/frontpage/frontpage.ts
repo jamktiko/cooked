@@ -38,9 +38,14 @@ export class Frontpage implements OnInit {
     this.currentPage = page;
     // Kutsutaan servicen metodia
     this.recipeService.getPublicRecipes(this.currentPage, this.limit).subscribe({
-      next: (data) => {
-        this.recipes = data.recipes;
-        this.totalPages = data.totalPages;
+      next: (data: any) => {
+        if (Array.isArray(data)) {
+          this.recipes = data;
+          this.totalPages = 1;
+        } else {
+          this.recipes = data.recipes || [];
+          this.totalPages = data.totalPages || 1;
+        }
         console.log('Recipes loaded:', data);
       },
       error: (err) => {
