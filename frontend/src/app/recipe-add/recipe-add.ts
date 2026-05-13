@@ -33,7 +33,7 @@ export class RecipeAdd {
       image: [''],
       public: [false],
       ingredients: this.fb.array([], [Validators.required, Validators.minLength(1)]),
-      directions: this.fb.array([]),
+      directions: this.fb.array([], [Validators.required, Validators.minLength(1)]),
       tags: this.fb.array([]),
     });
 
@@ -93,6 +93,7 @@ export class RecipeAdd {
   }
   removeDirection(index: number) {
     this.directions.removeAt(index);
+    this.directions.markAsTouched();
   }
   removeTag(index: number) {
     this.tags.removeAt(index);
