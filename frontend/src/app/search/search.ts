@@ -19,10 +19,10 @@ export class Search implements OnInit {
   ngOnInit(): void {
     // Kuunnellaan hakukenttää
     this.searchControl.valueChanges.pipe(
-      debounceTime(600), // Odottaa käyttäjän lopettavan kirjoittamisen (300ms)
+      debounceTime(600), // Waits for the user to stop typing (600ms)
       distinctUntilChanged() // Lähettää tapahtuman vain, jos teksti on muuttunut
     ).subscribe(term => {
-      // Lähetetään termi parent-tason (isäntä) komponentille ilman ylimääräisiä välejä
+      // Send the term to the parent component without extra spaces
       this.searchQuery.emit((term || '').trim());
     });
   }

@@ -13,39 +13,39 @@ export class RecipeService {
   private publicUrl = `${environment.backendApi}/recipes`;
   private apiUrl = `${environment.backendApi}/my-recipes`;
 
-  // Hakee kaikki julkiset reseptit
+  // Fetch all public recipes
   getPublicRecipes(page: number = 1, limit: number = 9): Observable<PaginatedRecipes> {
     const params = new HttpParams().set('page', page).set('limit', limit);
     return this.http.get<PaginatedRecipes>(`${this.publicUrl}/all`, { params });
   }
 
-  // Hakee yhden julkisen reseptin ID:llä (
+  // Fetch one public recipe by ID
   getRecipeById(id: string): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.publicUrl}/${id}`);
   }
 
-  // Hakee listan omina reseptejä
+  // Get my recipes (paginated)
   getMyRecipes(page: number = 1, limit: number = 9): Observable<PaginatedRecipes> {
     const params = new HttpParams().set('page', page).set('limit', limit);
     return this.http.get<PaginatedRecipes>(this.apiUrl, { params });
   }
 
-  // Hakee yhden oman reseptin kaikki tiedot
+  // Get one of my recipes by ID
   getMyRecipeById(id: string): Observable<Recipe> {
     return this.http.get<Recipe>(`${this.apiUrl}/${id}`);
   }
 
-  // Luo uuden reseptin, vaatii autentikoinnin
+  // Create a new recipe (requires authentication)
   createRecipe(recipeData: Recipe): Observable<Recipe> {
     return this.http.post<Recipe>(`${this.apiUrl}/create`, recipeData);
   }
 
-  // Päivittää olemassa olevan reseptin, vaatii autentikoinnin
+  // Update an existing recipe (requires authentication)
   updateRecipe(id: string, recipeData: Partial<Recipe>): Observable<Recipe> {
     return this.http.put<Recipe>(`${this.apiUrl}/update/${id}`, recipeData);
   }
 
-  // Poistaa reseptin, vaatii autentikoinnin
+  // Delete a recipe (requires authentication)
   deleteRecipe(id: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/delete/${id}`);
   }

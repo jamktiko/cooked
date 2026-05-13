@@ -32,7 +32,7 @@ export class Swipe implements OnInit {
 
   fetchRecipes() {
     this.isLoading = true;
-    // Oletuksena hakee valtavasti dataa swippailuun, esim. 50 reseptiä yhdelle sivulle
+    // By default fetches a large amount of data for swiping, e.g., 50 recipes per page
     this.recipeService.getPublicRecipes(1, 50).subscribe({
       next: (data: any) => {
         let recipesArray: Recipe[] = [];

@@ -41,11 +41,11 @@ export class RecipeDetail implements OnInit {
       });
     }
   }
-  // funktio jolla pääsee takaisin edelliselle sivulle 
+  // function to go back to the previous page
   goBack(): void {
     this.location.back();
   }
-  // 2. Lisätään funktio, joka hoitaa klikkauksen
+  // 2. Add function that handles clicks
   toggleStep(index: number) {
     if (this.completedSteps.has(index)) {
       this.completedSteps.delete(index);

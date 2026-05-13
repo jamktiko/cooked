@@ -47,8 +47,8 @@ export class Navbar {
         }
       },
       error: (err) => {
-        console.error('Virhe profiilin tarkistuksessa:', err);
-        // Jos tulee virhe, ohjataan silti profiiliin ettei navigointi mene täysin jumiin
+        console.error('Error checking profile:', err);
+        // If an error occurs, still navigate to the profile to avoid blocking navigation
         this.router.navigate(['/profile']);
       },
     });

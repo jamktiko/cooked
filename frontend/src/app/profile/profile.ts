@@ -46,11 +46,11 @@ export class Profile implements OnInit {
   onSubmit() {
     if (this.profileForm.invalid) return;
 
-    // Jos kuva on valittu, ladataan se ensin S3:een
+    // If an image is selected, upload it to S3 first
     if (this.selectedFile) {
       this.uploadService.uploadProcess(this.selectedFile, 'profiles').subscribe({
         next: (res) => {
-          // lisätään profileForm valueihin mukaan backendistä saatu kuvan key
+          // add the image key returned by the backend to the profileForm values
           const profileData = {
             username: this.profileForm.value.username?.trim() || this.user?.username,
             info: this.profileForm.value.info?.trim() || this.user?.info,
@@ -58,10 +58,10 @@ export class Profile implements OnInit {
           };
           this.sendToBackend(profileData);
         },
-        error: (err) => console.error('Kuvan lataus epäonnistui', err),
+        error: (err) => console.error('Image upload failed', err),
       });
     } else {
-      // Jos kuvaa ei valittu, lähetetään vain lomakkeen tiedot ja estetään tyhjien arvojen ylikirjoitus
+      // If no image was selected, send only the form fields and avoid overwriting with empty values
       const profileData = {
         username: this.profileForm.value.username?.trim() || this.user?.username,
         info: this.profileForm.value.info?.trim() || this.user?.info,
@@ -71,18 +71,18 @@ export class Profile implements OnInit {
   }
   onImageSelected(file: File) {
     this.selectedFile = file;
-    console.log('Tiedosto valittu ja valmiina ladattavaksi:', file.name);
+    console.log('File selected and ready to upload:', file.name);
   }
 
   removeImage() {
-    if (confirm('Haluatko varmasti poistaa profiilikuvasi?')) {
+    if (confirm('Are you sure you want to delete your profile image?')) {
       this.userService.deleteProfileImage().subscribe({
         next: () => {
-          console.log('Kuva poistettu onnistuneesti');
+          console.log('Image deleted successfully');
           this.selectedFile = null;
-          this.getUser(); // Lataa käyttäjän tiedot uudelleen jotta kuva poistuu näkyvistä
+          this.getUser(); // Reload user data so the image is removed from view
         },
-        error: (err) => console.error('Kuvan poistossa tapahtui virhe:', err),
+        error: (err) => console.error('Error deleting image:', err),
       });
     }
   }
@@ -90,11 +90,11 @@ export class Profile implements OnInit {
   private sendToBackend(finalData: any) {
     this.userService.updateUser(finalData).subscribe({
       next: () => {
-        console.log('Profiili valmis!');
+        console.log('Profile saved!');
         this.editStatus = false;
         this.getUser();
       },
-      error: (err) => console.error('Backend-virhe', err),
+      error: (err) => console.error('Backend error', err),
     });
   }
 }

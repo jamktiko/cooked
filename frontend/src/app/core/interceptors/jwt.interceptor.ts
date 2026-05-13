@@ -10,7 +10,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
 
   // interceptorit nappaavat http pyynnön, muokkaavat sitä halutulla tavalla ja lopuksi palauttavat vastauksen
 
-  // tässä katsotaan onko http pyynnön osoite backendimme osoite
+  // check if the http request address is our backend address
   if (!req.url.startsWith(environment.backendApi)) {
     return next(req);
   }
@@ -19,10 +19,10 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   return authService.getAccessToken().pipe(
     // switchmap ketjuttaa asynkroniset operaatiot
     // ja vaihtaa ensimmäisen observablen tuloksen seuraavaan lennosta
-    // tässä switchmap nappaa tokenin heti kun se tulee observablesta
+    // here switchMap grabs the token as soon as it arrives from the observable
     switchMap((token) => {
       // jos tokeni on saapunut tehdään muutokset http pyyntöön
-      // tässä tapauksessa lisätään headeriin auth token
+      // in this case add the auth token to the header
       if (token) {
         req = req.clone({
           setHeaders: {

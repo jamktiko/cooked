@@ -13,7 +13,7 @@
 
 /* --- HEADERIT --- */
 
-/* Kirjautuneen käyttäjän tervetuloa-osio */
+/* Logged-in user welcome section */
 .welcome-header {
   text-align: center;
   padding: 60px 40px;
@@ -34,7 +34,7 @@
   line-height: 1.6;
 }
 
-/* Vierailijan (guest) osio */
+/* Guest section */
 .guest-header {
   text-align: center;
   padding: 60px 40px;
@@ -78,7 +78,7 @@
   background-color: #f8f9fa;
 }
 
-/* --- RESEPTIOSIO JA GRIDI --- */
+/* --- RECIPES SECTION AND GRID --- */
 
 .recipe-section {
   margin-top: 20px;

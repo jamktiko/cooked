@@ -98,7 +98,7 @@ export class RecipeAdd {
         next: (res) => {
           this.saveRecipe(res.key);
         },
-        error: (err) => console.error('Kuvan lataus epäonnistui', err),
+        error: (err) => console.error('Image upload failed', err),
       });
     } else {
       this.saveRecipe();
@@ -106,7 +106,7 @@ export class RecipeAdd {
   }
 
   private saveRecipe(imageKey?: string) {
-    console.log(imageKey + 'tässä image key');
+    console.log(imageKey + ' image key');
     const rawData = this.recipeForm.value;
 
     const cleanedData = {
@@ -119,10 +119,10 @@ export class RecipeAdd {
 
     this.recipeService.createRecipe(cleanedData).subscribe({
       next: (response) => {
-        console.log('Resepti luotu:', response);
+        console.log('Recipe created:', response);
         this.router.navigate(['/my-recipes']);
       },
-      error: (err) => console.error('Tallennus epäonnistui', err),
+      error: (err) => console.error('Save failed', err),
     });
   }
 }

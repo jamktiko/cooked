@@ -19,10 +19,10 @@ export class AppComponent implements OnInit {
   private authService = inject(AuthService);
 
   ngOnInit() {
-    // alustetaan tai käynnistetään oidcsecurityservice tarkistamalla onko käyttäjä autentikoitu
+    // initialize or start oidcSecurityService by checking if the user is authenticated
     this.oidcSecurityService.checkAuth().subscribe();
 
-    // käynnistetään authservicestä tuleva sync funktio jotta voidaan autentikoida käyttäjä
+    // call the authService sync function to authenticate the user
     this.authService.syncUserWithBackend();
   }
 }

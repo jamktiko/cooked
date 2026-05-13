@@ -1,7 +1,7 @@
 .swipe-card {
   /* Estää selaimen oman rullauksen (esim. pull-to-refresh) korttia koskiessa */
   touch-action: none;
-  /* Estää tekstin tai kuvan maalaamisen vahingossa ruutua raahatessa */
+  /* Prevents accidentally selecting text or images while dragging across the screen */
   user-select: none;
   -webkit-user-select: none;
 }

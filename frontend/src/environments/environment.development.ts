@@ -4,7 +4,7 @@ const callbackUrl = 'http://localhost:4200/login';
 
 export const environment = {
   production: false,
-  // Pidä tämä juurena, jotta voit käyttää sitä eri serviceissä
+  // Keep this as the root so it can be used by different services
   backendApi: 'http://localhost:3000/api',
   logoutUri: 'http://localhost:4200',
   cognitoDomain: 'https://eu-north-1hn9usnbwy.auth.eu-north-1.amazoncognito.com',

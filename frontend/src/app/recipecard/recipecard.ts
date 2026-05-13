@@ -44,7 +44,7 @@ export class Recipecard {
 
     // Jos sydän muuttuu tyhjäksi (isFavorite === false)
     if (!isFavorite) {
-      console.log('Lähetetään favoriteRemoved-tapahtuma yläkerran komponentille...');
+      console.log('Emitting favoriteRemoved event to parent component...');
       this.favoriteRemoved.emit(this.recipe._id);
     }
   }

@@ -20,7 +20,7 @@ export class SearchService {
   private apiUrl = environment.backendApi;
 
   /**
-   * Julkinen haku: Hakee kaikkien käyttäjien julkisista resepteistä
+   * Public search: Searches public recipes from all users
    */
   searchPublicRecipes(term: string, page: number = 1, limit: number = 10): Observable<SearchResponse> {
     const params = new HttpParams()
@@ -32,8 +32,8 @@ export class SearchService {
   }
 
   /**
-   * Yksityinen haku: Hakee vain sisäänkirjautuneen käyttäjän omista resepteistä
-   * (JWT-interceptor huolehtii tokenin lisäämisestä taustalla)
+   * Private search: Searches only the logged-in user's recipes
+   * (JWT interceptor handles adding the token automatically)
    */
   searchPrivateRecipes(term: string, page: number = 1, limit: number = 10): Observable<SearchResponse> {
     const params = new HttpParams()
