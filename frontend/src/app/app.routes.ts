@@ -11,7 +11,7 @@ import { Swipe } from './swipe/swipe';
 import { RecipeEdit } from './recipe-edit/recipe-edit';
 import { FavoritesPage } from './favorites-page/favorites-page';
 import { Privacy } from './privacy/privacy';
-
+import { AboutUs } from './about-us/about-us';
 import { Profile } from './profile/profile';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -20,6 +20,7 @@ export const routes: Routes = [
   { path: 'complete-profile', component: CompleteProfile },
   { path: 'recipe/:id', component: RecipeDetail },
   { path: 'privacy', component: Privacy },
+  { path: 'aboutus', component: AboutUs},
 
   // Suojatut reitit (Vaativat kirjautumisen)
   {

@@ -9,7 +9,7 @@ import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { Uploadservice } from '../services/uploadservice';
 import { HttpClient } from '@angular/common/http';
 import { Uploadimg } from '../uploadimg/uploadimg';
-import { RouterLink } from '@angular/router';
+import { RouterLink } from "@angular/router";
 @Component({
   selector: 'app-profile',
   imports: [Navbar, S3UrlPipe, DatePipe, ReactiveFormsModule, Uploadimg, RouterLink],
