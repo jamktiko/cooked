@@ -20,7 +20,6 @@
     <div class="flex justify-center items-center py-20">
       <div class="loader text-zinc-600 font-bebas text-2xl animate-pulse">Loading favorites...</div>
     </div>
-
   } @else if (totalCount === 0 && !loading) {
     <div class="col-span-full mx-auto w-full md:max-w-md">
       <div
@@ -46,7 +45,6 @@
         </button>
       </div>
     </div>
-
   } @else {
     <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 min-h-[400px]">
       @for (fav of favorites; track fav._id) {
@@ -64,7 +62,7 @@
         <button
           (click)="prevPage()"
           [disabled]="currentPage === 1 || loading"
-          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50"
+          class="rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 md:px-6"
         >
           Previous
         </button>
@@ -72,7 +70,7 @@
         <button
           (click)="nextPage()"
           [disabled]="currentPage === totalPages || loading"
-          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50"
+          class="rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 md:px-6"
         >
           Next
         </button>

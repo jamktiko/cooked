@@ -89,17 +89,15 @@
         <button
           (click)="prevPage()"
           [disabled]="currentPage === 1"
-          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed md:px-6"
         >
           Previous
         </button>
-        <span class="font-bold text-zinc-700">
-          Page {{ currentPage }} / {{ totalPages }}
-        </span>
+        <span class="font-bold text-zinc-700"> Page {{ currentPage }} / {{ totalPages }} </span>
         <button
           (click)="nextPage()"
           [disabled]="currentPage === totalPages"
-          class="rounded-full bg-white px-6 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+          class="rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed md:px-6"
         >
           Next
         </button>

@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 
 <div
-  class="relative flex h-[calc(100dvh-85px)] w-full flex-col items-center justify-center pb-24 overflow-hidden"
+  class="relative flex h-[calc(100dvh-85px)] w-full flex-col items-center justify-center pb-20 overflow-hidden"
   (touchstart)="onTouchStart($event)"
   (touchmove)="onTouchMove($event)"
   (touchend)="endDrag()"
@@ -64,7 +64,7 @@
       </div>
     </div>
 
-    <div class="absolute bottom-12 md:bottom-8 z-20 flex w-full justify-center gap-12 md:gap-16">
+    <div class="absolute bottom-20 md:bottom-8 z-20 flex w-full justify-center gap-12 md:gap-16">
       <button
         (click)="handleSkip()"
         class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-red-500 shadow-xl transition-transform hover:scale-110 active:scale-95 border border-zinc-100"
