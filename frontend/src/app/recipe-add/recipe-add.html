@@ -112,21 +112,24 @@
               <input
                 formControlName="amount"
                 type="number"
-                placeholder="Amt"
-                class="w-20 md:w-16 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:text-zinc-300"
+                placeholder="Amount"
+                class="w-32 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:italic placeholder:text-zinc-300"
               />
+
               <input
                 formControlName="unit"
                 type="text"
                 placeholder="Unit"
-                class="w-24 md:w-20 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:text-zinc-300"
+                class="w-24 md:w-24 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:italic placeholder:text-zinc-300"
               />
+
               <input
                 formControlName="name"
                 type="text"
                 placeholder="Ingredient name"
-                class="flex-1 min-w-[150px] rounded-full border-none bg-white px-6 py-2.5 text-sm shadow-inner outline-none placeholder:text-zinc-300"
+                class="flex-1 min-w-[120px] rounded-full border-none bg-white px-6 py-2.5 text-sm shadow-inner outline-none placeholder:italic placeholder:text-zinc-300"
               />
+
               <button
                 type="button"
                 (click)="removeIngredient(i)"
