@@ -1,0 +1,104 @@
+<div
+  class="min-h-screen w-full bg-fixed bg-center bg-no-repeat text-zinc-900"
+  style="
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.36), rgba(255, 255, 255, 0.36)),
+      url('assets/img/taustakuva.png');
+  "
+>
+  <app-navbar></app-navbar>
+
+  <main class="mx-auto w-full max-w-6xl px-4 sm:px-6 py-6 md:py-10 pb-20 font-sarabun">
+    <section
+      class="relative overflow-hidden rounded-4xl border border-white/70 bg-cooked-bg/90 p-6 shadow-[0_20px_60px_rgba(48,82,82,0.12)] backdrop-blur-md md:p-10"
+    >
+      <div class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-cooked-orange/35 blur-3xl"></div>
+      <div class="pointer-events-none absolute -left-20 bottom-0 h-48 w-48 rounded-full bg-cooked-header/55 blur-3xl"></div>
+
+      <div class="relative z-10 max-w-3xl">
+        <p class="font-bebas text-sm uppercase tracking-[0.35em] text-cooked-dark/80">
+          About Cooked
+        </p>
+        <h1 class="mt-2 font-bebas text-5xl uppercase leading-none text-zinc-900 md:text-7xl">
+          Built to make cooking feel easy
+        </h1>
+        <p class="mt-4 max-w-2xl text-base leading-relaxed text-zinc-700 md:text-lg">
+          Cooked is a single-page recipe app made as a second-year JAMK TIKO software project. The
+          goal was to build a modern, easy-to-use cooking experience where recipes are simple to
+          save, browse, and share. Instead of a classic cookbook, Cooked gives users a fast way to
+          add their own recipes and discover new ones with a playful swipe feature for deciding
+          what to eat today.
+        </p>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a
+            routerLink="/frontpage"
+            class="rounded-full bg-cooked-dark px-5 py-3 font-bebas text-lg uppercase tracking-wide text-white shadow-sm transition-all hover:scale-105 hover:bg-zinc-500 active:scale-95"
+          >
+            Explore recipes
+          </a>
+          <a
+            routerLink="/swipe"
+            class="rounded-full border border-cooked-dark/20 bg-white/70 px-5 py-3 font-bebas text-lg uppercase tracking-wide text-cooked-dark shadow-sm transition-all hover:scale-105 hover:bg-white active:scale-95"
+          >
+            Try swipe
+          </a>
+          <a
+            routerLink="/privacy"
+            class="rounded-full bg-cooked-orange px-5 py-3 font-bebas text-lg uppercase tracking-wide text-zinc-900 shadow-sm transition-all hover:scale-105 hover:bg-orange-600 hover:text-white active:scale-95"
+          >
+            Privacy policy
+          </a>
+        </div>
+      </div>
+
+      <div class="relative z-10 mt-10 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+        <section class="rounded-3xl border border-white/70 bg-white/70 p-6 shadow-sm">
+          <h2 class="font-bebas text-3xl uppercase tracking-wide text-zinc-900">Creators</h2>
+          <div class="mt-5 grid gap-3 sm:grid-cols-2">
+            <div class="rounded-2xl border border-cooked-orange/40 bg-cooked-bg/80 p-4">
+              <p class="font-bebas text-xl uppercase text-cooked-dark">Janika Rahikainen</p>
+              <p class="mt-1 text-sm text-zinc-600">Full-stack dev</p>
+            </div>
+            <div class="rounded-2xl border border-cooked-orange/40 bg-cooked-bg/80 p-4">
+              <p class="font-bebas text-xl uppercase text-cooked-dark">Essi Kaukometsä</p>
+              <p class="mt-1 text-sm text-zinc-600">UI/UX Designer / Scrum master</p>
+            </div>
+            <div class="rounded-2xl border border-cooked-orange/40 bg-cooked-bg/80 p-4">
+              <p class="font-bebas text-xl uppercase text-cooked-dark">Eetu Auvinen</p>
+              <p class="mt-1 text-sm text-zinc-600">Full-stack dev / Project owner</p>
+            </div>
+            <div class="rounded-2xl border border-cooked-orange/40 bg-cooked-bg/80 p-4">
+              <p class="font-bebas text-xl uppercase text-cooked-dark">Mikael Makkonen</p>
+              <p class="mt-1 text-sm text-zinc-600">AWS Manager / Full-stack dev</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="rounded-3xl border border-cooked-dark/10 bg-cooked-dark p-6 text-white shadow-sm">
+          <h2 class="font-bebas text-3xl uppercase tracking-wide text-white">What Cooked focuses on</h2>
+          <p class="mt-4 text-sm leading-relaxed text-white/85 md:text-base">
+            The design follows the same visual language as the rest of the app: warm colors,
+            rounded cards, clear typography, and a layout that stays readable on both mobile and
+            desktop.
+          </p>
+
+          <ul class="mt-6 space-y-3 text-sm md:text-base">
+            <li class="flex gap-3">
+              <span class="mt-1 h-2.5 w-2.5 rounded-full bg-cooked-orange"></span>
+              <span>Simple recipe browsing with a calm, cookbook-like feel.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mt-1 h-2.5 w-2.5 rounded-full bg-cooked-orange"></span>
+              <span>Fast recipe creation for users who want to save their own ideas.</span>
+            </li>
+            <li class="flex gap-3">
+              <span class="mt-1 h-2.5 w-2.5 rounded-full bg-cooked-orange"></span>
+              <span>Swipe-based discovery for the “what should we eat today” question.</span>
+            </li>
+          </ul>
+        </section>
+      </div>
+    </section>
+  </main>
+</div>
