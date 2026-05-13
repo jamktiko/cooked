@@ -26,13 +26,13 @@ export class RecipeAdd {
 
   constructor() {
     this.recipeForm = this.fb.group({
-      name: ['', [Validators.required]],
-      description: [''],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      description: ['', [Validators.maxLength(1000)]],
       servings: [1, [Validators.min(1)]],
       duration: [0, [Validators.min(0)]],
       image: [''],
       public: [false],
-      ingredients: this.fb.array([]),
+      ingredients: this.fb.array([], [Validators.required, Validators.minLength(1)]),
       directions: this.fb.array([]),
       tags: this.fb.array([]),
     });
@@ -40,6 +40,20 @@ export class RecipeAdd {
     this.addIngredient();
     this.addDirection();
     this.addTag();
+  }
+  blockMinus(event: KeyboardEvent) {
+    const prohibitedKeys = ['-', 'e', 'E'];
+    if (prohibitedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+  onAmountInput(event: any, index: number) {
+    const input = event.target as HTMLInputElement;
+    // Korvataan pilkku pisteellä
+    let value = input.value.replace(',', '.');
+
+    // Päivitetään arvo FormArrayhun
+    this.ingredients.at(index).get('amount')?.setValue(value, { emitEvent: false });
   }
 
   // --- GETTERIT ---
