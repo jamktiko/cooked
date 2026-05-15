@@ -23,10 +23,10 @@ export class Frontpage implements OnInit {
 
   isUserLoggedIn$ = this.authService.isLoggedIn$();
   
-  // Muuttuja, johon reseptit tallennetaan
+  // Variable to store recipes
   recipes: Recipe[] = [];
-  
-  // Sivutuksen muuttujat
+
+  // Pagination variables
   currentPage = 1;
   totalPages = 1;
   limit = 9;
@@ -37,7 +37,7 @@ export class Frontpage implements OnInit {
 
   loadRecipes(page: number = 1): void {
     this.currentPage = page;
-    // Kutsutaan servicen metodia
+    // Call the service method
     this.recipeService.getPublicRecipes(this.currentPage, this.limit).subscribe({
       next: (data: any) => {
         if (Array.isArray(data)) {
@@ -57,12 +57,12 @@ export class Frontpage implements OnInit {
 
   onPublicSearch(term: string) {
     if (term.length < 2) {
-      // Jos hakukenttä on tyhjä, lataa käyttäjän kaikki reseptit normaalisti takaisin näkyviin
+      // If search term is too short, reload default recipes
       this.loadRecipes(1);
       return;
     }
 
-    // Nyt kutsutaan julkista hakua, ei privaattia!
+    // Performing public search
     this.searchService.searchPublicRecipes(term).subscribe((response) => {
       // Korvataan näkymässä olevat "recipes" hauista löytyneillä
       this.recipes = response.recipes;
@@ -75,8 +75,8 @@ export class Frontpage implements OnInit {
   nextPage(): void {
     if (this.currentPage < this.totalPages) {
       this.loadRecipes(this.currentPage + 1);
-      // Pieni viive varmistaa, että uudet hiet haut ehtivät latautua ja
-      // DOM päivittyä ennen kuin selain yrittää vierittää ylös.
+      // Small delay ensures new search results are loaded and
+      // DOM updates before the browser tries to scroll to top.
       setTimeout(() => {
         window.scrollTo({
           top: 0,

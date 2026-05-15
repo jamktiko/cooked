@@ -38,7 +38,7 @@ export class Uploadservice {
       observe: 'events',
       headers: { 'Content-Type': file.type }
     }).pipe(
-      // Tyypitetään event tässä kohtaa (HttpEvent<any>)
+      // Type the event here (HttpEvent<any>)
       map((event: any) => {
         switch (event.type) {
           case HttpEventType.UploadProgress:

@@ -26,14 +26,14 @@
         <div class="flex flex-wrap justify-center gap-4">
           <button
             (click)="authService.signup()"
-            class="font-bebas rounded-full bg-cooked-dark px-8 py-3 text-xl text-white uppercase shadow-lg transition-all hover:bg-zinc-500 hover:scale-105 active:scale-95"
+            class="cursor-pointer font-bebas rounded-full bg-cooked-dark px-8 py-3 text-xl text-white uppercase shadow-lg transition-all hover:bg-zinc-500 hover:scale-105 active:scale-95"
           >
             Get Started
           </button>
 
           <button
             (click)="authService.login()"
-            class="font-bebas rounded-full bg-cooked-orange px-8 py-3 text-xl text-black uppercase shadow-sm transition-all hover:bg-orange-600 hover:scale-105 active:scale-95 hover:text-white"
+            class="cursor-pointer font-bebas rounded-full bg-cooked-orange px-8 py-3 text-xl text-black uppercase shadow-sm transition-all hover:bg-orange-600 hover:scale-105 active:scale-95 hover:text-white"
           >
             Sign in
           </button>
@@ -42,7 +42,7 @@
 
         <p class="mt-4 text-xs text-zinc-500">
           By signing up, you agree to our
-          <a routerLink="/privacy" class="underline hover:text-cooked-orange"
+          <a routerLink="/privacy" class="cursor-pointer underline hover:text-cooked-orange"
             >Privacy Policy & Terms</a
           >.
         </p>
@@ -89,7 +89,7 @@
         <button
           (click)="prevPage()"
           [disabled]="currentPage === 1"
-          class="rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed md:px-6"
+          class="cursor-pointer rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed md:px-6"
         >
           Previous
         </button>
@@ -97,7 +97,7 @@
         <button
           (click)="nextPage()"
           [disabled]="currentPage === totalPages"
-          class="rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed md:px-6"
+          class="cursor-pointer rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed md:px-6"
         >
           Next
         </button>

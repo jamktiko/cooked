@@ -1,13 +1,13 @@
 @if (recipe) {
   <div
-    class="recipe-card group relative flex flex-col overflow-hidden rounded-2xl border-2 border-transparent hover:border-[#E67E22] bg-white shadow-md transition-all hover:shadow-xl hover:-translate-y-1"
+    class="recipe-card group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 border-transparent hover:border-[#E67E22] bg-white shadow-md transition-all hover:shadow-xl hover:-translate-y-1"
     [routerLink]="[isOwnRecipe ? '/my-recipe' : '/recipe', recipe._id]"
   >
     <div class="relative h-48 w-full overflow-hidden">
       @if (canDelete) {
         <div class="absolute right-4 top-4 z-20" (click)="$event.stopPropagation()">
           <button
-            class="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-zinc-800 shadow-sm transition-all hover:bg-white active:scale-95"
+            class="cursor-pointer flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-zinc-800 shadow-sm transition-all hover:bg-white active:scale-95"
             (click)="toggleMenu($event)"
           >
             <i class="fa-solid fa-ellipsis-vertical"></i>
@@ -20,7 +20,7 @@
               <div class="py-1">
                 <button
                   (click)="goToEdit($event)"
-                  class="flex w-full items-center px-4 py-3 text-sm font-bold text-zinc-700 hover:bg-[#FDF2E9] transition-colors text-left"
+                  class="cursor-pointer flex w-full items-center px-4 py-3 text-sm font-bold text-zinc-700 hover:bg-[#FDF2E9] transition-colors text-left"
                 >
                   <i class="fa-solid fa-pen-to-square mr-3 text-[#305252]"></i>
                   Edit Recipe
@@ -28,7 +28,7 @@
                 <hr class="border-black/5" />
                 <button
                   (click)="requestDelete($event)"
-                  class="flex w-full items-center px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors text-left"
+                  class="cursor-pointer flex w-full items-center px-4 py-3 text-sm font-bold text-red-600 hover:bg-red-50 transition-colors text-left"
                 >
                   <i class="fa-solid fa-trash-can mr-3"></i>
                   Delete Recipe
@@ -41,7 +41,7 @@
 
       <img
         [src]="recipe.image | s3Url"
-        alt="Reseptin kuva"
+        alt="Recipe image"
         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
       />
     </div>

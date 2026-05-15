@@ -26,20 +26,34 @@ export class RecipeAdd {
 
   constructor() {
     this.recipeForm = this.fb.group({
-      name: ['', [Validators.required]],
-      description: [''],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      description: ['', [Validators.maxLength(1000)]],
       servings: [1, [Validators.min(1)]],
       duration: [0, [Validators.min(0)]],
       image: [''],
       public: [false],
-      ingredients: this.fb.array([]),
-      directions: this.fb.array([]),
+      ingredients: this.fb.array([], [Validators.required, Validators.minLength(1)]),
+      directions: this.fb.array([], [Validators.required, Validators.minLength(1)]),
       tags: this.fb.array([]),
     });
 
     this.addIngredient();
     this.addDirection();
     this.addTag();
+  }
+  blockMinus(event: KeyboardEvent) {
+    const prohibitedKeys = ['-', 'e', 'E'];
+    if (prohibitedKeys.includes(event.key)) {
+      event.preventDefault();
+    }
+  }
+  onAmountInput(event: any, index: number) {
+    const input = event.target as HTMLInputElement;
+    // Korvataan pilkku pisteellä
+    let value = input.value.replace(',', '.');
+
+    // Päivitetään arvo FormArrayhun
+    this.ingredients.at(index).get('amount')?.setValue(value, { emitEvent: false });
   }
 
   // --- GETTERIT ---
@@ -79,6 +93,7 @@ export class RecipeAdd {
   }
   removeDirection(index: number) {
     this.directions.removeAt(index);
+    this.directions.markAsTouched();
   }
   removeTag(index: number) {
     this.tags.removeAt(index);
@@ -98,7 +113,7 @@ export class RecipeAdd {
         next: (res) => {
           this.saveRecipe(res.key);
         },
-        error: (err) => console.error('Kuvan lataus epäonnistui', err),
+        error: (err) => console.error('Image upload failed', err),
       });
     } else {
       this.saveRecipe();
@@ -106,7 +121,7 @@ export class RecipeAdd {
   }
 
   private saveRecipe(imageKey?: string) {
-    console.log(imageKey + 'tässä image key');
+    console.log(imageKey + ' image key');
     const rawData = this.recipeForm.value;
 
     const cleanedData = {
@@ -119,10 +134,10 @@ export class RecipeAdd {
 
     this.recipeService.createRecipe(cleanedData).subscribe({
       next: (response) => {
-        console.log('Resepti luotu:', response);
+        console.log('Recipe created:', response);
         this.router.navigate(['/my-recipes']);
       },
-      error: (err) => console.error('Tallennus epäonnistui', err),
+      error: (err) => console.error('Save failed', err),
     });
   }
 }

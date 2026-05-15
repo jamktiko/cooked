@@ -39,7 +39,7 @@
         </p>
         <button
           routerLink="/frontpage"
-          class="font-bebas w-full rounded-full bg-[#305252] py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95"
+          class="cursor-pointer font-bebas w-full rounded-full bg-[#305252] py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95"
         >
           Browse recipes
         </button>
@@ -62,7 +62,7 @@
         <button
           (click)="prevPage()"
           [disabled]="currentPage === 1 || loading"
-          class="rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 md:px-6"
+          class="cursor-pointer rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 md:px-6"
         >
           Previous
         </button>
@@ -70,7 +70,7 @@
         <button
           (click)="nextPage()"
           [disabled]="currentPage === totalPages || loading"
-          class="rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 md:px-6"
+          class="cursor-pointer rounded-full bg-white px-3 py-2 font-bold uppercase shadow-sm transition-all hover:bg-zinc-200 disabled:opacity-50 md:px-6"
         >
           Next
         </button>

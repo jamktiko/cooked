@@ -28,14 +28,14 @@ export class RecipeEdit implements OnInit {
 
   constructor() {
     this.recipeForm = this.fb.group({
-      name: ['', [Validators.required]],
-      description: [''],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      description: ['', [Validators.maxLength(1000)]],
       servings: [1, [Validators.min(1)]],
       duration: [0, [Validators.min(0)]],
       image: [''],
       public: [false],
-      ingredients: this.fb.array([]),
-      directions: this.fb.array([]),
+      ingredients: this.fb.array([], [Validators.required, Validators.minLength(1)]),
+      directions: this.fb.array([], [Validators.required, Validators.minLength(1)]),
       tags: this.fb.array([]),
     });
   }
@@ -46,7 +46,14 @@ export class RecipeEdit implements OnInit {
       this.loadRecipeData();
     }
   }
+  onAmountInput(event: any, index: number) {
+    const input = event.target as HTMLInputElement;
+    // Korvataan pilkku pisteellä
+    let value = input.value.replace(',', '.');
 
+    // Päivitetään arvo FormArrayhun
+    this.ingredients.at(index).get('amount')?.setValue(value, { emitEvent: false });
+  }
   loadRecipeData() {
     this.recipeService.getMyRecipeById(this.recipeId!).subscribe({
       next: (recipe) => {
@@ -61,14 +68,14 @@ export class RecipeEdit implements OnInit {
           image: recipe.image,
         });
 
-        // Käytetään valinnaista ketjutusta ?. tai tyhjää taulukkoa || []
-        // Näin forEach ei kaadu, vaikka tieto puuttuisi
+        // Use optional chaining ?. or an empty array || []
+        // This prevents forEach from failing if data is missing
         recipe.ingredients?.forEach((ing) => this.addIngredient(ing));
         recipe.directions?.forEach((dir) => this.addDirection(dir));
         recipe.tags?.forEach((tag) => this.addTag(tag));
       },
       error: (err) => {
-        console.error('Virhe ladattaessa reseptiä', err);
+        console.error('Error loading recipe', err);
         this.router.navigate(['/my-recipes']);
       },
     });
@@ -123,7 +130,7 @@ export class RecipeEdit implements OnInit {
     if (this.selectedFile) {
       this.uploadService.uploadProcess(this.selectedFile, 'recipes').subscribe({
         next: (res) => this.updateRecipe(res.key),
-        error: (err) => console.error('Kuvan lataus epäonnistui', err),
+        error: (err) => console.error('Image upload failed', err),
       });
     } else {
       this.updateRecipe(this.currentImageKey);
@@ -142,7 +149,7 @@ export class RecipeEdit implements OnInit {
 
     this.recipeService.updateRecipe(this.recipeId!, cleanedData).subscribe({
       next: () => this.router.navigate(['/my-recipes']),
-      error: (err) => console.error('Päivitys epäonnistui', err),
+      error: (err) => console.error('Update failed', err),
     });
   }
   cancel(): void {

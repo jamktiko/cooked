@@ -1,5 +1,5 @@
-// Auth servicen tarkoitus on hoitaa oidc security servicen avulla käyttäjän kirjautuminen
-// ja autentikaatio pyynnöt käyttäjädatan kanssa backendille jotta ne voidaan tallentaa kantaan
+// The purpose of the Auth service is to handle user login via the OIDC security service
+// and perform authentication requests with user data to the backend so it can be stored
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
@@ -14,10 +14,10 @@ export class AuthService {
   private oidcSecurityService = inject(OidcSecurityService);
   private http = inject(HttpClient);
 
-  // funktio backendin autentikointiin ja käyttäjän luontiin tietokantaan jos sitä ei siellä vielä ole
+  // function to authenticate with the backend and create the user in the database if not present
   syncUserWithBackend() {
     // yhdistetään isAuthenticated ja userdata observablet jotta saadaan lähetettyä autentikaatio tokenin kanssa
-    // käyttäjätiedot tietokantaa varten
+    // user data for database
     combineLatest([
       this.oidcSecurityService.isAuthenticated$,
       this.oidcSecurityService.userData$,
@@ -25,25 +25,25 @@ export class AuthService {
       const isAuthenticated = authResult.isAuthenticated;
       const userData = userDataResult.userData;
 
-      // katsotaan ollaanko kirjauduttu (isAuthenticated)
-      // katsotaan onko käyttäjädata palautunut (userData)
+      // check if authenticated (isAuthenticated)
+      // check if user data has been returned (userData)
       if (isAuthenticated && userData) {
-        // luodaan paketti joka lähetetään http pyynnön yhteydessä backendille
+        // create a package that will be sent with the HTTP request to the backend
         const syncData = {
           cognitoId: userData.sub,
           email: userData.email,
         };
 
-        console.log('Lähetetään käyttäjä backendille:', syncData);
+        console.log('Sending user to backend:', syncData);
 
-        // ja laittaa siihen mukaan syncData paketin eli käyttäjän subin spostin ja nimen
-        // lähetetään http pyyntö backendin /sync polkuun ja lisätään siihen syncdata
+        // and include the syncData packet (user sub, email, etc.)
+        // send an HTTP request to backend /user/sync with the syncData
         this.http
           .post(`${environment.backendApi}/user/sync`, syncData)
           .pipe(delay(500), take(1)) // Pieni viive varmistaa, että token on varmasti valmis
           .subscribe({
-            next: () => console.log('Käyttäjä synkronoitu!'),
-            error: (err) => console.error('Virhe:', err),
+            next: () => console.log('User synchronized!'),
+            error: (err) => console.error('Error:', err),
           });
       }
     });
@@ -53,7 +53,7 @@ export class AuthService {
     this.oidcSecurityService.authorize();
   }
 
-  // Lisää tämä login() metodin alle!
+  // Add this signup() method under login()!
   signup() {
     this.oidcSecurityService.authorize(undefined, {
       urlHandler: (url: string) => {
@@ -68,12 +68,12 @@ export class AuthService {
   isLoggedIn$() {
     return this.oidcSecurityService.isAuthenticated$.pipe(map((result) => result.isAuthenticated));
   }
-  // Logout funktio rakennettu näin koska cogniton vaatii ohjauksen sen omaan päätepisteeseen /logout?...
-  // jos käyttää oidcSecurityService.logoff() metodia niin ohjausta ei toimi ja sessio ei kirjaudu ulos aws päädyssä
+  // Logout function implemented this way because Cognito requires redirection to its own /logout endpoint
+  // Using oidcSecurityService.logoff() may not properly redirect and end the session on the AWS side
   logout() {
     this.oidcSecurityService.logoffLocal();
 
-    // TÄRKEÄÄ: Tässä pitää lukea ...cognito.com/logout (eikä /login)
+    // IMPORTANT: This should read ...cognito.com/logout (not /login)
     const logoutUrl = `${environment.cognitoDomain}/logout?client_id=${environment.clientId}&logout_uri=${encodeURIComponent(environment.logoutUri)}`;
 
     window.location.href = logoutUrl;

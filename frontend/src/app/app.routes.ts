@@ -55,7 +55,7 @@ export const routes: Routes = [
     canActivate: [authGuard],
   },
 
-  // Uudelleenohjaukset ja virhetilanteet
+  // Redirects and error handling
   { path: '', redirectTo: '/frontpage', pathMatch: 'full' },
   { path: '**', redirectTo: '/frontpage' },
 ];

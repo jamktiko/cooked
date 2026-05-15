@@ -32,7 +32,7 @@
         </div>
 
         <button
-          class="font-bebas sm:ml-auto w-full sm:w-auto rounded-full bg-cooked-dark py-2 px-6 text-lg font-bold tracking-wide text-white uppercase shadow-md transition-all hover:brightness-110 active:scale-95"
+          class="cursor-pointer font-bebas sm:ml-auto w-full sm:w-auto rounded-full bg-cooked-dark py-2 px-6 text-lg font-bold tracking-wide text-white uppercase shadow-md transition-all hover:brightness-110 active:scale-95"
           (click)="edit()"
         >
           <i class="fa-solid fa-pencil mr-2"></i> Edit profile
@@ -86,7 +86,7 @@
           <button
             (click)="logout()"
             type="button"
-            class="font-bebas flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold tracking-wide text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 active:scale-95"
+            class="cursor-pointer font-bebas flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold tracking-wide text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 active:scale-95"
           >
             <i class="fa-solid fa-arrow-right-from-bracket mr-2"></i> Log out
           </button>
@@ -94,12 +94,12 @@
         <div class="mt-6 text-center">
           <a
             routerLink="/privacy"
-            class="font-sarabun text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-cooked-orange transition-colors"
+            class="cursor-pointer font-sarabun text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-cooked-orange transition-colors"
           >
             Privacy Policy & Terms of Service
           </a>
           <br>
-          <a routerLink="/aboutus" class="font-sarabun text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-cooked-orange transition-colors">
+          <a routerLink="/aboutus" class="cursor-pointer font-sarabun text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-cooked-orange transition-colors">
             About us
           </a>
         </div>
@@ -160,7 +160,7 @@
 
             <div class="flex flex-1 flex-col gap-2 w-full">
               <button
-                class="font-bebas w-full rounded-full bg-white border border-black/5 py-2 text-lg font-bold text-zinc-500 uppercase shadow-sm transition-all hover:text-red-500"
+                class="cursor-pointer font-bebas w-full rounded-full bg-white border border-black/5 py-2 text-lg font-bold text-zinc-500 uppercase shadow-sm transition-all hover:text-red-500"
                 type="button"
                 (click)="removeImage()"
               >
@@ -176,14 +176,14 @@
 
         <div class="flex flex-col gap-4 pt-6 md:flex-row">
           <button
-            class="font-bebas order-1 flex-1 rounded-full bg-cooked-dark py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-120 active:scale-95"
+            class="cursor-pointer font-bebas order-1 flex-1 rounded-full bg-cooked-dark py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-120 active:scale-95"
             type="submit"
           >
             Save changes
           </button>
 
           <button
-            class="font-bebas order-2 flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold tracking-wide text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 active:scale-95"
+            class="cursor-pointer font-bebas order-2 flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold tracking-wide text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 active:scale-95"
             type="button"
             (click)="edit()"
           >

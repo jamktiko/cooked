@@ -50,19 +50,74 @@
           <input
             formControlName="name"
             type="text"
+            [class.ring-2]="recipeForm.get('name')?.invalid && recipeForm.get('name')?.touched"
+            [class.ring-red-500]="
+              recipeForm.get('name')?.invalid && recipeForm.get('name')?.touched
+            "
             class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-[#305252]"
           />
+          @if (recipeForm.get('name')?.invalid && recipeForm.get('name')?.touched) {
+            <p class="ml-4 mt-1 text-[10px] font-bold text-red-500 uppercase italic">
+              Name is required (min. 3 chars)
+            </p>
+          }
         </div>
         <div>
           <label class="font-sarabun ml-4 block text-sm font-bold text-zinc-700">Description</label>
           <textarea
             formControlName="description"
+            maxlength="1000"
             rows="3"
             class="mt-1 w-full resize-none rounded-[1.5rem] border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-[#305252]"
           ></textarea>
+          <div class="flex justify-end px-4 mt-1">
+            <span class="text-[10px] font-bold uppercase tracking-tight text-zinc-400">
+              {{ recipeForm.get('description')?.value?.length || 0 }} / 1000
+            </span>
+          </div>
         </div>
       </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label
+            for="recipeDuration"
+            class="font-sarabun ml-4 block text-sm font-bold text-zinc-700"
+            >Cooking Time (min)</label
+          >
+          <input
+            id="recipeDuration"
+            formControlName="duration"
+            type="number"
+            min="0"
+            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-[#305252]"
+          />
+          @if (recipeForm.get('duration')?.invalid && recipeForm.get('duration')?.touched) {
+            <p class="ml-4 mt-1 text-[10px] font-bold text-red-500 uppercase italic">
+              Cooking time cannot be negative
+            </p>
+          }
+        </div>
 
+        <div>
+          <label
+            for="recipeServings"
+            class="font-sarabun ml-4 block text-sm font-bold text-zinc-700"
+            >Servings</label
+          >
+          <input
+            id="recipeServings"
+            formControlName="servings"
+            type="number"
+            min="1"
+            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-[#305252]"
+          />
+          @if (recipeForm.get('servings')?.invalid && recipeForm.get('servings')?.touched) {
+            <p class="ml-4 mt-1 text-[10px] font-bold text-red-500 uppercase italic">
+              Min. 1 serving
+            </p>
+          }
+        </div>
+      </div>
       <div class="pt-4 border-t border-black/5">
         <h3 class="font-bebas mb-3 ml-2 text-2xl font-bold text-zinc-800 uppercase">Ingredients</h3>
         <div formArrayName="ingredients" class="space-y-3">
@@ -70,7 +125,11 @@
             <div [formGroupName]="i" class="flex flex-wrap md:flex-nowrap items-center gap-2">
               <input
                 formControlName="amount"
-                type="number"
+                type="text"
+                inputmode="decimal"
+                (input)="onAmountInput($event, i)"
+                [class.ring-1]="ing.get('amount')?.invalid && ing.get('amount')?.touched"
+                [class.ring-red-500]="ing.get('amount')?.invalid && ing.get('amount')?.touched"
                 placeholder="Amount"
                 class="w-32 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:italic placeholder:text-zinc-300"
               />
@@ -84,22 +143,39 @@
                 formControlName="name"
                 type="text"
                 placeholder="Ingredient name"
+                [class.ring-1]="ing.get('name')?.invalid && ing.get('name')?.touched"
+                [class.ring-red-500]="ing.get('name')?.invalid && ing.get('name')?.touched"
                 class="flex-1 min-w-[120px] rounded-full border-none bg-white px-6 py-2.5 text-sm shadow-inner outline-none placeholder:italic placeholder:text-zinc-300"
               />
-              <button
-                type="button"
-                (click)="removeIngredient(i)"
-                class="p-2 text-zinc-400 hover:text-red-500 transition-colors"
-              >
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
+
+              @if (i > 0) {
+                <button
+                  type="button"
+                  (click)="removeIngredient(i)"
+                  class="cursor-pointer p-2 text-zinc-400 hover:text-red-500 transition-colors"
+                >
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              } @else {
+                <div class="w-9"></div>
+              }
             </div>
+            @if (ing.get('amount')?.errors?.['min'] && ing.get('amount')?.touched) {
+              <p class="text-red-500 text-[10px] italic font-bold uppercase">
+                Amount cannot be negative
+              </p>
+            }
+            @if (ing.get('name')?.errors?.['required'] && ing.get('name')?.touched) {
+              <p class="text-red-500 text-[10px] italic font-bold uppercase">
+                Ingredient name is required
+              </p>
+            }
           }
         </div>
         <button
           type="button"
           (click)="addIngredient()"
-          class="font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-[#305252] uppercase hover:underline"
+          class="cursor-pointer font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-[#305252] uppercase hover:underline"
         >
           <i class="fa-solid fa-plus-circle"></i> Add ingredient
         </button>
@@ -109,42 +185,64 @@
         <h3 class="font-bebas mb-3 ml-2 text-2xl font-bold text-zinc-800 uppercase">
           Instructions
         </h3>
+
         <div formArrayName="directions" class="space-y-3">
           @for (dir of directions.controls; track dir; let i = $index) {
-            <div class="flex flex-col sm:flex-row items-start gap-3">
-              <div class="flex w-full sm:w-auto items-center justify-between">
-                <div
-                  class="flex h-10 w-12 items-center justify-center rounded-full bg-white font-bebas text-xl font-bold text-[#305252] shadow-inner shrink-0"
-                >
-                  {{ i + 1 }}.
+            <div class="flex flex-col gap-1">
+              <div class="flex flex-col sm:flex-row items-start gap-3">
+                <div class="flex w-full sm:w-auto items-center justify-between">
+                  <div
+                    class="flex h-10 w-12 items-center justify-center rounded-full bg-white font-bebas text-xl font-bold text-[#305252] shadow-inner shrink-0"
+                  >
+                    {{ i + 1 }}.
+                  </div>
+
+                  @if (i > 0) {
+                    <button
+                      type="button"
+                      (click)="removeDirection(i)"
+                      class="cursor-pointer sm:hidden p-2 text-zinc-400 hover:text-red-500 transition-colors"
+                    >
+                      <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                  }
                 </div>
-                <button
-                  type="button"
-                  (click)="removeDirection(i)"
-                  class="sm:hidden p-2 text-zinc-400 hover:text-red-500"
-                >
-                  <i class="fa-solid fa-trash-can"></i>
-                </button>
+
+                <textarea
+                  [formControlName]="i"
+                  rows="2"
+                  placeholder="Describe this step..."
+                  [class.ring-2]="dir.invalid && dir.touched"
+                  [class.ring-red-500]="dir.invalid && dir.touched"
+                  class="flex-1 w-full resize-none rounded-[1.5rem] border-none bg-white px-5 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-[#305252] placeholder:italic placeholder:text-zinc-300"
+                ></textarea>
+
+                @if (i > 0) {
+                  <button
+                    type="button"
+                    (click)="removeDirection(i)"
+                    class="cursor-pointer hidden sm:block mt-2 p-2 text-zinc-400 hover:text-red-500 transition-colors"
+                  >
+                    <i class="fa-solid fa-trash-can"></i>
+                  </button>
+                } @else {
+                  <div class="w-9 hidden sm:block"></div>
+                }
               </div>
-              <textarea
-                [formControlName]="i"
-                rows="2"
-                class="flex-1 w-full resize-none rounded-[1.5rem] border-none bg-white px-5 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-[#305252]"
-              ></textarea>
-              <button
-                type="button"
-                (click)="removeDirection(i)"
-                class="hidden sm:block mt-2 p-2 text-zinc-400 hover:text-red-500"
-              >
-                <i class="fa-solid fa-trash-can"></i>
-              </button>
+
+              @if (dir.invalid && dir.touched) {
+                <p class="ml-16 text-[10px] font-bold text-red-500 uppercase italic">
+                  Instruction step cannot be empty
+                </p>
+              }
             </div>
           }
         </div>
+
         <button
           type="button"
           (click)="addDirection()"
-          class="font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-[#305252] uppercase hover:underline"
+          class="cursor-pointer font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-[#305252] uppercase hover:underline"
         >
           <i class="fa-solid fa-plus-circle"></i> Add step
         </button>
@@ -160,7 +258,7 @@
                 type="text"
                 class="w-24 border-none bg-transparent text-sm outline-none"
               />
-              <button type="button" (click)="removeTag(i)" class="text-zinc-400 hover:text-red-500">
+              <button type="button" (click)="removeTag(i)" class="cursor-pointer text-zinc-400 hover:text-red-500">
                 <i class="fa-solid fa-xmark"></i>
               </button>
             </div>
@@ -169,7 +267,7 @@
         <button
           type="button"
           (click)="addTag()"
-          class="font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-[#305252] uppercase hover:underline"
+          class="cursor-pointer font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-[#305252] uppercase hover:underline"
         >
           <i class="fa-solid fa-plus-circle"></i> Add tag
         </button>
@@ -179,7 +277,7 @@
         <button
           type="submit"
           [disabled]="recipeForm.invalid"
-          class="font-bebas order-1 flex-1 rounded-full bg-[#305252] py-4 text-2xl font-bold text-white uppercase shadow-lg transition-all hover:brightness-120 disabled:opacity-50"
+          class="cursor-pointer font-bebas order-1 flex-1 rounded-full bg-[#305252] py-4 text-2xl font-bold text-white uppercase shadow-lg transition-all hover:brightness-120 disabled:opacity-50"
         >
           Save Changes
         </button>
@@ -187,7 +285,7 @@
         <button
           type="button"
           (click)="cancel()"
-          class="font-bebas order-2 flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 text-center"
+          class="cursor-pointer font-bebas order-2 flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 text-center"
         >
           Cancel
         </button>
