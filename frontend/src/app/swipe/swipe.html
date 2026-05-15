@@ -67,13 +67,13 @@
     <div class="absolute bottom-20 md:bottom-8 z-20 flex w-full justify-center gap-12 md:gap-16">
       <button
         (click)="handleSkip()"
-        class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-red-500 shadow-xl transition-transform hover:scale-110 active:scale-95 border border-zinc-100"
+        class="cursor-pointer flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-red-500 shadow-xl transition-transform hover:scale-110 active:scale-95 border border-zinc-100"
       >
         <i class="fas fa-times text-3xl md:text-4xl"></i>
       </button>
       <button
         (click)="handleMatch()"
-        class="flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-green-500 shadow-xl transition-transform hover:scale-110 active:scale-95 border border-zinc-100"
+        class="cursor-pointer flex h-16 w-16 md:h-20 md:w-20 items-center justify-center rounded-full bg-white text-green-500 shadow-xl transition-transform hover:scale-110 active:scale-95 border border-zinc-100"
       >
         <i class="fa-solid fa-fire text-3xl md:text-4xl"></i>
       </button>
@@ -102,7 +102,7 @@
 
         <button
           onclick="window.location.reload()"
-          class="font-bebas w-full rounded-full bg-[#305252] py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95 flex items-center justify-center gap-3"
+          class="cursor-pointer font-bebas w-full rounded-full bg-[#305252] py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95 flex items-center justify-center gap-3"
         >
           <i class="fa-solid fa-rotate-left text-xl"></i>
           Start Again

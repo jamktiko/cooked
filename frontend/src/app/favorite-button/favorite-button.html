@@ -3,7 +3,7 @@
     type="button"
     (click)="toggle($event)"
     [disabled]="loading"
-    class="flex items-center justify-center w-10 h-10 transition-colors"
+    class="cursor-pointer flex items-center justify-center w-10 h-10 transition-colors"
     [class]="isFavorite ? 'text-red-600' : 'text-stone-800 hover:text-red-600'"
   >
     <i [class]="isFavorite ? 'fa-solid fa-heart text-2xl' : 'fa-regular fa-heart text-2xl'"></i>
