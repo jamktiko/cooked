@@ -1,6 +1,6 @@
 <div class="font-sarabun min-h-screen text-zinc-900 relative">
   <div
-    class="fixed inset-0 -z-10 bg-center bg-no-repeat bg-cover"
+    class="fixed inset-0 -z-10 bg-center bg-no-repeat bg-cover pointer-events-none"
     style="
       background-image:
         linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
@@ -77,7 +77,6 @@
       @for (r of recipes; track r._id) {
         <app-recipecard
           [recipe]="r"
-          class="transform transition-transform hover:scale-[1.02]"
         ></app-recipecard>
       } @empty {
         <div
