@@ -23,6 +23,7 @@ export class RecipeAdd {
 
   recipeForm: FormGroup;
   selectedFile: File | null = null;
+  submitted = false;
 
   constructor() {
     this.recipeForm = this.fb.group({
@@ -66,13 +67,67 @@ export class RecipeAdd {
   get tags() {
     return this.recipeForm.get('tags') as FormArray;
   }
+  get missingFields(): string[] {
+    const fields = [];
+    const controls = this.recipeForm.controls;
+
+    // 1. Tarkistetaan reseptin nimi
+    if (controls['name'].invalid) {
+      fields.push('Recipe name (min. 3 characters)');
+    }
+
+    // 2. TARKISTETAAN AINESOSAT (Nimi ja määrä erikseen)
+    let missingName = false;
+    let invalidAmount = false;
+
+    this.ingredients.controls.forEach((control) => {
+      // Jos nimi on tyhjä
+      if (control.get('name')?.invalid) {
+        missingName = true;
+      }
+      // Jos määrä on tyhjä tai negatiivinen
+      if (control.get('amount')?.invalid) {
+        invalidAmount = true;
+      }
+    });
+
+    if (missingName) {
+      fields.push('Missing ingredient names');
+    }
+    if (invalidAmount) {
+      fields.push('Ingredient amounts (must be 0 or greater)');
+    }
+
+    // 3. Tarkistetaan ohjeet
+    let hasDirectionError = false;
+    this.directions.controls.forEach((control) => {
+      if (control.invalid) {
+        hasDirectionError = true;
+      }
+    });
+    if (hasDirectionError) {
+      fields.push('Empty instruction steps');
+    }
+
+    // 4. Tarkistetaan annoskoko
+    if (controls['servings'].invalid) {
+      fields.push('Servings (must be at least 1)');
+    }
+
+    // 5. Tarkistetaan kuvaus
+    if (controls['description'].invalid) {
+      fields.push('Description is too long (max 1000 characters)');
+    }
+
+    return fields;
+  }
 
   // --- METODIT RIVIEN LISÄÄMISEEN ---
 
   addIngredient() {
     const ingredientForm = this.fb.group({
       name: ['', Validators.required],
-      amount: [0, [Validators.required, Validators.min(0)]],
+      amount: ['', [Validators.required, Validators.min(0)]],
       unit: [''],
     });
     this.ingredients.push(ingredientForm);
@@ -106,7 +161,14 @@ export class RecipeAdd {
   // --- LÄHETYS ---
 
   onSubmit() {
-    if (this.recipeForm.invalid) return;
+    this.submitted = true; // Lomaketta on nyt yritetty lähettää
+
+    if (this.recipeForm.invalid) {
+      // Merkitään kaikki kentät kosketetuiksi, jotta HTML-puolen virheet ja ring-reunustukset syttyvät
+      this.recipeForm.markAllAsTouched();
+
+      return; // Pysäytetään suoritus tähän, jos virheitä löytyy
+    }
 
     if (this.selectedFile) {
       this.uploadService.uploadProcess(this.selectedFile, 'recipes').subscribe({
@@ -129,7 +191,13 @@ export class RecipeAdd {
       image: imageKey || '',
       tags: rawData.tags.filter((tag: string) => tag.trim() !== ''),
       directions: rawData.directions.filter((dir: string) => dir.trim() !== ''),
-      ingredients: rawData.ingredients.filter((ing: any) => ing.name.trim() !== ''),
+      // Suodatetaan tyhjät nimet pois JA muunnetaan amount-merkkijono (esim. "0.5") varmasti oikeaksi numeroksi
+      ingredients: rawData.ingredients
+        .filter((ing: any) => ing.name && ing.name.trim() !== '')
+        .map((ing: any) => ({
+          ...ing,
+          amount: ing.amount ? Number(String(ing.amount).replace(',', '.')) : 0,
+        })),
     };
 
     this.recipeService.createRecipe(cleanedData).subscribe({

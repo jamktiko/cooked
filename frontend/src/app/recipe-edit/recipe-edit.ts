@@ -7,6 +7,7 @@ import { Uploadimg } from '../uploadimg/uploadimg';
 import { Uploadservice } from '../services/uploadservice';
 import { Navbar } from '../navbar/navbar';
 import { S3UrlPipe } from '../pipes/s3-url-pipe';
+
 @Component({
   selector: 'app-recipe-edit',
   standalone: true,
@@ -25,6 +26,7 @@ export class RecipeEdit implements OnInit {
   recipeId: string | null = null;
   selectedFile: File | null = null;
   currentImageKey: string = '';
+  submitted = false; // Seuraa onko Save-nappia painettu
 
   constructor() {
     this.recipeForm = this.fb.group({
@@ -46,14 +48,13 @@ export class RecipeEdit implements OnInit {
       this.loadRecipeData();
     }
   }
+
   onAmountInput(event: any, index: number) {
     const input = event.target as HTMLInputElement;
-    // Korvataan pilkku pisteellä
     let value = input.value.replace(',', '.');
-
-    // Päivitetään arvo FormArrayhun
     this.ingredients.at(index).get('amount')?.setValue(value, { emitEvent: false });
   }
+
   loadRecipeData() {
     this.recipeService.getMyRecipeById(this.recipeId!).subscribe({
       next: (recipe) => {
@@ -68,8 +69,6 @@ export class RecipeEdit implements OnInit {
           image: recipe.image,
         });
 
-        // Use optional chaining ?. or an empty array || []
-        // This prevents forEach from failing if data is missing
         recipe.ingredients?.forEach((ing) => this.addIngredient(ing));
         recipe.directions?.forEach((dir) => this.addDirection(dir));
         recipe.tags?.forEach((tag) => this.addTag(tag));
@@ -81,7 +80,7 @@ export class RecipeEdit implements OnInit {
     });
   }
 
-  // --- GETTERIT JA LISÄYS/POISTO (Samat kuin Add-komponentissa) ---
+  // --- GETTERIT ---
   get ingredients() {
     return this.recipeForm.get('ingredients') as FormArray;
   }
@@ -92,12 +91,56 @@ export class RecipeEdit implements OnInit {
     return this.recipeForm.get('tags') as FormArray;
   }
 
-  addIngredient(data: any = { name: '', amount: 0, unit: '' }) {
+  get missingFields(): string[] {
+    const fields = [];
+    const controls = this.recipeForm.controls;
+
+    if (controls['name'].invalid) {
+      fields.push('Recipe name (min. 3 characters)');
+    }
+
+    let missingName = false;
+    let invalidAmount = false;
+    this.ingredients.controls.forEach((control) => {
+      if (control.get('name')?.invalid) missingName = true;
+      if (control.get('amount')?.invalid) invalidAmount = true;
+    });
+
+    if (missingName) fields.push('Missing ingredient names');
+    if (invalidAmount) fields.push('Ingredient amounts (must be 0 or greater)');
+
+    let hasDirectionError = false;
+    this.directions.controls.forEach((control) => {
+      if (control.invalid) hasDirectionError = true;
+    });
+    if (hasDirectionError) {
+      fields.push('Empty instruction steps');
+    }
+
+    if (controls['servings'].invalid) {
+      fields.push('Servings (must be at least 1)');
+    }
+    if (controls['duration'].invalid) {
+      fields.push('Cooking time cannot be negative');
+    }
+    if (controls['description'].invalid) {
+      fields.push('Description is too long (max 1000 characters)');
+    }
+
+    return fields;
+  }
+
+  // --- RIVIEN LISÄÄMINEN ---
+  addIngredient(data: any = null) {
+    const defaultName = data ? data.name : '';
+    const defaultAmount = data ? data.amount : '';
+    const defaultUnit = data ? data.unit : '';
+
     this.ingredients.push(
       this.fb.group({
-        name: [data.name, Validators.required],
-        amount: [data.amount, [Validators.required, Validators.min(0)]],
-        unit: [data.unit],
+        name: [defaultName, Validators.required],
+        amount: [defaultAmount, [Validators.required, Validators.min(0)]],
+        unit: [defaultUnit],
       }),
     );
   }
@@ -110,11 +153,14 @@ export class RecipeEdit implements OnInit {
     this.tags.push(this.fb.control(value));
   }
 
+  // --- RIVIEN POISTAMINEN ---
   removeIngredient(i: number) {
     this.ingredients.removeAt(i);
+    this.ingredients.markAsTouched();
   }
   removeDirection(i: number) {
     this.directions.removeAt(i);
+    this.directions.markAsTouched();
   }
   removeTag(i: number) {
     this.tags.removeAt(i);
@@ -124,8 +170,14 @@ export class RecipeEdit implements OnInit {
     this.selectedFile = file;
   }
 
+  // --- TALLENNUS JA LÄHETYS ---
   onSubmit() {
-    if (this.recipeForm.invalid) return;
+    this.submitted = true;
+
+    if (this.recipeForm.invalid) {
+      this.recipeForm.markAllAsTouched();
+      return;
+    }
 
     if (this.selectedFile) {
       this.uploadService.uploadProcess(this.selectedFile, 'recipes').subscribe({
@@ -139,12 +191,19 @@ export class RecipeEdit implements OnInit {
 
   private updateRecipe(imageKey: string) {
     const rawData = this.recipeForm.value;
+
     const cleanedData = {
       ...rawData,
       image: imageKey,
       tags: rawData.tags.filter((t: string) => t?.trim()),
       directions: rawData.directions.filter((d: string) => d?.trim()),
-      ingredients: rawData.ingredients.filter((i: any) => i.name?.trim()),
+      // Puhdistetaan ainesosien amount-kentät merkkijonosta puhtaiksi numeroiksi bäkärille
+      ingredients: rawData.ingredients
+        .filter((i: any) => i.name?.trim())
+        .map((ing: any) => ({
+          ...ing,
+          amount: ing.amount ? Number(String(ing.amount).replace(',', '.')) : 0,
+        })),
     };
 
     this.recipeService.updateRecipe(this.recipeId!, cleanedData).subscribe({
@@ -152,6 +211,7 @@ export class RecipeEdit implements OnInit {
       error: (err) => console.error('Update failed', err),
     });
   }
+
   cancel(): void {
     this.router.navigate(['/my-recipes']);
   }
