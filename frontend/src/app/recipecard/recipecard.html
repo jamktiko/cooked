@@ -1,6 +1,6 @@
 @if (recipe) {
   <div
-    class="recipe-card group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 border-transparent hover:border-[#E67E22] bg-white shadow-md transition-all hover:shadow-xl hover:-translate-y-1"
+    class="recipe-card group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border-2 border-transparent hover:border-[#E67E22] bg-white shadow-md transition hover:shadow-xl hover:-translate-y-1 [transform:translateZ(0)]"
     [routerLink]="[isOwnRecipe ? '/my-recipe' : '/recipe', recipe._id]"
   >
     <div class="relative h-48 w-full overflow-hidden">
