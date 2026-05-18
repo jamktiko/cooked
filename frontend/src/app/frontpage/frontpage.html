@@ -1,11 +1,13 @@
-<div
-  class="font-sarabun min-h-screen bg-fixed bg-center bg-no-repeat text-zinc-900"
-  style="
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
-      url('assets/img/taustakuva.png');
-  "
->
+<div class="font-sarabun min-h-screen text-zinc-900 relative">
+  <div
+    class="fixed inset-0 -z-10 bg-center bg-no-repeat bg-cover"
+    style="
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)),
+        url('assets/img/taustakuva.png');
+    "
+  ></div>
+
   <app-navbar></app-navbar>
 
   <main class="mx-auto w-full max-w-6xl px-6 pb-24 md:pb-12">
@@ -46,6 +48,9 @@
             >Privacy Policy & Terms</a
           >.
         </p>
+          <a routerLink="/aboutus" class="cursor-pointer font-sarabun text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-cooked-orange transition-colors">
+            About us
+          </a>
       }
     </div>
 

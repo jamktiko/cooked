@@ -15,7 +15,7 @@
   </div>
 
   <div
-    class="mx-auto w-full rounded-[2rem] md:rounded-[3rem] border border-black/5 bg-[#FFF8E7] p-5 md:p-8 shadow-xl md:max-w-2xl"
+    class="mx-auto w-full rounded-4xl md:rounded-[3rem] border border-black/5 bg-[#FFF8E7] p-5 md:p-8 shadow-xl md:max-w-2xl"
   >
     <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()" class="space-y-8">
       <div class="flex items-center justify-between border-b border-black/5 pb-4">
@@ -29,7 +29,7 @@
           <label class="relative inline-flex cursor-pointer items-center">
             <input type="checkbox" id="isPublic" formControlName="public" class="peer sr-only" />
             <div
-              class="h-5 w-10 rounded-full bg-zinc-300 shadow-inner peer-checked:bg-[#305252] after:absolute after:top-[2px] after:left-[2px] after:h-4 after:w-4 after:rounded-full after:bg-white after:shadow after:transition-all peer-checked:after:translate-x-5"
+              class="h-5 w-10 rounded-full bg-zinc-300 shadow-inner peer-checked:bg-cooked-dark after:absolute after:top-0.5 after:left-0.5 after:h-4 after:w-4 after:rounded-full after:bg-white after:shadow after:transition-all peer-checked:after:translate-x-5"
             ></div>
           </label>
         </div>
@@ -56,7 +56,7 @@
             [class.ring-red-500]="
               recipeForm.get('name')?.invalid && recipeForm.get('name')?.touched
             "
-            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-[#305252] placeholder:italic placeholder:text-zinc-300"
+            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark placeholder:italic placeholder:text-zinc-300"
           />
         </div>
 
@@ -78,7 +78,7 @@
             [class.ring-red-500]="
               recipeForm.get('description')?.invalid && recipeForm.get('description')?.touched
             "
-            class="mt-1 w-full resize-none rounded-[1.5rem] border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-[#305252] placeholder:italic placeholder:text-zinc-300"
+            class="mt-1 w-full resize-none rounded-3xl border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark placeholder:italic placeholder:text-zinc-300"
           ></textarea>
           <div class="flex justify-between px-4 mt-1">
             <div class="flex-1"></div>
@@ -105,7 +105,7 @@
             formControlName="duration"
             type="number"
             min="0"
-            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-[#305252]"
+            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark"
           />
         </div>
         <div>
@@ -119,7 +119,7 @@
             formControlName="servings"
             type="number"
             min="1"
-            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-[#305252]"
+            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark"
           />
         </div>
       </div>
@@ -152,7 +152,7 @@
                   placeholder="Ingredient name"
                   [class.ring-1]="ing.get('name')?.invalid && ing.get('name')?.touched"
                   [class.ring-red-500]="ing.get('name')?.invalid && ing.get('name')?.touched"
-                  class="flex-1 min-w-[120px] rounded-full border-none bg-white px-6 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-[#305252]"
+                  class="flex-1 min-w-30 rounded-full border-none bg-white px-6 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark"
                 />
                 @if (i > 0) {
                   <button
@@ -174,7 +174,7 @@
         <button
           type="button"
           (click)="addIngredient()"
-          class="cursor-pointer font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-[#305252] uppercase hover:underline"
+          class="cursor-pointer font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-cooked-dark uppercase hover:underline"
         >
           <i class="fa-solid fa-plus-circle"></i> Add ingredient
         </button>
@@ -187,6 +187,7 @@
 
         <div formArrayName="directions" class="space-y-3">
           @for (dir of directions.controls; track dir; let i = $index) {
+<<<<<<< Updated upstream
             <div class="flex flex-col gap-1">
               <div class="flex flex-col sm:flex-row items-start gap-3">
                 <div class="flex w-full sm:w-auto items-center justify-between">
@@ -205,6 +206,14 @@
                       <i class="fa-solid fa-trash-can"></i>
                     </button>
                   }
+=======
+            <div class="flex flex-col sm:flex-row items-start gap-3">
+              <div class="flex w-full sm:w-auto items-center justify-between">
+                <div
+                  class="flex h-10 w-12 items-center justify-center rounded-full bg-white font-bebas text-xl font-bold text-cooked-dark shadow-inner shrink-0"
+                >
+                  {{ i + 1 }}.
+>>>>>>> Stashed changes
                 </div>
 
                 <textarea
@@ -228,6 +237,26 @@
                   <div class="w-9 hidden sm:block"></div>
                 }
               </div>
+<<<<<<< Updated upstream
+=======
+              <textarea
+                [formControlName]="i"
+                rows="2"
+                placeholder="Describe this step..."
+                class="flex-1 w-full resize-none rounded-3xl border-none bg-white px-5 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark placeholder:italic placeholder:text-zinc-300"
+              ></textarea>
+              @if (i > 0) {
+                <button
+                  type="button"
+                  (click)="removeDirection(i)"
+                  class="cursor-pointer mt-2 p-2 text-zinc-400 hover:text-red-500 transition-colors"
+                >
+                  <i class="fa-solid fa-trash-can"></i>
+                </button>
+              } @else {
+                <div class="w-9 hidden sm:block"></div>
+              }
+>>>>>>> Stashed changes
             </div>
           }
         </div>
@@ -235,7 +264,7 @@
         <button
           type="button"
           (click)="addDirection()"
-          class="cursor-pointer font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-[#305252] uppercase hover:underline"
+          class="cursor-pointer font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-cooked-dark uppercase hover:underline"
         >
           <i class="fa-solid fa-plus-circle"></i> Add step
         </button>
@@ -254,7 +283,7 @@
                   [formControlName]="i"
                   type="text"
                   placeholder="Tag name..."
-                  class="w-full rounded-full border-none bg-white pl-12 pr-6 py-3 text-sm shadow-inner outline-none focus:ring-2 focus:ring-[#305252]"
+                  class="w-full rounded-full border-none bg-white pl-12 pr-6 py-3 text-sm shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark"
                 />
               </div>
               <button
@@ -270,7 +299,7 @@
         <button
           type="button"
           (click)="addTag()"
-          class="cursor-pointer font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-[#305252] uppercase hover:underline"
+          class="cursor-pointer font-bebas mt-4 ml-4 flex items-center gap-2 text-lg font-bold text-cooked-dark uppercase hover:underline"
         >
           <i class="fa-solid fa-plus-circle"></i> Add tag
         </button>
@@ -301,6 +330,7 @@
         <div class="flex flex-col gap-4 md:flex-row">
           <button
             type="submit"
+<<<<<<< Updated upstream
             [class.bg-[#93A39A]]="recipeForm.invalid"
             [class.shadow-sm]="recipeForm.invalid"
             [class.bg-[#305252]]="recipeForm.valid"
@@ -309,8 +339,12 @@
             [class.hover:brightness-110]="recipeForm.valid"
             [class.active:scale-95]="recipeForm.valid"
             class="font-bebas order-1 flex-1 rounded-full py-4 text-2xl font-bold tracking-wide text-white uppercase transition-all duration-200 outline-none"
+=======
+            [disabled]="recipeForm.invalid || isSubmitting"
+            class="cursor-pointer font-bebas order-1 flex-1 rounded-full bg-cooked-dark py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+>>>>>>> Stashed changes
           >
-            Save Recipe
+            {{ isSubmitting ? 'Saving...' : 'Save Recipe' }}
           </button>
 
           <button
