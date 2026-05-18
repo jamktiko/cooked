@@ -23,12 +23,9 @@ export class RecipeAdd {
 
   recipeForm: FormGroup;
   selectedFile: File | null = null;
-<<<<<<< Updated upstream
   submitted = false;
-=======
   isSubmitting = false;
   uploadedImageKey: string | null = null;
->>>>>>> Stashed changes
 
   constructor() {
     this.recipeForm = this.fb.group({
@@ -167,18 +164,7 @@ export class RecipeAdd {
   // --- LÄHETYS ---
 
   onSubmit() {
-<<<<<<< Updated upstream
-    this.submitted = true; // Lomaketta on nyt yritetty lähettää
-
-    if (this.recipeForm.invalid) {
-      // Merkitään kaikki kentät kosketetuiksi, jotta HTML-puolen virheet ja ring-reunustukset syttyvät
-      this.recipeForm.markAllAsTouched();
-
-      return; // Pysäytetään suoritus tähän, jos virheitä löytyy
-    }
-=======
     if (this.recipeForm.invalid || this.isSubmitting) return;
->>>>>>> Stashed changes
 
     this.isSubmitting = true;
 
