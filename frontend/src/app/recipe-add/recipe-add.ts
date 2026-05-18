@@ -23,7 +23,12 @@ export class RecipeAdd {
 
   recipeForm: FormGroup;
   selectedFile: File | null = null;
+<<<<<<< Updated upstream
   submitted = false;
+=======
+  isSubmitting = false;
+  uploadedImageKey: string | null = null;
+>>>>>>> Stashed changes
 
   constructor() {
     this.recipeForm = this.fb.group({
@@ -156,11 +161,13 @@ export class RecipeAdd {
 
   onImageSelected(file: File) {
     this.selectedFile = file;
+    this.uploadedImageKey = null; // Nollataan avain, jos käyttäjä valitsee uuden kuvan kesken kaiken
   }
 
   // --- LÄHETYS ---
 
   onSubmit() {
+<<<<<<< Updated upstream
     this.submitted = true; // Lomaketta on nyt yritetty lähettää
 
     if (this.recipeForm.invalid) {
@@ -169,15 +176,32 @@ export class RecipeAdd {
 
       return; // Pysäytetään suoritus tähän, jos virheitä löytyy
     }
+=======
+    if (this.recipeForm.invalid || this.isSubmitting) return;
+>>>>>>> Stashed changes
 
+    this.isSubmitting = true;
+
+    // 1. Jos kuva on jo ladattu S3:een (ja tallennetaan uudelleen virheen jälkeen)
+    if (this.uploadedImageKey) {
+      this.saveRecipe(this.uploadedImageKey);
+      return;
+    }
+
+    // 2. Jos meillä on uusi kuva valittuna, mutta sitä ei ole vielä ladattu
     if (this.selectedFile) {
       this.uploadService.uploadProcess(this.selectedFile, 'recipes').subscribe({
         next: (res) => {
+          this.uploadedImageKey = res.key; // Tallennetaan avain muistiin onnistuneen S3 latauksen jälkeen
           this.saveRecipe(res.key);
         },
-        error: (err) => console.error('Image upload failed', err),
+        error: (err) => {
+          console.error('Image upload failed', err);
+          this.isSubmitting = false;
+        },
       });
     } else {
+      // 3. Ei kuvaa ollenkaan
       this.saveRecipe();
     }
   }
@@ -203,9 +227,13 @@ export class RecipeAdd {
     this.recipeService.createRecipe(cleanedData).subscribe({
       next: (response) => {
         console.log('Recipe created:', response);
+        this.isSubmitting = false;
         this.router.navigate(['/my-recipes']);
       },
-      error: (err) => console.error('Save failed', err),
+      error: (err) => {
+        console.error('Save failed', err);
+        this.isSubmitting = false;
+      },
     });
   }
 }

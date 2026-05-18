@@ -19,7 +19,8 @@ const s3 = new S3Client({
 router.get('/get-upload-url', async (req, res) => {
   try {
     const folder = req.query.folder;
-    const fileName = `${Date.now()}-${req.query.fileName}`;
+    const safeFileName = req.query.fileName.replace(/[^a-zA-Z0-9.\-_]/g, '');
+    const fileName = `${Date.now()}-${safeFileName}`;
     const fileType = req.query.fileType;
 
     const command = new PutObjectCommand({

@@ -51,7 +51,7 @@ app.use('/api/my-recipes', checkAuth, privateRoutes);
 app.use('/api/user', checkAuth, userRoutes);
 
 // aws reitit
-app.use('/api/aws', awsRoutes);
+app.use('/api/aws', checkAuth, awsRoutes);
 
 app.use('/api/favorites', checkAuth, require('./routes/favorite-routes'));
 
