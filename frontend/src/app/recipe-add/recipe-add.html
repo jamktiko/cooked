@@ -52,11 +52,13 @@
             formControlName="name"
             type="text"
             placeholder="e.g., Juicy Hamburger"
-            [class.ring-2]="recipeForm.get('name')?.invalid && recipeForm.get('name')?.touched"
-            [class.ring-red-500]="
-              recipeForm.get('name')?.invalid && recipeForm.get('name')?.touched
+            [class.ring-2]="
+              recipeForm.get('name')?.invalid && (recipeForm.get('name')?.touched || submitted)
             "
-            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark placeholder:italic placeholder:text-zinc-300"
+            [class.ring-red-500]="
+              recipeForm.get('name')?.invalid && (recipeForm.get('name')?.touched || submitted)
+            "
+            class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark placeholder:italic placeholder:text-zinc-300 cursor-text"
           />
         </div>
 
@@ -73,12 +75,14 @@
             rows="2"
             placeholder="Tell us what makes this dish special..."
             [class.ring-2]="
-              recipeForm.get('description')?.invalid && recipeForm.get('description')?.touched
+              recipeForm.get('description')?.invalid &&
+              (recipeForm.get('description')?.touched || submitted)
             "
             [class.ring-red-500]="
-              recipeForm.get('description')?.invalid && recipeForm.get('description')?.touched
+              recipeForm.get('description')?.invalid &&
+              (recipeForm.get('description')?.touched || submitted)
             "
-            class="mt-1 w-full resize-none rounded-3xl border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark placeholder:italic placeholder:text-zinc-300"
+            class="mt-1 w-full resize-none rounded-3xl border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark placeholder:italic placeholder:text-zinc-300 cursor-text"
           ></textarea>
           <div class="flex justify-between px-4 mt-1">
             <div class="flex-1"></div>
@@ -105,6 +109,15 @@
             formControlName="duration"
             type="number"
             min="0"
+            (keydown)="blockMinus($event)"
+            [class.ring-2]="
+              recipeForm.get('duration')?.invalid &&
+              (recipeForm.get('duration')?.touched || submitted)
+            "
+            [class.ring-red-500]="
+              recipeForm.get('duration')?.invalid &&
+              (recipeForm.get('duration')?.touched || submitted)
+            "
             class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark"
           />
         </div>
@@ -119,8 +132,25 @@
             formControlName="servings"
             type="number"
             min="1"
+            (keydown)="blockMinus($event)"
+            [class.ring-2]="
+              recipeForm.get('servings')?.invalid &&
+              (recipeForm.get('servings')?.touched || submitted)
+            "
+            [class.ring-red-500]="
+              recipeForm.get('servings')?.invalid &&
+              (recipeForm.get('servings')?.touched || submitted)
+            "
             class="mt-1 w-full rounded-full border-none bg-white px-6 py-3 shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark"
           />
+          @if (
+            recipeForm.get('servings')?.invalid &&
+            (recipeForm.get('servings')?.touched || submitted)
+          ) {
+            <p class="ml-4 mt-1 text-[10px] font-bold text-red-500 uppercase italic">
+              Min. 1 serving
+            </p>
+          }
         </div>
       </div>
 
@@ -134,25 +164,33 @@
                   formControlName="amount"
                   type="text"
                   inputmode="decimal"
-                  [class.ring-1]="ing.get('name')?.invalid && ing.get('name')?.touched"
-                  [class.ring-red-500]="ing.get('name')?.invalid && ing.get('name')?.touched"
                   (input)="onAmountInput($event, i)"
+                  [class.ring-2]="
+                    ing.get('amount')?.invalid && (ing.get('amount')?.touched || submitted)
+                  "
+                  [class.ring-red-500]="
+                    ing.get('amount')?.invalid && (ing.get('amount')?.touched || submitted)
+                  "
                   placeholder="Amount"
-                  class="w-24 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none"
+                  class="w-24 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark cursor-text"
                 />
                 <input
                   formControlName="unit"
                   type="text"
                   placeholder="Unit"
-                  class="w-24 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none"
+                  class="w-24 rounded-full border-none bg-white px-4 py-2.5 text-sm shadow-inner outline-none placeholder:italic placeholder:text-zinc-300"
                 />
                 <input
                   formControlName="name"
                   type="text"
                   placeholder="Ingredient name"
-                  [class.ring-1]="ing.get('name')?.invalid && ing.get('name')?.touched"
-                  [class.ring-red-500]="ing.get('name')?.invalid && ing.get('name')?.touched"
-                  class="flex-1 min-w-30 rounded-full border-none bg-white px-6 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark"
+                  [class.ring-2]="
+                    ing.get('name')?.invalid && (ing.get('name')?.touched || submitted)
+                  "
+                  [class.ring-red-500]="
+                    ing.get('name')?.invalid && (ing.get('name')?.touched || submitted)
+                  "
+                  class="flex-1 min-w-30 rounded-full border-none bg-white px-6 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark cursor-text"
                 />
                 @if (i > 0) {
                   <button
@@ -166,7 +204,6 @@
                   <div class="w-9"></div>
                 }
               </div>
-              <div class="flex flex-col gap-0.5 ml-4"></div>
             </div>
           }
         </div>
@@ -213,7 +250,7 @@
                   placeholder="Describe this step..."
                   [class.ring-2]="dir.invalid && (dir.touched || submitted)"
                   [class.ring-red-500]="dir.invalid && (dir.touched || submitted)"
-                  class="flex-1 w-full resize-none rounded-[1.5rem] border-none bg-white px-5 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-[#305252] placeholder:italic placeholder:text-zinc-300"
+                  class="flex-1 w-full resize-none rounded-[1.5rem] border-none bg-white px-5 py-2.5 text-sm shadow-inner outline-none focus:ring-2 focus:ring-[#305252] placeholder:italic placeholder:text-zinc-300 cursor-text"
                 ></textarea>
 
                 @if (i > 0) {
@@ -254,7 +291,7 @@
                   [formControlName]="i"
                   type="text"
                   placeholder="Tag name..."
-                  class="w-full rounded-full border-none bg-white pl-12 pr-6 py-3 text-sm shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark"
+                  class="w-full rounded-full border-none bg-white pl-12 pr-6 py-3 text-sm shadow-inner outline-none focus:ring-2 focus:ring-cooked-dark cursor-text"
                 />
               </div>
               <button
@@ -301,16 +338,22 @@
         <div class="flex flex-col gap-4 md:flex-row">
           <button
             type="submit"
-            [disabled]="recipeForm.invalid || isSubmitting"
-            class="cursor-pointer font-bebas order-1 flex-1 rounded-full bg-cooked-dark py-4 text-2xl font-bold tracking-wide text-white uppercase shadow-lg transition-all hover:brightness-110 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+            [class.bg-[#93A39A]]="recipeForm.invalid"
+            [class.shadow-sm]="recipeForm.invalid"
+            [class.bg-[#305252]]="recipeForm.valid"
+            [class.shadow-lg]="recipeForm.valid"
+            [class.cursor-pointer]="recipeForm.valid"
+            [class.hover:brightness-110]="recipeForm.valid"
+            [class.active:scale-95]="recipeForm.valid"
+            class="font-bebas order-1 flex-1 rounded-full py-4 text-2xl font-bold tracking-wide text-white uppercase transition-all duration-200 outline-none"
           >
-            {{ isSubmitting ? 'Saving...' : 'Save Recipe' }}
+            Save Recipe
           </button>
 
           <button
             type="button"
             routerLink="/my-recipes"
-            class="cursor-pointer font-bebas order-2 flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold tracking-wide text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 active:scale-95 text-center"
+            class="cursor-pointer font-bebas order-2 flex-1 rounded-full bg-[#FBC091] py-4 text-2xl font-bold tracking-wide text-zinc-800 uppercase shadow-lg transition-all hover:brightness-105 active:scale-95 text-center outline-none"
           >
             Cancel
           </button>

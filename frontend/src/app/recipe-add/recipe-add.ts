@@ -164,6 +164,7 @@ export class RecipeAdd {
   // --- LÄHETYS ---
 
   onSubmit() {
+    this.submitted = true;
     if (this.recipeForm.invalid || this.isSubmitting) return;
 
     this.isSubmitting = true;
