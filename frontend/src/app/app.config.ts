@@ -2,7 +2,7 @@
 import { ApplicationConfig } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { provideAuth } from 'angular-auth-oidc-client';
+import { LogLevel, provideAuth } from 'angular-auth-oidc-client';
 import { routes } from './app.routes';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { environment } from '../environments/environment';
@@ -28,6 +28,7 @@ export const appConfig: ApplicationConfig = {
         silentRenew: true,
         useRefreshToken: true,
         historyCleanupOff: false,
+        logLevel: LogLevel.Warn,
       },
     }),
   ],
