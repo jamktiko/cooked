@@ -160,6 +160,25 @@ router.put('/update/:id', validateRecipe, async (req, res) => {
       });
     }
 
+    // Jos kuva muuttuu (uusi avain lähetetty tai kuva tyhjennetään), poista vanha kuva S3:sta
+    if (req.body.hasOwnProperty('image')) {
+      const newImageKey = req.body.image;
+      // Jos reseptillä oli aiempi kuva ja se poikkeaa uudesta arvosta, yritetään poistaa se S3:sta
+      if (recipe.image && recipe.image !== newImageKey) {
+        try {
+          const deleteParams = {
+            Bucket: process.env.S3_BUCKET_NAME,
+            Key: recipe.image,
+          };
+          await s3Client.send(new DeleteObjectCommand(deleteParams));
+          console.log(`Deleted old S3 image for recipe ${recipeId}: ${recipe.image}`);
+        } catch (s3Err) {
+          console.error('S3 Delete error during update (continuing...):', s3Err.message);
+          // Emme epäonnistuta päivityksessä pelkästään S3-poiston takia
+        }
+      }
+    }
+
     // Päivittää tiedot (Mongoose findOneAndUpdate)
     // Käytetään $set: req.body, jotta vain lähetetyt kentät muuttuvat
     const updatedRecipe = await Recipe.findByIdAndUpdate(
